@@ -35,6 +35,7 @@ in
         "home/fish.nix"
         "home/nvim.nix"
         "home/tmux.nix"
+        "home/ssh.nix"
         "home/git.nix"
         "home/xdg.nix"
       ];
@@ -57,6 +58,11 @@ in
         ];
         preferXdgDirectories = true;
         stateVersion = "24.11";
+      };
+
+      # home/ssh.nix
+      home-ssh = {
+        enable = true;
       };
 
       # home/git.nix

@@ -25,21 +25,12 @@
         default = false;
         description = "Enables the authentication with an ssh key.";
       };
-      publicKeyFile = lib.mkOption {
-        type = lib.types.str;
-        default = "${config.home.homeDirectory}/.ssh/id_${config.home.username}.pub";
-        description = "The path to the user's public key.";
-      };
-      allowedSignersFile = lib.mkOption {
-        type = lib.types.str;
-        default = "${config.home.homeDirectory}/.ssh/allowed_signers";
-        description = "The path to the allowed_signers file.";
-      };
     };
   };
   config =
     let
-      options = config.home-git;
+      inherit (config) home-git home-ssh;
+      options = home-git;
     in
     lib.mkIf options.enable {
       assertions = [
@@ -52,8 +43,8 @@
           message = "home-git.userEmail must not be empty.";
         }
         {
-          assertion = options.enableAuth -> options.publicKeyFile != "";
-          message = "home-git.publicKeyFile must not be empty.";
+          assertion = options.enableAuth -> home-ssh.enable;
+          message = "home-git.enableAuth requires an enabled 'home-ssh' module.";
         }
       ];
       programs = {
@@ -93,7 +84,7 @@
               }
               // lib.optionalAttrs options.enableAuth {
                 gpg = {
-                  ssh = { inherit (options) allowedSignersFile; };
+                  ssh = { inherit (home-ssh) allowedSignersFile; };
                   format = "ssh";
                 };
                 url = {
@@ -111,7 +102,7 @@
           // lib.optionalAttrs options.enableAuth {
             signing = {
               signByDefault = true;
-              key = options.publicKeyFile;
+              key = home-ssh.publicKeyFile;
             };
           };
       };

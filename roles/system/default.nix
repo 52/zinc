@@ -8,7 +8,6 @@
     "system/locale.nix"
     "system/audio.nix"
     "system/boot.nix"
-    "system/ssh.nix"
 
     # nix
     "system/nixpkgs.nix"
