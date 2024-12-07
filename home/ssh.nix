@@ -51,8 +51,10 @@
       programs = {
         ssh = {
           enable = true;
+          addKeysToAgent = "yes";
           extraConfig = ''
-            AddKeysToAgent yes
+            HostKeyAlgorithms ssh-ed25519,ssh-ed25519-cert-v01@openssh.com
+            PubkeyAcceptedAlgorithms ssh-ed25519,ssh-ed25519-cert-v01@openssh.com
           '';
           matchBlocks = {
             "git" = {
@@ -91,8 +93,8 @@
       home = {
         file = {
           "${config.home.homeDirectory}/.ssh/known_hosts".text = ''
-            github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl"
-            gitlab.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAfuCHKVTjquxvt6CM6tdG4SLp1Btn/nOeHHE5UOzRdf"
+            github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl
+            gitlab.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAfuCHKVTjquxvt6CM6tdG4SLp1Btn/nOeHHE5UOzRdf
           '';
         };
       };
