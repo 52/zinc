@@ -1,0 +1,156 @@
+{
+  pkgs,
+  config,
+  inputs,
+  ...
+}:
+{
+  imports = [ inputs.nvf.homeManagerModules.default ];
+  programs = {
+    nvf = {
+      enable = true;
+      settings = {
+        vim = {
+          globals = {
+            # leader
+            mapleader = " ";
+            maplocalleader = " ";
+          };
+          options = {
+            # editor
+            hidden = true;
+            showcmd = true;
+            showmode = true;
+            autoread = true;
+            visualbell = true;
+            # lines
+            number = true;
+            relativenumber = true;
+            # cursor
+            cursorline = true;
+            guicursor = "a:block";
+            # text
+            wrap = false;
+            textwidth = 80;
+            scrolloff = 8;
+            sidescrolloff = 10;
+            # indent
+            cindent = true;
+            expandtab = true;
+            autoindent = true;
+            smartindent = true;
+            breakindent = true;
+            # search
+            hlsearch = true;
+            incsearch = true;
+            smartcase = true;
+            ignorecase = true;
+            # fold
+            foldenable = false;
+            foldlevelstart = 99;
+            foldmethod = "manual";
+            # colors
+            background = "dark";
+            termguicolors = true;
+            # backup
+            backupdir = "${config.xdg.configHome}/vim/backup";
+            directory = "${config.xdg.configHome}/vim/swap";
+            # undo
+            undofile = true;
+            undolevels = 10000;
+            undoreload = 10000;
+            undodir = "${config.xdg.configHome}/vim/vimundo";
+            # performance
+            updatetime = 150;
+            timeoutlen = 500;
+            lazyredraw = true;
+          };
+          autocomplete = {
+            nvim-cmp = {
+              enable = true;
+            };
+          };
+          lsp = {
+            formatOnSave = true;
+          };
+          languages = {
+            enableLSP = true;
+            enableFormat = true;
+            enableTreesitter = true;
+            enableExtraDiagnostics = true;
+            nix = {
+              enable = true;
+              format = {
+                type = "nixfmt";
+              };
+            };
+            lua = {
+              enable = true;
+            };
+          };
+          extraPlugins = with pkgs; {
+            mellifluous = {
+              package = vimUtils.buildVimPlugin {
+                name = "mellifluous-nvim";
+                src = fetchFromGitHub {
+                  owner = "ramojus";
+                  repo = "mellifluous.nvim";
+                  rev = "3a31595e0965f577aff5de1a5f91e61a01daa903";
+                  sha256 = "sha256-aPBDmXY1mya5ajIJ9K0PZxU8n2K7jbgo5XI8vkGqlUQ=";
+                };
+              };
+              setup = ''
+                require('mellifluous').setup({
+                  mellifluous = {
+                    color_overrides = {
+                      dark = {
+                        bg = function(bg)
+                          return bg:darkened(5)
+                        end,
+                        colors = function(colors)
+                          return {
+                            fg = colors.fg:lightened(1),
+                            shades_fg = colors.fg
+                          }
+                        end
+                      },
+                    },
+                  },
+                })
+
+                vim.cmd.colorscheme('mellifluous')
+              '';
+            };
+            nvim-autopairs = {
+              package = vimPlugins.nvim-autopairs;
+              setup = ''
+                require('nvim-autopairs').setup {}
+              '';
+            };
+            nvim-web-devicons = {
+              package = vimPlugins.nvim-web-devicons;
+              setup = ''
+                require('nvim-web-devicons').setup {}
+              '';
+            };
+            fzf-lua = {
+              package = vimPlugins.fzf-lua;
+              after = [ "nvim-web-devicons" ];
+              setup = ''
+                require('fzf-lua').setup { }
+              '';
+            };
+            lualine = {
+              package = vimPlugins.lualine-nvim;
+              after = [ "nvim-web-devicons" ];
+              setup = ''
+                require('lualine').setup { }
+              '';
+            };
+          };
+          useSystemClipboard = true;
+        };
+      };
+    };
+  };
+}
