@@ -1,0 +1,3 @@
+[submodule "nix-secrets"]
+	path = nix-secrets
+	url = https://github.com/52/nix-secrets
