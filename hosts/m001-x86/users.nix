@@ -35,6 +35,7 @@ in
         "home/fish.nix"
         "home/nvim.nix"
         "home/tmux.nix"
+        "home/sops.nix"
         "home/ssh.nix"
         "home/git.nix"
         "home/xdg.nix"
