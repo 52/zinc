@@ -61,6 +61,21 @@ in
         stateVersion = "24.11";
       };
 
+      # home/sops.nix
+      home-sops = {
+        enable = true;
+        secrets = {
+          "ssh/id_max" = {
+            path = "/home/max/.ssh/id_max";
+            mode = "0400";
+          };
+          "ssh/id_max.pub" = {
+            path = "/home/max/.ssh/id_max.pub";
+            mode = "0444";
+          };
+        };
+      };
+
       # home/ssh.nix
       home-ssh = {
         enable = true;
