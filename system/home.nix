@@ -1,4 +1,9 @@
-{ inputs, outputs, ... }:
+{
+  inputs,
+  outputs,
+  mkOSLib,
+  ...
+}:
 {
   imports = [
     inputs.home-manager.nixosModules.home-manager
@@ -6,6 +11,6 @@
 
   home-manager = {
     useGlobalPkgs = true;
-    extraSpecialArgs = { inherit inputs outputs; };
+    extraSpecialArgs = { inherit inputs outputs mkOSLib; };
   };
 }
