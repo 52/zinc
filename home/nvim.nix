@@ -84,6 +84,9 @@
                 type = "nixfmt";
               };
             };
+            astro = {
+              enable = true;
+            };
             lua = {
               enable = true;
             };
@@ -100,12 +103,13 @@
                 };
               };
               setup = ''
+                -- mellifluous setup
                 require('mellifluous').setup({
                   mellifluous = {
                     color_overrides = {
                       dark = {
                         bg = function(bg)
-                          return bg:darkened(5)
+                          return bg:darkened(4)
                         end,
                         colors = function(colors)
                           return {
@@ -118,6 +122,7 @@
                   },
                 })
 
+                -- set colorscheme
                 vim.cmd.colorscheme('mellifluous')
               '';
             };
@@ -137,7 +142,33 @@
               package = vimPlugins.fzf-lua;
               after = [ "nvim-web-devicons" ];
               setup = ''
-                require('fzf-lua').setup { }
+                -- fzf setup
+                require('fzf-lua').setup {
+                  winopts = {
+                    split = 'botright 12new',
+                    preview = {
+                      hidden = 'hidden',
+                    },
+                  },
+                  files = {
+                    git_icons = false;
+                    file_icons = false;
+                    no_header_i = true;
+                  },
+                  buffers = {
+                    git_icons = false;
+                    file_icons = false;
+                    no_header_i = true;
+                  };
+                }
+
+                -- fzf keymap
+                local builtin = require('fzf-lua')
+                vim.keymap.set('n', '<leader>f', builtin.files, { desc = 'Find Files' })
+                vim.keymap.set('n', '<leader>b', builtin.buffers, { desc = 'Find active Buffers' }) 
+                vim.keymap.set('n', '<leader>pf', builtin.git_files, { desc = 'Find Files [Project]' })
+                vim.keymap.set('n', '<leader>pg', builtin.live_grep, { desc = 'Find by Grep [Project]' })
+                vim.keymap.set('n', '<leader>bg', builtin.grep_curbuf, { desc = 'Find by Grep [Buffer]' })
               '';
             };
             lualine = {

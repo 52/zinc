@@ -42,7 +42,6 @@
 
       # generates an attrset for all systems
       forEachSystem = f: lib.genAttrs systems (system: f pkgsFor.${system});
-
       pkgsFor = lib.genAttrs systems (
         system:
         import nixpkgs {

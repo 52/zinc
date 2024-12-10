@@ -1,15 +1,117 @@
 {
+  pkgs,
   config,
   ...
 }:
 {
+  programs = {
+    waybar = {
+      enable = true;
+      settings = {
+        mainBar = {
+          layer = "top";
+          position = "top";
+          height = 32;
+          modules-left = [
+            "hyprland/workspaces"
+          ];
+          modules-center = [ "custom/logo" ];
+          modules-right = [
+            "network"
+            "custom/separator"
+            "clock"
+          ];
+          "hyprland/workspaces" = {
+            all-outputs = true;
+            on-click = "activate";
+          };
+          "network" = {
+            "format-wifi" = "{essid} ({signalStrength}%) ";
+            "format-ethernet" = "{ipaddr} ";
+            "format-linked" = "{ifname} (No IP) ";
+            "format-disconnected" = "Disconnected";
+            "format-alt" = "{ifname}: {ipaddr}/{cidr}";
+            "tooltip" = false;
+          };
+          "clock" = {
+            "interval" = 10;
+            "format" = "{:%H:%M - %d/%m/%y}";
+            "tooltip" = false;
+          };
+          "custom/separator" = {
+            "format" = "/";
+            "interval" = "once";
+            "tooltip" = false;
+          };
+          "custom/logo" = {
+            "format" = "❆";
+            "interval" = "once";
+            "tooltip" = false;
+          };
+        };
+      };
+      style = ''
+        @define-color bg #0f0f0f;
+        @define-color bg-2 #1d1d1d;
+
+        @define-color fg #d9d9d9;
+        @define-color fg-2 #5d5d5d;
+        @define-color fg-alert #ff5555;
+
+        * {
+            font-size: 16px;
+            font-weight: normal;
+            font-family: 'monospace';
+            min-width: 0;
+            min-height: 0;
+            border: none;
+            border-radius: 0;
+        }
+
+        .modules-left,
+        .modules-middle,
+        .modules-right {
+            background-color: @bg;
+            border-bottom: 1px groove @fg-2;
+        }
+
+        window#waybar {
+            background-color: @bg;
+            border-bottom: 1px groove @fg-2;
+        }
+
+        #workspaces button {
+            color: @fg-2;
+            padding: 12px 18px;
+        }
+
+        #workspaces button.active {
+            color: @fg;
+            background-color: @bg-2;
+        }
+
+        #workspaces button.urgent {
+            color: @fg-alert;
+            background-color: @bg;
+        }
+
+        #network,
+        #clock {
+            color: @fg;
+            margin: 0 12px;
+        }
+
+        #custom-logo,
+        #custom-separator {
+            color: @fg-2;
+        }
+      '';
+    };
+  };
   wayland = {
     windowManager = {
       hyprland = {
         enable = true;
-        systemd = {
-          enable = false;
-        };
         settings = {
           monitor = ", preferred, auto, auto";
           input = {
@@ -43,13 +145,29 @@
             inactive_opacity = 1.0;
             fullscreen_opacity = 1.0;
             # border radius
-            rounding = 9;
+            rounding = 0;
           };
           misc = {
             middle_click_paste = false;
             animate_manual_resizes = true;
             animate_mouse_windowdragging = true;
           };
+          # workspaces
+          workspace = [
+            "1, monitor:DP-1, persistent:true, default:true"
+            "2, monitor:DP-1, persistent:true"
+            "3, monitor:DP-1, persistent:true"
+            "4, monitor:DP-1, persistent:true"
+            "5, monitor:DP-1, persistent:true"
+            "6, monitor:DP-1, persistent:true"
+            "7, monitor:DP-1, persistent:true"
+            "8, monitor:DP-1, persistent:true"
+            "9, monitor:DP-1, persistent:true"
+          ];
+          # launch commands
+          exec-once = [
+            "${pkgs.waybar}/bin/waybar"
+          ];
           # mouse binds
           bindm = [
             # <SUPER> + left-click (hold) to move a window
