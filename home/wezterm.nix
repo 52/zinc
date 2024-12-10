@@ -26,8 +26,7 @@
 
                   -- font
                   config.font_size = 20.0
-                  config.line_height = 1.2
-                  config.font = wez.font("monospace", { weight = "Light" })
+                  config.font = wez.font("SF Mono", { weight = "Regular" })
 
                   -- window
                   config.window_padding = { left = 10, right = 10, top = 10, bottom = 0 }

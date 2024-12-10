@@ -22,20 +22,9 @@
         MOZ_WEBRENDER = "1";
       };
   };
-  fonts = {
-    enableDefaultPackages = true;
-    packages = with pkgs; [ apple-fonts ];
-    fontconfig = {
-      defaultFonts = {
-        sansSerif = [ "SF Pro" ];
-        monospace = [ "SF Mono" ];
-      };
-    };
-  };
   programs = {
     hyprland = {
       enable = true;
-      withUWSM = true;
     };
   };
 }

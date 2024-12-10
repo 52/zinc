@@ -29,8 +29,8 @@ in
   home-manager = {
     users.max = {
       imports = map mkOSLib.relativeToRoot [
+        "home/alacritty.nix"
         "home/wayland.nix"
-        "home/wezterm.nix"
         "home/bash.nix"
         "home/fish.nix"
         "home/nvim.nix"
@@ -46,10 +46,10 @@ in
         homeDirectory = "/home/max";
         sessionVariables = {
           # used by home/hyprland.nix
-          TERMINAL = "wezterm";
+          TERMINAL = "alacritty";
           # used by home/hyprland.nix
           BROWSER = "firefox";
-          # used by home/${wezterm | tmux}.nix
+          # used by home/${alacritty | tmux}.nix
           SHELL = "fish";
           # used by home/git.nix
           EDITOR = "nvim";
