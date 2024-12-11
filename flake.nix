@@ -32,7 +32,7 @@
       inherit (nixpkgs) lib;
 
       # custom lib, see '/lib'
-      mkOSLib = import ./lib { inherit inputs; };
+      mkOSLib = import ./lib { inherit inputs outputs; };
 
       # systems that are supported by this configuration
       systems = [

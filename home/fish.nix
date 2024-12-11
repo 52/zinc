@@ -38,6 +38,11 @@
 
         # nix
         n = "nix";
+        nd = "nix develop";
+
+        # hypr
+        h = "hyprctl";
+        hd = "hyprctl dispatch";
 
         # docker
         d = "docker";

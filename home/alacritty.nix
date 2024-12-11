@@ -9,6 +9,18 @@ _: {
             family = "monospace";
             style = "Light";
           };
+          italic = {
+            family = "monospace";
+            style = "Light";
+          };
+          bold = {
+            family = "monospace";
+            style = "Light";
+          };
+          bold_italic = {
+            family = "monospace";
+            style = "Light";
+          };
         };
         window = {
           padding = {

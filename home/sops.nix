@@ -21,8 +21,8 @@
       };
       ageKeyFile = lib.mkOption {
         type = lib.types.str;
-        default = "${config.home.homeDirectory}/.sops/keys.txt";
-        description = "The path to the master age key.";
+        default = ".sops/keys.txt";
+        description = "The path to the master age key relative to '$HOME'.";
       };
       secrets = lib.mkOption {
         type = lib.types.attrs;
@@ -51,7 +51,7 @@
         inherit (options) secrets;
         defaultSopsFile = options.sopsFile;
         age = {
-          keyFile = options.ageKeyFile;
+          keyFile = "${config.home.homeDirectory}/${options.ageKeyFile}";
         };
       };
     };

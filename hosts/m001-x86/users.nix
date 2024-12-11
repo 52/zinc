@@ -18,7 +18,6 @@ in
         ]
         ++ ifTheyExist [
           "networkmanager"
-          "libvirtd"
           "docker"
           "audio"
           "video"
@@ -30,7 +29,8 @@ in
     users.max = {
       imports = map mkOSLib.relativeToRoot [
         "home/alacritty.nix"
-        "home/wayland.nix"
+        "home/hyprland.nix"
+        "home/style.nix"
         "home/bash.nix"
         "home/fish.nix"
         "home/nvim.nix"
@@ -49,7 +49,7 @@ in
           TERMINAL = "alacritty";
           # used by home/hyprland.nix
           BROWSER = "firefox";
-          # used by home/${alacritty | tmux}.nix
+          # used by home/${alacritty | wezterm | tmux}.nix
           SHELL = "fish";
           # used by home/git.nix
           EDITOR = "nvim";
@@ -61,16 +61,26 @@ in
         stateVersion = "24.11";
       };
 
+      # home/hyprland.nix
+      home-hyprland = {
+        enable = true;
+      };
+
+      # home/nvim.nix
+      home-nvim = {
+        enable = true;
+      };
+
       # home/sops.nix
       home-sops = {
         enable = true;
         secrets = {
           "ssh/id_max" = {
-            path = "/home/max/.ssh/id_max";
+            path = ".ssh/id_max";
             mode = "0400";
           };
           "ssh/id_max.pub" = {
-            path = "/home/max/.ssh/id_max.pub";
+            path = ".ssh/id_max.pub";
             mode = "0444";
           };
         };
@@ -87,12 +97,6 @@ in
         enableAuth = true;
         userName = "Max Karou";
         userEmail = "maxkarou@protonmail.com";
-      };
-
-      # home/xdg.nix
-      home-xdg = {
-        enable = true;
-        enableUserDirs = true;
       };
 
       # doc: https://mynixos.com/home-manager/option/systemd.user.startServices
