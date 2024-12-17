@@ -7,7 +7,10 @@
 {
   environment = {
     systemPackages = with pkgs; [
+      mission-center
       wl-clipboard
+      overskride
+      nautilus
     ];
     sessionVariables =
       {

@@ -15,8 +15,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nvf = {
-      url = "github:notashelf/nvf/v0.7";
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nix-gaming = {
+      url = "github:fufexan/nix-gaming";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -32,7 +37,7 @@
       inherit (nixpkgs) lib;
 
       # custom lib, see '/lib'
-      mkOSLib = import ./lib { inherit inputs; };
+      mkOSLib = import ./lib { inherit inputs outputs; };
 
       # systems that are supported by this configuration
       systems = [

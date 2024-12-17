@@ -2,12 +2,10 @@ _: {
   programs = {
     firefox = {
       enable = true;
-
       # see: https://mozilla.github.io/policy-templates or `about:policies#documentation`
       policies = {
         AppAutoUpdate = false;
         BackgroundAppUpdate = false;
-
         # privacy
         DisablePocket = true;
         DisableTelemetry = true;
@@ -16,7 +14,6 @@ _: {
         DisableFirefoxAccounts = false;
         DontCheckDefaultBrowser = true;
         DisableBuiltinPDFViewer = false;
-
         # tracking
         EnableTrackingProtection = {
           Value = true;
@@ -25,12 +22,10 @@ _: {
           Fingerprinting = true;
           EmailTracking = true;
         };
-
         # settings
         Preferences = {
           "browser.startup.page" = 3;
         };
-
         # extensions
         ExtensionUpdate = false;
         ExtensionSettings =

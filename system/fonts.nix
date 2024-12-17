@@ -3,12 +3,12 @@
   fonts = {
     enableDefaultPackages = false;
     packages = with pkgs; [
-      # emoji
-      font-awesome
-      noto-fonts-color-emoji
-      (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
       # custom
       apple-fonts
+      # emoji
+      noto-fonts-color-emoji
+      # symbols
+      (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
     ];
     fontconfig = {
       defaultFonts = {
@@ -26,8 +26,6 @@
         ];
         emoji = [
           "Noto Color Emoji"
-          "Font Awesome 6 Free"
-          "Font Awesome 6 Brands"
           "Symbols Nerd Font Mono"
         ];
       };
