@@ -17,10 +17,9 @@ in
       enable = true;
       settings = {
         general = {
-          disable_loading_bar = true;
-          hide_cursor = true;
-          no_fade_in = true;
           grace = 0;
+          hide_cursor = true;
+          disable_loading_bar = true;
         };
         background = {
           path = wallpaper.dst;
