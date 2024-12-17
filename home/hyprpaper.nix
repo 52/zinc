@@ -4,12 +4,14 @@
 }:
 let
   inherit (config) home-style;
+  inherit (home-style) img;
+  inherit (img) wallpaper;
 in
 {
   home = {
     file = {
-      "${home-style.wallpaper.dest}" = {
-        source = home-style.wallpaper.src;
+      "${wallpaper.dst}" = {
+        source = wallpaper.src;
       };
     };
   };
@@ -17,8 +19,8 @@ in
     hyprpaper = {
       enable = true;
       settings = {
-        wallpaper = [ "DP-1,${home-style.wallpaper.dest}" ];
-        preload = [ "${home-style.wallpaper.dest}" ];
+        wallpaper = [ "DP-1,${wallpaper.dst}" ];
+        preload = [ "${wallpaper.dst}" ];
         splash = false;
       };
     };

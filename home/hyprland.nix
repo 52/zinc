@@ -10,6 +10,7 @@
     "home/hyprpaper.nix"
     "home/hyprlock.nix"
     "home/waybar.nix"
+    "home/rofi.nix"
   ];
   options = {
     home-hyprland = {
@@ -23,6 +24,7 @@
   config =
     let
       inherit (config) home-hyprland home-style;
+      inherit (home-style) colors;
       options = home-hyprland;
     in
     lib.mkIf options.enable {
@@ -54,12 +56,14 @@
               };
               general = {
                 # gaps
-                gaps_in = 6;
-                gaps_out = 6;
+                gaps_in = 10;
+                gaps_out = 10;
                 # border
-                border_size = 0;
+                border_size = 1;
                 resize_on_border = true;
                 hover_icon_on_border = true;
+                "col.inactive_border" = "rgb(${lib.strings.removePrefix "#" colors.base01})";
+                "col.active_border" = "rgb(${lib.strings.removePrefix "#" colors.base02})";
                 # hy3 (plugin)
                 layout = "hy3";
               };
@@ -123,6 +127,8 @@
                 "SUPER, T, exec, ${config.home.sessionVariables.TERMINAL}"
                 # <SUPER> + F to open $BROWSER
                 "SUPER, F, exec, ${config.home.sessionVariables.BROWSER}"
+                # <SUPER> + <SPACE> to open rofi (drun)
+                "SUPER, SPACE, exec, rofi -show drun"
 
                 #
                 # ---- Navigation ----

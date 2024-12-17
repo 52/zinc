@@ -26,6 +26,7 @@
         g = "git";
         ga = "git add";
         gp = "git push";
+        gd = "git diff";
         gc = "git commit";
         gs = "git status";
         gb = "git branch";
@@ -42,7 +43,7 @@
 
         # hypr
         h = "hyprctl";
-        hd = "hyprctl dispatch";
+        hkill = "hyprctl dispatch exit";
 
         # docker
         d = "docker";

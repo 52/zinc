@@ -7,6 +7,7 @@
 
     # apps
     "system/firefox.nix"
+    "system/spotify.nix"
     "system/ledger.nix"
   ];
 }

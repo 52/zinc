@@ -13,37 +13,61 @@
         description = "Enables the 'home-style' module.";
       };
       colors = {
+        base00 = lib.mkOption {
+          type = lib.types.str;
+          default = "#111111";
+          description = "Primary background color.";
+        };
         base01 = lib.mkOption {
           type = lib.types.str;
-          default = "#0f0f0f";
-          description = "Primary background color.";
+          default = "#202020";
+          description = "Background for inactive elements.";
         };
         base02 = lib.mkOption {
           type = lib.types.str;
-          default = "#1d1d1d";
-          description = "Secondary background color.";
+          default = "#505050";
+          description = "Background for selected, focused or active elements.";
         };
         base03 = lib.mkOption {
+          type = lib.types.str;
+          default = "#606060";
+          description = "Comments, Invisibles, Line Highlighting";
+        };
+        base04 = lib.mkOption {
+          type = lib.types.str;
+          default = "#b0b0b0";
+          description = "Foreground for inactive elements.";
+        };
+        base05 = lib.mkOption {
           type = lib.types.str;
           default = "#d9d9d9";
           description = "Primary foreground color.";
         };
-        base04 = lib.mkOption {
-          type = lib.types.str;
-          default = "#5d5d5d";
-          description = "Secondary foreground color.";
-        };
       };
-      wallpaper = {
-        src = lib.mkOption {
-          type = lib.types.str;
-          default = mkOSLib.relativeToRoot "public/137242.png";
-          description = "The wallpaper's source path.";
+      img = {
+        wallpaper = {
+          src = lib.mkOption {
+            type = lib.types.str;
+            default = mkOSLib.relativeToRoot "public/137242.png";
+            description = "The wallpaper's source path.";
+          };
+          dst = lib.mkOption {
+            type = lib.types.str;
+            default = "${config.xdg.configHome}/hypr/wallpaper.png";
+            description = "The wallpaper's destination path.";
+          };
         };
-        dest = lib.mkOption {
-          type = lib.types.str;
-          default = "${config.xdg.configHome}/hypr/wallpaper.png";
-          description = "The wallpaper's destination path.";
+        profile = {
+          src = lib.mkOption {
+            type = lib.types.str;
+            default = mkOSLib.relativeToRoot "public/359349.png";
+            description = "The user's profile picture source path.";
+          };
+          dst = lib.mkOption {
+            type = lib.types.str;
+            default = "${config.xdg.configHome}/hypr/profile.png";
+            description = "The user's profile picture destination path.";
+          };
         };
       };
     };
@@ -56,12 +80,20 @@
     lib.mkIf options.enable {
       assertions = [
         {
-          assertion = options.wallpaper.src != "";
-          message = "home-style.wallpaper.src must not be empty.";
+          assertion = options.img.wallpaper.src != "";
+          message = "home-style.img.wallpaper.src must not be empty.";
         }
         {
-          assertion = options.wallpaper.dest != "";
-          message = "home-style.wallpaper.dest must not be empty.";
+          assertion = options.img.wallpaper.dst != "";
+          message = "home-style.img.wallpaper.dst must not be empty.";
+        }
+        {
+          assertion = options.img.profile.src != "";
+          message = "home-style.img.profile.src must not be empty.";
+        }
+        {
+          assertion = options.img.profile.dst != "";
+          message = "home-style.img.profile.dst must not be empty.";
         }
       ];
     };

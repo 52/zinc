@@ -18,6 +18,7 @@ in
         ]
         ++ ifTheyExist [
           "networkmanager"
+          "gamemode"
           "docker"
           "audio"
           "video"

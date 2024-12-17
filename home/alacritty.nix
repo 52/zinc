@@ -1,35 +1,37 @@
-_: {
+{ config, ... }:
+let
+  inherit (config) home-style;
+in
+{
   programs = {
     alacritty = {
       enable = true;
       settings = {
         font = {
-          size = 18;
+          size = 16;
           normal = {
             family = "monospace";
             style = "Light";
           };
-          italic = {
-            family = "monospace";
-            style = "Light";
-          };
-          bold = {
-            family = "monospace";
-            style = "Light";
-          };
-          bold_italic = {
-            family = "monospace";
-            style = "Light";
+          offset = {
+            x = 0;
+            y = 2;
           };
         };
         window = {
           padding = {
-            x = 6;
-            y = 6;
+            x = 10;
+            y = 5;
           };
         };
         selection = {
           save_to_clipboard = true;
+        };
+        colors = with home-style; {
+          primary = {
+            background = colors.base00;
+            foreground = colors.base05;
+          };
         };
         keyboard = {
           bindings = [

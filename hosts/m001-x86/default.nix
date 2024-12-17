@@ -18,6 +18,7 @@
       "roles/system"
       "roles/desktop"
       "roles/docker"
+      "roles/gaming"
     ])
 
     # users
