@@ -32,21 +32,21 @@ in
           position = "0, 80";
           dots_center = true;
           fade_on_empty = false;
-          shadow_passes = 1;
-          outline_thickness = 1;
+          shadow_passes = 4;
+          outline_thickness = 2;
           placeholder_text = "Enter Password ...";
           inner_color = "rgb(${lib.strings.removePrefix "#" colors.base00})";
           outer_color = "rgb(${lib.strings.removePrefix "#" colors.base01})";
-          font_color = "rgb(${lib.strings.removePrefix "#" colors.base05})";
+          font_color = "rgb(${lib.strings.removePrefix "#" colors.base04})";
           halign = "center";
           valign = "bottom";
         };
         image = [
           {
             path = profile.dst;
-            size = "100";
+            size = "140";
             position = "0, 160";
-            border_size = 1;
+            border_size = 4;
             border_color = "rgb(${lib.strings.removePrefix "#" colors.base01})";
             halign = "center";
             valign = "bottom";
@@ -54,8 +54,8 @@ in
         ];
         label = [
           {
-            text = "$TIME";
-            color = "rgb(${lib.strings.removePrefix "#" colors.base05})";
+            text = "<b>$TIME</b>";
+            color = "rgb(${lib.strings.removePrefix "#" colors.base04})";
             font_size = 200;
             position = "0, -100";
             halign = "center";
