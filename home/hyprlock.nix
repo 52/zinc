@@ -29,25 +29,27 @@ in
         };
         input-field = {
           size = "250, 50";
-          position = "0, -140";
+          position = "0, 80";
           dots_center = true;
           fade_on_empty = false;
+          shadow_passes = 1;
+          outline_thickness = 1;
+          placeholder_text = "Enter Password ...";
           inner_color = "rgb(${lib.strings.removePrefix "#" colors.base00})";
           outer_color = "rgb(${lib.strings.removePrefix "#" colors.base01})";
           font_color = "rgb(${lib.strings.removePrefix "#" colors.base05})";
-          outline_thickness = 1;
-          shadow_passes = 1;
-          placeholder_text = "Enter Password ...";
+          halign = "center";
+          valign = "bottom";
         };
         image = [
           {
             path = profile.dst;
-            size = "120";
-            position = "0, -20";
+            size = "100";
+            position = "0, 160";
             border_size = 1;
             border_color = "rgb(${lib.strings.removePrefix "#" colors.base01})";
             halign = "center";
-            valign = "center";
+            valign = "bottom";
           }
         ];
         label = [
@@ -55,9 +57,9 @@ in
             text = "$TIME";
             color = "rgb(${lib.strings.removePrefix "#" colors.base05})";
             font_size = 200;
-            position = "0, 300";
+            position = "0, -100";
             halign = "center";
-            valign = "center";
+            valign = "top";
           }
         ];
       };
