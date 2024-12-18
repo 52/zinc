@@ -1,7 +1,7 @@
 { mkOSLib, ... }:
 {
   imports = map mkOSLib.relativeToRoot [
-    # core
+    # wm
     "system/wayland.nix"
     "system/fonts.nix"
 

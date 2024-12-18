@@ -1,7 +1,9 @@
 { pkgs, ... }:
 {
   environment = {
-    systemPackages = with pkgs; [ ledger-live-desktop ];
+    systemPackages = with pkgs; [
+      ledger-live-desktop
+    ];
   };
   hardware = {
     ledger = {

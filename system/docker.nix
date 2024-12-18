@@ -1,7 +1,9 @@
 { pkgs, ... }:
 {
   environment = {
-    systemPackages = with pkgs; [ kubectl ];
+    systemPackages = with pkgs; [
+      kubectl
+    ];
   };
   virtualisation = {
     docker = {
