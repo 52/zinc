@@ -3,30 +3,39 @@
   fonts = {
     enableDefaultPackages = false;
     packages = with pkgs; [
+      # icon
+      material-design-icons
+      font-awesome
+      # noto
+      noto-fonts
+      noto-fonts-cjk-sans
+      noto-fonts-cjk-serif
+      noto-fonts-color-emoji
       # custom
       apple-fonts
-      # emoji
-      noto-fonts-color-emoji
-      # symbols
-      (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
+      # nerd
+      (nerdfonts.override {
+        fonts = [
+          "NerdFontsSymbolsOnly"
+        ];
+      })
     ];
     fontconfig = {
       defaultFonts = {
         serif = [
           "New York Medium"
-          "emoji"
+          "Noto Color Emoji"
         ];
         sansSerif = [
           "SF Pro Text"
-          "emoji"
+          "Noto Color Emoji"
         ];
         monospace = [
           "SF Mono"
-          "emoji"
+          "Noto Color Emoji"
         ];
         emoji = [
           "Noto Color Emoji"
-          "Symbols Nerd Font Mono"
         ];
       };
     };
