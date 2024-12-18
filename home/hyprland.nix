@@ -59,7 +59,7 @@
                 gaps_in = 10;
                 gaps_out = 10;
                 # border
-                border_size = 1;
+                border_size = 2;
                 resize_on_border = true;
                 hover_icon_on_border = true;
                 "col.inactive_border" = "rgb(${lib.strings.removePrefix "#" colors.base01})";
@@ -73,7 +73,7 @@
                 inactive_opacity = 1.0;
                 fullscreen_opacity = 1.0;
                 # border
-                rounding = 6;
+                rounding = 4;
               };
               misc = {
                 middle_click_paste = false;
@@ -161,6 +161,10 @@
                 "SUPER, left, movefocus, r"
                 # <SUPER> + left to move focus (left)
                 "SUPER, left, movefocus, l"
+                # <SUPER> + Tab to cycle focus
+                "SUPER, Tab, cyclenext"
+                # <SUPER> + <SHIFT> + Tab to cycle focus (reverse)
+                "SUPER_SHIFT, Tab, cyclenext, prev"
 
                 # ---- Media ----
                 #
