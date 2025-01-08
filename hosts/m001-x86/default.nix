@@ -91,6 +91,14 @@
           enable = true;
         };
 
+        # home/git.nix
+        git = {
+          enable = true;
+          enableAuth = true;
+          userName = "Max Karou";
+          userEmail = "maxkarou@protonmail.com";
+        };
+
         # home/fish.nix
         fish = {
           enable = true;
