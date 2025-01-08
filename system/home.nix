@@ -1,4 +1,9 @@
-{ inputs, outputs, ... }:
+{
+  lib,
+  inputs,
+  outputs,
+  ...
+}:
 let
   inherit (builtins) attrValues;
 in
@@ -7,6 +12,10 @@ in
     inherit (inputs.home-manager.nixosModules) home-manager;
   };
   home-manager = {
+    sharedModules = map lib.custom.relativeToRoot [
+      "home/nvim.nix"
+      "home/fish.nix"
+    ];
     useGlobalPkgs = true;
     extraSpecialArgs = {
       inherit inputs outputs;

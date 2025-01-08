@@ -54,10 +54,6 @@
   home-manager = {
     users = {
       "max" = {
-        imports = map lib.custom.relativeToRoot [
-          "home/nvim.nix"
-        ];
-
         home = {
           username = "max";
           homeDirectory = "/home/max";
@@ -70,5 +66,4 @@
       };
     };
   };
-
 }
