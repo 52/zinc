@@ -76,6 +76,11 @@
           enable = true;
         };
 
+        # home/direnv.nix
+        direnv = {
+          enable = true;
+        };
+
         # doc: https://mynixos.com/home-manager/option/systemd.user.startServices
         systemd.user.startServices = "sd-switch";
       };
