@@ -20,6 +20,7 @@ in
       "home/nvim.nix"
       "home/bash.nix"
       "home/fish.nix"
+      "home/xdg.nix"
     ];
     useGlobalPkgs = true;
     extraSpecialArgs = {
