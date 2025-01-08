@@ -13,6 +13,7 @@ in
   };
   home-manager = {
     sharedModules = map lib.custom.relativeToRoot [
+      "home/hyprland.nix"
       "home/ghostty.nix"
       "home/direnv.nix"
       "home/style.nix"
