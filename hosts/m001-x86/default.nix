@@ -86,6 +86,11 @@
           };
         };
 
+        # home/ssh.nix
+        ssh = {
+          enable = true;
+        };
+
         # home/fish.nix
         fish = {
           enable = true;

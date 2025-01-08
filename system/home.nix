@@ -22,6 +22,7 @@ in
       "home/tmux.nix"
       "home/sops.nix"
       "home/nvim.nix"
+      "home/ssh.nix"
       "home/xdg.nix"
     ];
     useGlobalPkgs = true;
