@@ -71,6 +71,21 @@
           stateVersion = "24.11";
         };
 
+        # home/sops.nix
+        sops-nix = {
+          enable = true;
+          secrets = {
+            "ssh/id_max" = {
+              path = ".ssh/id_max";
+              mode = "0400";
+            };
+            "ssh/id_max.pub" = {
+              path = ".ssh/id_max.pub";
+              mode = "0444";
+            };
+          };
+        };
+
         # home/fish.nix
         fish = {
           enable = true;
@@ -78,6 +93,11 @@
 
         # home/ghostty.nix
         ghostty = {
+          enable = true;
+        };
+
+        # home/tmux.nix
+        tmux = {
           enable = true;
         };
 

@@ -20,6 +20,7 @@ in
       "home/bash.nix"
       "home/fish.nix"
       "home/tmux.nix"
+      "home/sops.nix"
       "home/nvim.nix"
       "home/xdg.nix"
     ];
