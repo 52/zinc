@@ -61,6 +61,21 @@
           stateVersion = "24.11";
         };
 
+        # home/nvim.nix
+        nvim = {
+          enable = true;
+        };
+
+        # home/fish.nix
+        fish = {
+          enable = true;
+        };
+
+        # home/ghostty.nix
+        ghostty = {
+          enable = true;
+        };
+
         # doc: https://mynixos.com/home-manager/option/systemd.user.startServices
         systemd.user.startServices = "sd-switch";
       };

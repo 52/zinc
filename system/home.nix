@@ -13,6 +13,8 @@ in
   };
   home-manager = {
     sharedModules = map lib.custom.relativeToRoot [
+      "home/ghostty.nix"
+      "home/style.nix"
       "home/nvim.nix"
       "home/fish.nix"
     ];
