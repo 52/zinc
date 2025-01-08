@@ -28,15 +28,14 @@ in
   config =
     let
       inherit (lib) mkIf;
-      inherit (config) sops-nix home;
-      inherit (home) homeDirectory;
+      inherit (config) sops-nix xdg;
     in
     mkIf sops-nix.enable {
       sops = {
         inherit (sops-nix) secrets;
         defaultSopsFile = relativeToRoot "nix-secrets/secrets.yaml";
         age = {
-          keyFile = "${homeDirectory}/sops-nix/keys.txt";
+          keyFile = "${xdg.configHome}/sops-nix/keys.txt";
         };
       };
     };
