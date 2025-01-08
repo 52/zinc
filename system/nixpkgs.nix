@@ -1,7 +1,11 @@
 { outputs, ... }:
+let
+  inherit (builtins) attrValues;
+  inherit (outputs) overlays;
+in
 {
   nixpkgs = {
-    overlays = builtins.attrValues outputs.overlays;
+    overlays = attrValues overlays;
     config = {
       allowUnfree = true;
     };

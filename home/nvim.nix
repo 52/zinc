@@ -2,266 +2,179 @@
   lib,
   pkgs,
   config,
-  inputs,
   ...
 }:
+let
+  inherit (lib) mkOption mkIf types;
+in
 {
-  imports = [ inputs.nixvim.homeManagerModules.nixvim ];
   options = {
-    home-nvim = {
-      enable = lib.mkOption {
-        type = lib.types.bool;
-        default = false;
-        description = "Enables the 'home-nvim' module.";
+    nvim = {
+      enable = mkOption {
+        type = types.bool;
+        default = true;
       };
     };
   };
   config =
     let
-      inherit (config) home-nvim home-style;
-      options = home-nvim;
+      inherit (lib) concatLists;
+      inherit (config) nvim xdg;
     in
-    lib.mkIf options.enable {
-      assertions = [
-        {
-          assertion = options.enable -> home-style.enable;
-          message = "home-nvim.enable requires an enabled 'home-style' module.";
-        }
-      ];
+    mkIf nvim.enable {
       programs = {
-        nixvim = {
+        neovim = {
           enable = true;
-          enableMan = false;
-          performance = {
-            byteCompileLua = {
-              enable = true;
-              configs = true;
-              initLua = true;
-              plugins = true;
-              nvimRuntime = true;
-            };
-          };
-          globals = {
-            # leader
-            mapleader = ",";
-            maplocalleader = ",";
-          };
-          opts = {
-            # editor
-            hidden = true;
-            showcmd = true;
-            showmode = true;
-            autoread = true;
-            visualbell = true;
-            signcolumn = "yes";
-            # lines
-            number = true;
-            relativenumber = true;
-            # cursor
-            cursorline = true;
-            guicursor = "a:block-Cursor";
-            # text
-            wrap = false;
-            textwidth = 80;
-            scrolloff = 10;
-            sidescrolloff = 10;
-            # indent
-            cindent = true;
-            cinkeys = "0{,0},0),0],:,!^F,o,O,e";
-            autoindent = false;
-            smartindent = false;
-            expandtab = true;
-            smarttab = true;
-            # tabs
-            shiftwidth = 2;
-            softtabstop = 2;
-            tabstop = 2;
-            # search
-            hlsearch = true;
-            incsearch = true;
-            smartcase = true;
-            ignorecase = true;
-            # split
-            splitbelow = true;
-            splitright = true;
-            # fold
-            foldenable = false;
-            foldlevelstart = 99;
-            foldmethod = "manual";
-            # colors
-            background = "dark";
-            termguicolors = true;
-            # backup
-            backupdir = "${config.xdg.configHome}/vim/backup";
-            directory = "${config.xdg.configHome}/vim/swap";
-            # undo
-            undofile = true;
-            undolevels = 10000;
-            undoreload = 10000;
-            undodir = "${config.xdg.configHome}/vim/vimundo";
-            # performance
-            updatetime = 150;
-            timeoutlen = 500;
-            lazyredraw = true;
-          };
-          plugins = {
-            lsp = {
-              enable = true;
-              servers = {
-                nixd = {
-                  enable = true;
-                };
-              };
-            };
-            cmp = {
-              enable = true;
-              autoEnableSources = true;
-              settings = {
-                sources = [
-                  { name = "treesitter"; }
-                  { name = "nvim_lsp"; }
-                  { name = "buffer"; }
-                  { name = "path"; }
-                ];
-                mapping = {
-                  # select
-                  "<CR>" = "cmp.mapping.confirm { select = true }";
-                  "<Tab>" = "cmp.mapping.select_next_item()";
-                  "<S-Tab>" = "cmp.mapping.select_prev_item()";
-                  # manual
-                  "<C-,>" = "cmp.mapping.complete()";
-                  # docs
-                  "<C-h>" = "cmp.mapping.open_docs()";
-                  "<C-b>" = "cmp.mapping.scroll_docs(-4)";
-                  "<C-f>" = "cmp.mapping.scroll_docs(4)";
-                };
-              };
-            };
-            lint = {
-              enable = true;
-              lintersByFt = {
-                nix = [
-                  "nix"
-                  "statix"
-                  "deadnix"
-                ];
-              };
-            };
-            treesitter = {
-              enable = true;
-              settings = {
-                highlight = {
-                  enable = true;
-                };
-              };
-            };
-            conform-nvim = {
-              enable = true;
-              settings = {
-                format_on_save = {
-                  lspFallback = true;
-                  timeoutMs = 500;
-                };
-                formatters_by_ft = {
-                  nix = [ "nixfmt" ];
-                };
-              };
-            };
-            fzf-lua = {
-              enable = true;
-              settings = {
-                winopts = {
-                  split = "botright 12new";
-                  preview = {
-                    hidden = "hidden";
-                  };
-                };
-                buffers = {
-                  no_header_i = true;
-                  file_icons = false;
-                  git_icons = false;
-                };
-                files = {
-                  no_header_i = true;
-                  file_icons = false;
-                  git_icons = false;
-                };
-                grep = {
-                  no_header_i = true;
-                  file_icons = false;
-                  git_icons = false;
-                };
-                git = {
-                  no_header_i = true;
-                  file_icons = false;
-                  git_icons = false;
-                };
-              };
-              keymaps = {
-                "<leader>ff" = {
-                  action = "files";
-                  options = {
-                    desc = "[F]ind [F]iles";
-                    silent = true;
-                  };
-                };
-                "<leader>lb" = {
-                  action = "buffers";
-                  options = {
-                    desc = "[L]ist active [B]uffers";
-                    silent = true;
-                  };
-                };
-                "<leader>gb" = {
-                  action = "grep_curbuf";
-                  options = {
-                    desc = "[G]rep in current [B]uffer";
-                    silent = true;
-                  };
-                };
-                "<leader>gl" = {
-                  action = "live_grep";
-                  options = {
-                    desc = "Search files with [G]rep [L]ive";
-                    silent = true;
-                  };
-                };
-              };
-            };
-            nvim-autopairs = {
-              enable = true;
-            };
-          };
-          extraPackages = with pkgs; [
-            # nix
-            nixfmt-rfc-style
-            deadnix
-            statix
+          extraLuaConfig = ''
+            -- leader
+            vim.g.mapleader = ','
+            vim.g.maplocalleader = ','
+
+            -- editor
+            vim.opt.number = true
+            vim.opt.relativenumber = true
+
+            vim.opt.cursorline = true
+            vim.opt.guicursor = 'a:block'
+
+            vim.opt.ignorecase = true
+            vim.opt.smartcase = true
+            vim.opt.incsearch = true
+            vim.opt.hlsearch = true
+
+            vim.opt.tabstop = 2
+            vim.opt.softtabstop = 2
+            vim.opt.shiftwidth = 2
+
+            vim.opt.expandtab = true
+            vim.opt.smartindent = true
+
+            vim.opt.wrap = false
+            vim.opt.scrolloff = 10
+            vim.opt.signcolumn = 'yes'
+
+            vim.opt.splitright = true
+            vim.opt.splitbelow = true
+
+            vim.opt.foldenable = false
+            vim.opt.foldmethod = 'manual'
+            vim.opt.foldlevelstart = 99
+
+            vim.opt.undofile = true
+            vim.opt.undolevels = 10000
+            vim.opt.undoreload = 10000
+            vim.opt.undodir = "${xdg.configHome}/vim/vimundo"
+
+            vim.opt.backup = true
+            vim.opt.backupdir = "${xdg.configHome}/vim/backup"
+
+            vim.opt.swapfile = true
+            vim.opt.directory = "${xdg.configHome}/vim/swap"
+
+            vim.opt.lazyredraw = true
+            vim.opt.updatetime = 50
+            vim.opt.timeoutlen = 500
+
+            vim.opt.background = 'dark'
+            vim.opt.termguicolors = true
+
+            vim.schedule(function()
+                vim.opt.clipboard = 'unnamedplus'
+            end)
+
+            vim.opt.backspace = 'indent,eol,start'
+            vim.opt.iskeyword:append('-')
+
+            vim.opt.diffopt:append('iwhite')
+            vim.opt.diffopt:append('algorithm:histogram')
+            vim.opt.diffopt:append('indent-heuristic')
+          '';
+          plugins = concatLists [
+            # stable plugins
+            (with pkgs.vimPlugins; [
+              {
+                plugin = nvim-autopairs;
+                type = "lua";
+                config = ''
+                  -- autopairs setup
+                  require('nvim-autopairs').setup {}
+                '';
+              }
+              {
+                plugin = nvim-treesitter.withAllGrammars;
+                type = "lua";
+                config = ''
+                  -- treesitter setup
+                  require('nvim-treesitter.configs').setup {
+                    highlight = { enable = true },
+                    indent = { enable = false }
+                  }
+                '';
+              }
+              {
+                plugin = nvim-lint;
+                type = "lua";
+                config = ''
+                  -- lint setup
+                  require('lint').linters_by_ft =  {
+                    nix = { 'nix', 'statix', 'deadnix', }
+                  }
+
+                  -- lint autocmds
+                  vim.api.nvim_create_autocmd({ "InsertLeave", "BufWritePost" }, {
+                    callback = function()
+                      require("lint").try_lint()
+                    end,
+                  })
+                '';
+              }
+              {
+                plugin = conform-nvim;
+                type = "lua";
+                config = ''
+                  -- conform setup
+                  require('conform').setup({
+                    format_on_save = {
+                      timeout_ms = 500,
+                      lsp_format = "fallback",
+                    },
+                    formatters_by_ft = {
+                      nix = { 'nixfmt' }
+                    }
+                  })
+                '';
+              }
+              {
+                plugin = fzf-lua;
+                type = "lua";
+                config = ''
+                  -- fzf setup
+                  require('fzf-lua').setup({
+                    winopts = {
+                      split = 'botright 14new',
+                    },
+                    defaults = {
+                      no_header_i = true,
+                      file_icons = false,
+                      git_icons = false,
+                      previewer = false,
+                    }
+                  })
+
+                  -- fzf bindings
+                  local builtin = require 'fzf-lua'
+                  vim.keymap.set('n', '<leader>ff', builtin.files, { desc = '[F]ind [F]iles' })
+                  vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = '[F]ind [B]uffers' })
+                  vim.keymap.set('n', '<leader>gf', builtin.live_grep, { desc = '[G]rep [F]iles' })
+                  vim.keymap.set('n', '<leader>gb', builtin.grep_curbuf, { desc = '[G]rep [B]uffer' })
+                '';
+              }
+            ])
+            # unstable plugins
+            (with pkgs.unstable.vimPlugins; [
+
+            ])
           ];
-          highlight = with home-style; {
-            Normal = {
-              bg = colors.base00;
-              fg = colors.base05;
-            };
-            Comment = {
-              fg = colors.base03;
-            };
-            CursorLine = {
-              bg = colors.base01;
-            };
-            LineNr = {
-              fg = colors.base03;
-            };
-            CursorLineNr = {
-              fg = colors.base05;
-            };
-            Visual = {
-              bg = colors.base01;
-            };
-          };
-          clipboard = {
-            register = "unnamedplus";
-          };
         };
       };
     };

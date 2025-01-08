@@ -1,6 +1,6 @@
-{ mkOSLib, ... }:
+{ lib, ... }:
 {
-  imports = map mkOSLib.relativeToRoot [
+  imports = map lib.custom.relativeToRoot [
     "system/docker.nix"
   ];
 }

@@ -1,14 +1,35 @@
-_: {
-  boot = {
-    loader = {
-      systemd-boot = {
-        enable = true;
-        configurationLimit = 10;
+{ lib, config, ... }:
+let
+  inherit (lib) mkOption mkIf types;
+in
+{
+  options = {
+    system = {
+      boot = {
+        enable = mkOption {
+          type = types.bool;
+          default = true;
+        };
       };
-      efi = {
-        canTouchEfiVariables = true;
-      };
-      timeout = 3;
     };
   };
+  config =
+    let
+      inherit (config) system;
+      inherit (system) boot;
+    in
+    mkIf boot.enable {
+      boot = {
+        loader = {
+          systemd-boot = {
+            enable = true;
+            configurationLimit = 10;
+          };
+          efi = {
+            canTouchEfiVariables = true;
+          };
+          timeout = 3;
+        };
+      };
+    };
 }

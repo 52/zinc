@@ -1,18 +1,18 @@
-{
-  lib,
-  config,
-  ...
-}:
+{ lib, config, ... }:
 let
   inherit (lib) mkOption mkIf types;
 in
 {
   options = {
     system = {
-      bluetooth = {
+      time = {
         enable = mkOption {
           type = types.bool;
           default = true;
+        };
+        timeZone = mkOption {
+          type = types.str;
+          default = "Europe/Berlin";
         };
       };
     };
@@ -20,14 +20,11 @@ in
   config =
     let
       inherit (config) system;
-      inherit (system) bluetooth;
+      inherit (system) time;
     in
-    mkIf bluetooth.enable {
-      hardware = {
-        bluetooth = {
-          enable = true;
-          powerOnBoot = true;
-        };
+    mkIf time.enable {
+      time = {
+        inherit (time) timeZone;
       };
     };
 }
