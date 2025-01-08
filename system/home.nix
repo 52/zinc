@@ -17,9 +17,10 @@ in
       "home/ghostty.nix"
       "home/direnv.nix"
       "home/style.nix"
-      "home/nvim.nix"
       "home/bash.nix"
       "home/fish.nix"
+      "home/tmux.nix"
+      "home/nvim.nix"
       "home/xdg.nix"
     ];
     useGlobalPkgs = true;
