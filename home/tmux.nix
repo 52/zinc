@@ -18,14 +18,13 @@ in
   };
   config =
     let
-      inherit (config) tmux home;
-      inherit (home) sessionVariables;
+      inherit (config) tmux env;
     in
     mkIf tmux.enable {
       programs = {
         tmux = {
           enable = true;
-          shell = "${pkgs.${sessionVariables.SHELL}}/bin/${sessionVariables.SHELL}";
+          shell = "${pkgs.${env.SHELL}}/bin/${env.SHELL}";
           historyLimit = 10000;
           extraConfig = ''
             set-option -sa terminal-features ',xterm-256color:RGB'

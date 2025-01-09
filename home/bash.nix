@@ -20,6 +20,13 @@ in
         bash = {
           enable = true;
           historyFile = "${xdg.dataHome}/bash/bash_history";
+          profileExtra = ''
+            if [ "$(tty)" = "/dev/tty1" ]; then
+               if uwsm check may-start; then
+                   exec uwsm start hyprland-uwsm.desktop
+               fi
+            fi
+          '';
         };
       };
     };

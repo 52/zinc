@@ -57,18 +57,19 @@
         home = {
           username = "max";
           homeDirectory = "/home/max";
-          sessionVariables = {
-            # used by hyprland
-            TERMINAL = "ghostty";
-            # used by hyprland
-            BROWSER = "firefox";
-            # used by tmux
-            SHELL = "fish";
-            # used by git
-            EDITOR = "nvim";
-          };
-          preferXdgDirectories = true;
           stateVersion = "24.11";
+        };
+
+        # home/env.nix
+        env = {
+          # used by hyprland
+          TERMINAL = "ghostty";
+          # used by hyprland
+          BROWSER = "firefox";
+          # used by tmux
+          SHELL = "fish";
+          # used by git
+          EDITOR = "nvim";
         };
 
         # home/sops.nix

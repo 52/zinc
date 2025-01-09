@@ -24,6 +24,7 @@ in
       "home/nvim.nix"
       "home/ssh.nix"
       "home/git.nix"
+      "home/env.nix"
       "home/xdg.nix"
     ];
     useGlobalPkgs = true;
