@@ -2,48 +2,46 @@
   lib,
   pkgs,
   config,
-  mkOSLib,
+  osConfig,
   ...
 }:
+let
+  inherit (lib) mkOption mkIf types;
+in
 {
-  imports = map mkOSLib.relativeToRoot [
+  imports = map lib.custom.relativeToRoot [
     "home/hyprpaper.nix"
     "home/hyprlock.nix"
     "home/waybar.nix"
+    "home/dunst.nix"
     "home/rofi.nix"
   ];
   options = {
-    home-hyprland = {
-      enable = lib.mkOption {
-        type = lib.types.bool;
+    hyprland = {
+      enable = mkOption {
+        type = types.bool;
         default = false;
-        description = "Enables the 'home-hyprland' module.";
       };
     };
   };
   config =
     let
-      inherit (config) home-hyprland home-style;
-      inherit (home-style) colors;
-      options = home-hyprland;
+      inherit (config) hyprland style home;
+      inherit (home) sessionVariables;
+      inherit (osConfig) system;
+      inherit (style) colors;
     in
-    lib.mkIf options.enable {
-      assertions = [
-        {
-          assertion = options.enable -> home-style.enable;
-          message = "home-hyprland.enable requires an enabled 'home-style' module.";
-        }
-      ];
+    mkIf hyprland.enable {
       wayland = {
         windowManager = {
           hyprland = {
-            enable = true;
+            inherit (hyprland) enable;
             settings = {
               monitor = "DP-1, 3840x1600@144, auto, 1";
               input = {
                 # keyboard
-                kb_layout = "de";
-                # mouse
+                kb_layout = system.keyboard.layout;
+                kb_variant = system.keyboard.variant;
                 follow_mouse = 2;
                 mouse_refocus = false;
                 # keypress repeat
@@ -59,7 +57,7 @@
                 gaps_in = 10;
                 gaps_out = 10;
                 # border
-                border_size = 1;
+                border_size = 2;
                 resize_on_border = true;
                 hover_icon_on_border = true;
                 "col.inactive_border" = "rgb(${lib.strings.removePrefix "#" colors.base01})";
@@ -73,7 +71,7 @@
                 inactive_opacity = 1.0;
                 fullscreen_opacity = 1.0;
                 # border
-                rounding = 6;
+                rounding = 4;
               };
               misc = {
                 middle_click_paste = false;
@@ -88,9 +86,6 @@
                 "4, monitor:DP-1, persistent:true"
                 "5, monitor:DP-1, persistent:true"
                 "6, monitor:DP-1, persistent:true"
-                "7, monitor:DP-1, persistent:true"
-                "8, monitor:DP-1, persistent:true"
-                "9, monitor:DP-1, persistent:true"
               ];
               # launch commands
               exec-once = [
@@ -119,14 +114,16 @@
                 "SUPER, Q, killactive,"
                 # <SUPER> + V to toggle floating
                 "SUPER, V, togglefloating,"
+                # <SUPER> + M to toggle fullscreen
+                "SUPER, M, fullscreen"
 
                 #
                 # ---- Applications ----
                 #
                 # <SUPER> + T to open $TERMINAL
-                "SUPER, T, exec, ${config.home.sessionVariables.TERMINAL}"
+                "SUPER, T, exec, ${sessionVariables.TERMINAL}"
                 # <SUPER> + F to open $BROWSER
-                "SUPER, F, exec, ${config.home.sessionVariables.BROWSER}"
+                "SUPER, F, exec, ${sessionVariables.BROWSER}"
                 # <SUPER> + <SPACE> to open rofi (drun)
                 "SUPER, SPACE, exec, rofi -show drun"
 
@@ -147,12 +144,20 @@
                 "SUPER, 5, workspace, 5"
                 # <SUPER> + 6 to switch workspace (6)
                 "SUPER, 6, workspace, 6"
-                # <SUPER> + 7 to switch workspace (7)
-                "SUPER, 7, workspace, 7"
-                # <SUPER> + 8 to switch workspace (8)
-                "SUPER, 8, workspace, 8"
-                # <SUPER> + 9 to switch workspace (9)
-                "SUPER, 9, workspace, 9"
+                # <SUPER> + <SHIFT> + 0 to move focused window to workspace (0)
+                "SUPER_SHIFT, 0, movetoworkspace, 0"
+                # <SUPER> + <SHIFT> + 1 to move focused window to workspace (1)
+                "SUPER_SHIFT, 1, movetoworkspace, 1"
+                # <SUPER> + <SHIFT> + 2 to move focused window to workspace (2)
+                "SUPER_SHIFT, 2, movetoworkspace, 2"
+                # <SUPER> + <SHIFT> + 3 to move focused window to workspace (3)
+                "SUPER_SHIFT, 3, movetoworkspace, 3"
+                # <SUPER> + <SHIFT> + 4 to move focused window to workspace (4)
+                "SUPER_SHIFT, 4, movetoworkspace, 4"
+                # <SUPER> + <SHIFT> + 5 to move focused window to workspace (5)
+                "SUPER_SHIFT, 5, movetoworkspace, 5"
+                # <SUPER> + <SHIFT> + 6 to move focused window to workspace (6)
+                "SUPER_SHIFT, 6, movetoworkspace, 6"
                 # <SUPER> + up to move focus (up)
                 "SUPER, up, movefocus, u"
                 # <SUPER> + down to move focus (down)
@@ -161,6 +166,10 @@
                 "SUPER, left, movefocus, r"
                 # <SUPER> + left to move focus (left)
                 "SUPER, left, movefocus, l"
+                # <SUPER> + Tab to cycle focus
+                "SUPER, Tab, cyclenext"
+                # <SUPER> + <SHIFT> + Tab to cycle focus (reverse)
+                "SUPER_SHIFT, Tab, cyclenext, prev"
 
                 # ---- Media ----
                 #

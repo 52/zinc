@@ -4,22 +4,24 @@ let
 in
 {
   options = {
-    bash = {
+    direnv = {
       enable = mkOption {
         type = types.bool;
-        default = true;
+        default = false;
       };
     };
   };
   config =
     let
-      inherit (config) bash xdg;
+      inherit (config) direnv;
     in
-    mkIf bash.enable {
+    mkIf direnv.enable {
       programs = {
-        bash = {
-          enable = true;
-          historyFile = "${xdg.dataHome}/bash/bash_history";
+        direnv = {
+          inherit (direnv) enable;
+          nix-direnv = {
+            enable = true;
+          };
         };
       };
     };

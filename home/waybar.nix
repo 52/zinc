@@ -1,8 +1,11 @@
-{ config, ... }:
+{ lib, config, ... }:
 let
-  inherit (config) home-style;
+  inherit (lib) mkIf;
+  inherit (config) hyprland style home;
+  inherit (home) sessionVariables;
+  inherit (style) colors;
 in
-{
+mkIf hyprland.enable {
   programs = {
     waybar = {
       enable = true;
@@ -33,8 +36,8 @@ in
           "cpu" = {
             "interval" = 10;
             "format" = "{usage}% CPU";
-            "on-click" = "missioncenter";
             "tooltip" = false;
+            "on-click" = "${sessionVariables.TERMINAL} -e btop";
           };
           "bluetooth" = {
             "format-on" = "󰂯 No Connection";
@@ -43,7 +46,7 @@ in
             "format-connected" = "{num_connections}x 󰂯";
             "tooltip-format-connected" = "{device_enumerate}";
             "tooltip-format-enumerate-connected" = "{device_alias}\t{device_address}";
-            "on-click" = "overskride";
+            "on-click" = "${sessionVariables.TERMINAL} -e bluetoothctl";
           };
           "network" = {
             "interval" = 10;
@@ -51,8 +54,8 @@ in
             "format-ethernet" = "{ipaddr} ";
             "format-linked" = "{ifname} (No IP) ";
             "format-disconnected" = "Disconnected";
-            "format-alt" = "{ifname}: {ipaddr}/{cidr}";
             "tooltip" = false;
+            "on-click" = "${sessionVariables.TERMINAL} -e nmtui";
           };
           "clock" = {
             "interval" = 10;
@@ -76,7 +79,7 @@ in
           };
         };
       };
-      style = with home-style; ''
+      style = ''
         * {
           font-size: 16px;
           font-weight: normal;
@@ -135,6 +138,7 @@ in
         }
 
         #bluetooth:hover,
+        #network:hover,
         #cpu:hover {
           background-color: ${colors.base01};
         }

@@ -4,53 +4,40 @@
   config,
   ...
 }:
+let
+  inherit (lib) mkOption mkIf types;
+  inherit (config) home;
+  inherit (home) username homeDirectory;
+in
 {
   options = {
-    home-ssh = {
-      enable = lib.mkOption {
-        type = lib.types.bool;
+    ssh = {
+      enable = mkOption {
+        type = types.bool;
         default = false;
-        description = "Enables the 'home-ssh' module.";
       };
-      publicKeyFile = lib.mkOption {
-        type = lib.types.str;
-        default = "${config.home.homeDirectory}/.ssh/id_${config.home.username}.pub";
-        description = "The path to the user's ssh public key.";
+      identityFile = mkOption {
+        type = types.str;
+        default = "${homeDirectory}/.ssh/id_${username}";
       };
-      privateKeyFile = lib.mkOption {
-        type = lib.types.str;
-        default = "${config.home.homeDirectory}/.ssh/id_${config.home.username}";
-        description = "The path to the user's ssh private key.";
+      publicKeyFile = mkOption {
+        type = types.str;
+        default = "${homeDirectory}/.ssh/id_${username}.pub";
       };
-      allowedSignersFile = lib.mkOption {
-        type = lib.types.str;
-        default = "${config.home.homeDirectory}/.ssh/allowed_signers";
-        description = "The path to the allowed_signers file.";
+      allowedSignersFile = mkOption {
+        type = types.str;
+        default = "${homeDirectory}/.ssh/allowed_signers";
       };
     };
   };
   config =
     let
-      options = config.home-ssh;
+      inherit (config) ssh;
     in
-    lib.mkIf options.enable {
-      assertions = [
-        {
-          assertion = options.publicKeyFile != "";
-          message = "home-ssh.publicKeyFile must not be empty.";
-        }
-        {
-          assertion = options.privateKeyFile != "";
-          message = "home-ssh.privateKeyFile must not be empty.";
-        }
-        {
-          assertion = options.allowedSignersFile != "";
-          message = "home-ssh.allowedSignersFile must not be empty.";
-        }
-      ];
+    mkIf ssh.enable {
       programs = {
         ssh = {
-          enable = true;
+          inherit (ssh) enable;
           addKeysToAgent = "yes";
           extraConfig = ''
             HostKeyAlgorithms ssh-ed25519,ssh-ed25519-cert-v01@openssh.com
@@ -58,10 +45,10 @@
           '';
           matchBlocks = {
             "git" = {
+              inherit (ssh) identityFile;
+              identitiesOnly = true;
               host = "gitlab.com github.com";
               user = "git";
-              identitiesOnly = true;
-              identityFile = options.privateKeyFile;
             };
           };
         };
@@ -81,7 +68,7 @@
               };
               Service = {
                 Type = "oneshot";
-                ExecStart = "${pkgs.openssh}/bin/ssh-add ${options.privateKeyFile}";
+                ExecStart = "${pkgs.openssh}/bin/ssh-add ${ssh.identityFile}";
               };
               Install = {
                 WantedBy = [ "default.target" ];
@@ -92,7 +79,7 @@
       };
       home = {
         file = {
-          "${config.home.homeDirectory}/.ssh/known_hosts".text = ''
+          "${homeDirectory}/.ssh/known_hosts".text = ''
             github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl
             gitlab.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAfuCHKVTjquxvt6CM6tdG4SLp1Btn/nOeHHE5UOzRdf
           '';

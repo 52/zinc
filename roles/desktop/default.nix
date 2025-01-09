@@ -1,8 +1,8 @@
-{ mkOSLib, ... }:
+{ lib, ... }:
 {
-  imports = map mkOSLib.relativeToRoot [
-    # core
-    "system/wayland.nix"
+  imports = map lib.custom.relativeToRoot [
+    # wm
+    "system/hyprland.nix"
     "system/fonts.nix"
 
     # apps

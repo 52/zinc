@@ -2,56 +2,40 @@
   lib,
   config,
   inputs,
-  mkOSLib,
   ...
 }:
+let
+  inherit (builtins) attrValues;
+  inherit (lib) mkOption types custom;
+  inherit (custom) relativeToRoot;
+in
 {
-  imports = [ inputs.sops-nix.homeManagerModules.sops ];
+  imports = attrValues {
+    inherit (inputs.sops-nix.homeManagerModules) sops;
+  };
   options = {
-    home-sops = {
-      enable = lib.mkOption {
-        type = lib.types.bool;
+    sops-nix = {
+      enable = mkOption {
+        type = types.bool;
         default = false;
-        description = "Enables the 'home-sops' module.";
       };
-      sopsFile = lib.mkOption {
-        type = lib.types.str;
-        default = mkOSLib.relativeToRoot "nix-secrets/secrets.yaml";
-        description = "The path to the 'secrets.yaml' file.";
-      };
-      ageKeyFile = lib.mkOption {
-        type = lib.types.str;
-        default = ".sops/keys.txt";
-        description = "The path to the master age key relative to '$HOME'.";
-      };
-      secrets = lib.mkOption {
-        type = lib.types.attrs;
+      secrets = mkOption {
+        type = types.attrs;
         default = { };
-        description = "The set of secrets to be provisioned.";
       };
     };
   };
   config =
     let
-      inherit (config) home-sops;
-      options = home-sops;
+      inherit (lib) mkIf;
+      inherit (config) sops-nix xdg;
     in
-    lib.mkIf options.enable {
-      assertions = [
-        {
-          assertion = options.sopsFile != "";
-          message = "home-sops.sopsFile must not be empty.";
-        }
-        {
-          assertion = options.ageKeyFile != "";
-          message = "home-sops.ageKeyFile must not be empty.";
-        }
-      ];
+    mkIf sops-nix.enable {
       sops = {
-        inherit (options) secrets;
-        defaultSopsFile = options.sopsFile;
+        inherit (sops-nix) secrets;
+        defaultSopsFile = relativeToRoot "nix-secrets/secrets.yaml";
         age = {
-          keyFile = "${config.home.homeDirectory}/${options.ageKeyFile}";
+          keyFile = "${xdg.configHome}/sops-nix/keys.txt";
         };
       };
     };

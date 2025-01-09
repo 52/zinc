@@ -4,60 +4,47 @@
   config,
   ...
 }:
+let
+  inherit (lib) mkOption mkIf types;
+in
 {
   options = {
-    home-git = {
-      enable = lib.mkOption {
-        type = lib.types.bool;
+    git = {
+      enable = mkOption {
+        type = types.bool;
         default = false;
-        description = "Enables the 'home-git' module.";
       };
-      userName = lib.mkOption {
-        type = lib.types.str;
-        description = "The name of the 'git' user.";
+      userName = mkOption {
+        type = types.str;
+        default = "";
       };
-      userEmail = lib.mkOption {
-        type = lib.types.str;
-        description = "The e-mail of the 'git' user.";
+      userEmail = mkOption {
+        type = types.str;
+        default = "";
       };
-      enableAuth = lib.mkOption {
-        type = lib.types.bool;
+      enableAuth = mkOption {
+        type = types.bool;
         default = false;
-        description = "Enables the authentication with an ssh key.";
       };
     };
   };
   config =
     let
-      inherit (config) home-git home-ssh;
-      options = home-git;
+      inherit (lib) optionalAttrs;
+      inherit (config) git ssh home;
+      inherit (home) sessionVariables;
     in
-    lib.mkIf options.enable {
-      assertions = [
-        {
-          assertion = options.userName != "";
-          message = "home-git.userName must not be empty.";
-        }
-        {
-          assertion = options.userEmail != "";
-          message = "home-git.userEmail must not be empty.";
-        }
-        {
-          assertion = options.enableAuth -> home-ssh.enable;
-          message = "home-git.enableAuth requires an enabled 'home-ssh' module.";
-        }
-      ];
+    mkIf git.enable {
       programs = {
         git =
           {
-            inherit (options) userName userEmail;
-            enable = true;
+            inherit (git) enable userName userEmail;
             package = pkgs.gitAndTools.gitFull;
             extraConfig =
               {
                 core = {
                   excludesfile = "~/.gitignore_global";
-                  editor = config.home.sessionVariables.EDITOR;
+                  editor = sessionVariables.EDITOR;
                 };
                 init = {
                   defaultBranch = "master";
@@ -82,9 +69,9 @@
                   autocorrect = 1;
                 };
               }
-              // lib.optionalAttrs options.enableAuth {
+              // optionalAttrs git.enableAuth {
                 gpg = {
-                  ssh = { inherit (home-ssh) allowedSignersFile; };
+                  ssh = { inherit (ssh) allowedSignersFile; };
                   format = "ssh";
                 };
                 url = {
@@ -99,10 +86,10 @@
               "node_modules"
             ];
           }
-          // lib.optionalAttrs options.enableAuth {
+          // optionalAttrs git.enableAuth {
             signing = {
               signByDefault = true;
-              key = home-ssh.publicKeyFile;
+              key = ssh.publicKeyFile;
             };
           };
       };

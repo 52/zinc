@@ -3,7 +3,12 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
-    hardware.url = "github:nixos/nixos-hardware";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+
+    hardware = {
+      url = "github:nixos/nixos-hardware";
+    };
 
     home-manager = {
       url = "github:nix-community/home-manager/release-24.11";
@@ -34,15 +39,13 @@
     }@inputs:
     let
       inherit (self) outputs;
-      inherit (nixpkgs) lib;
 
       # custom lib, see '/lib'
-      mkOSLib = import ./lib { inherit inputs outputs; };
+      lib = nixpkgs.lib.extend (_: _: { custom = import ./lib { inherit inputs outputs; }; });
 
-      # systems that are supported by this configuration
+      # systems supported by this configuration
       systems = [
         "x86_64-linux"
-        "aarch64-darwin"
       ];
 
       # generates an attrset for all systems
@@ -56,7 +59,7 @@
       );
 
       specialArgs = {
-        inherit inputs outputs mkOSLib;
+        inherit lib inputs outputs;
       };
     in
     {
@@ -69,8 +72,20 @@
       # formatter used by 'nix fmt', see: https://nix-community.github.io/nixpkgs-fmt
       formatter = forEachSystem (pkgs: pkgs.nixfmt-rfc-style);
 
+      # shell used by 'nix develop', see: https://nix.dev/manual/nix/2.17/command-ref/new-cli/nix3-develop
+      devShells = forEachSystem (pkgs: {
+        default = pkgs.mkShell {
+          packages = with pkgs; [
+            nixfmt-rfc-style
+            nixd
+            statix
+            deadnix
+          ];
+        };
+      });
+
       nixosConfigurations = {
-        m001-x86 = nixpkgs.lib.nixosSystem {
+        m001-x86 = lib.nixosSystem {
           inherit specialArgs;
           modules = [
             ./hosts/m001-x86

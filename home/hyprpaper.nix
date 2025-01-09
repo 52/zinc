@@ -1,17 +1,14 @@
-{
-  config,
-  ...
-}:
+{ lib, config, ... }:
 let
-  inherit (config) home-style;
-  inherit (home-style) img;
-  inherit (img) wallpaper;
+  inherit (lib) mkIf;
+  inherit (config) hyprland style xdg;
+  inherit (style) wallpaper;
 in
-{
+mkIf hyprland.enable {
   home = {
     file = {
-      "${wallpaper.dst}" = {
-        source = wallpaper.src;
+      "${xdg.configHome}/hypr/wallpaper.png" = {
+        source = wallpaper;
       };
     };
   };
@@ -19,8 +16,8 @@ in
     hyprpaper = {
       enable = true;
       settings = {
-        wallpaper = [ "DP-1,${wallpaper.dst}" ];
-        preload = [ "${wallpaper.dst}" ];
+        wallpaper = [ "DP-1,${xdg.configHome}/hypr/wallpaper.png" ];
+        preload = [ "${xdg.configHome}/hypr/wallpaper.png" ];
         splash = false;
       };
     };

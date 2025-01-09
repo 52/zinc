@@ -1,16 +1,36 @@
-{ pkgs, config, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
 let
-  shell = config.home.sessionVariables.SHELL;
+  inherit (lib) mkOption mkIf types;
 in
 {
-  programs = {
+  options = {
     tmux = {
-      enable = true;
-      shell = "${pkgs.${shell}}/bin/${shell}";
-      historyLimit = 10000;
-      extraConfig = ''
-        set-option -sa terminal-features ',xterm-256color:RGB'
-      '';
+      enable = mkOption {
+        type = types.bool;
+        default = false;
+      };
     };
   };
+  config =
+    let
+      inherit (config) tmux home;
+      inherit (home) sessionVariables;
+    in
+    mkIf tmux.enable {
+      programs = {
+        tmux = {
+          enable = true;
+          shell = "${pkgs.${sessionVariables.SHELL}}/bin/${sessionVariables.SHELL}";
+          historyLimit = 10000;
+          extraConfig = ''
+            set-option -sa terminal-features ',xterm-256color:RGB'
+          '';
+        };
+      };
+    };
 }

@@ -1,8 +1,6 @@
-{ mkOSLib, ... }:
+{ lib, ... }:
 {
-  imports = map mkOSLib.relativeToRoot [
-    # core
+  imports = map lib.custom.relativeToRoot [
     "system/steam.nix"
-    "system/gamemode.nix"
   ];
 }
