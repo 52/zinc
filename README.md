@@ -1,4 +1,7 @@
-<h1 align="center">❄️ mkOS - „My-Kool-OS“ ❄️</h1>
+       / / /    
+      | | |     ▶ mkOS - „My-Kool-OS“
+      | | |     ▶ Powered by NixOS
+       \ \ \     
 
 > [!IMPORTANT]  
 > Not ready for use - breaking changes are expected.
