@@ -1,8 +1,7 @@
 { lib, config, ... }:
 let
   inherit (lib) mkIf;
-  inherit (config) hyprland style home;
-  inherit (home) sessionVariables;
+  inherit (config) hyprland style env;
   inherit (style) colors;
 in
 mkIf hyprland.enable {
@@ -37,7 +36,7 @@ mkIf hyprland.enable {
             "interval" = 10;
             "format" = "{usage}% CPU";
             "tooltip" = false;
-            "on-click" = "${sessionVariables.TERMINAL} -e btop";
+            "on-click" = "${env.TERMINAL} -e btop";
           };
           "bluetooth" = {
             "format-on" = "󰂯 No Connection";
@@ -46,7 +45,7 @@ mkIf hyprland.enable {
             "format-connected" = "{num_connections}x 󰂯";
             "tooltip-format-connected" = "{device_enumerate}";
             "tooltip-format-enumerate-connected" = "{device_alias}\t{device_address}";
-            "on-click" = "${sessionVariables.TERMINAL} -e bluetoothctl";
+            "on-click" = "${env.TERMINAL} -e bluetoothctl";
           };
           "network" = {
             "interval" = 10;
@@ -55,7 +54,7 @@ mkIf hyprland.enable {
             "format-linked" = "{ifname} (No IP) ";
             "format-disconnected" = "Disconnected";
             "tooltip" = false;
-            "on-click" = "${sessionVariables.TERMINAL} -e nmtui";
+            "on-click" = "${env.TERMINAL} -e nmtui";
           };
           "clock" = {
             "interval" = 10;
@@ -152,6 +151,22 @@ mkIf hyprland.enable {
           color: ${colors.base01};
         }
       '';
+    };
+  };
+  systemd = {
+    user = {
+      services = {
+        hyprpaper = {
+          Unit = {
+            After = [
+              "graphical-session.target"
+            ];
+            PartOf = [
+              "graphical-session.target"
+            ];
+          };
+        };
+      };
     };
   };
 }

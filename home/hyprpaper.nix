@@ -22,4 +22,17 @@ mkIf hyprland.enable {
       };
     };
   };
+  systemd = {
+    user = {
+      services = {
+        hyprpaper = {
+          Unit = {
+            After = [
+              "graphical-session.target"
+            ];
+          };
+        };
+      };
+    };
+  };
 }

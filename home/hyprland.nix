@@ -1,6 +1,5 @@
 {
   lib,
-  pkgs,
   config,
   osConfig,
   ...
@@ -26,8 +25,7 @@ in
   };
   config =
     let
-      inherit (config) hyprland style home;
-      inherit (home) sessionVariables;
+      inherit (config) hyprland style env;
       inherit (osConfig) system;
       inherit (style) colors;
     in
@@ -36,6 +34,9 @@ in
         windowManager = {
           hyprland = {
             inherit (hyprland) enable;
+            systemd = {
+              enable = false;
+            };
             settings = {
               monitor = "DP-1, 3840x1600@144, auto, 1";
               input = {
@@ -89,7 +90,7 @@ in
               ];
               # launch commands
               exec-once = [
-                "${pkgs.waybar}/bin/waybar"
+                "uwsm app -- waybar"
               ];
               # mouse binds
               bindm = [
@@ -112,6 +113,8 @@ in
                 #
                 # <SUPER> + Q to kill window
                 "SUPER, Q, killactive,"
+                # <SUPER> + <SHIFT> + Q to kill session
+                "SUPER_SHIFT, Q, exec, uwsm stop"
                 # <SUPER> + V to toggle floating
                 "SUPER, V, togglefloating,"
                 # <SUPER> + M to toggle fullscreen
@@ -121,9 +124,9 @@ in
                 # ---- Applications ----
                 #
                 # <SUPER> + T to open $TERMINAL
-                "SUPER, T, exec, ${sessionVariables.TERMINAL}"
+                "SUPER, T, exec, uwsm app -- ${env.TERMINAL}"
                 # <SUPER> + F to open $BROWSER
-                "SUPER, F, exec, ${sessionVariables.BROWSER}"
+                "SUPER, F, exec, uwsm app -- ${env.BROWSER}"
                 # <SUPER> + <SPACE> to open rofi (drun)
                 "SUPER, SPACE, exec, rofi -show drun"
 

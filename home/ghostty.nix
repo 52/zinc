@@ -19,7 +19,7 @@ in
   config =
     let
       inherit (builtins) attrValues;
-      inherit (config) ghostty style;
+      inherit (config) ghostty style env;
       inherit (style) colors;
     in
     mkIf ghostty.enable {
@@ -32,6 +32,7 @@ in
         configFile = {
           "ghostty/config" = {
             text = ''
+              # theme 
               font-family = "monospace"
               font-style = light
               font-size = 16
@@ -40,10 +41,14 @@ in
               window-padding-y = 5
               gtk-titlebar = false 
 
-              copy-on-select = true
-
               background = ${colors.base00}
               foreground = ${colors.base05}
+
+              # config
+              copy-on-select = true
+
+              # shell
+              command = ${env.SHELL}
 
               # keybinds
               keybind = super+c=copy_to_clipboard

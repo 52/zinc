@@ -2,6 +2,7 @@
 let
   inherit (config) home;
   inherit (home) homeDirectory;
+
 in
 {
   xdg = {
@@ -23,5 +24,8 @@ in
         XDG_TEMPLATES_DIR = "/var/empty";
       };
     };
+  };
+  home = {
+    preferXdgDirectories = true;
   };
 }

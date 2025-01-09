@@ -6,15 +6,14 @@ in
 mkIf hyprland.enable {
   programs =
     let
-      inherit (config) style home;
-      inherit (home) sessionVariables;
+      inherit (config) style env;
       inherit (style) colors;
     in
     {
       rofi = {
         enable = true;
         font = "monospace 14";
-        terminal = sessionVariables.TERMINAL;
+        terminal = env.TERMINAL;
         extraConfig = {
           display-drun = "";
           display-run = "󰞷";

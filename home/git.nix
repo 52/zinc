@@ -31,8 +31,7 @@ in
   config =
     let
       inherit (lib) optionalAttrs;
-      inherit (config) git ssh home;
-      inherit (home) sessionVariables;
+      inherit (config) git ssh env;
     in
     mkIf git.enable {
       programs = {
@@ -44,7 +43,7 @@ in
               {
                 core = {
                   excludesfile = "~/.gitignore_global";
-                  editor = sessionVariables.EDITOR;
+                  editor = env.EDITOR;
                 };
                 init = {
                   defaultBranch = "master";
