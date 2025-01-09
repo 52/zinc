@@ -22,6 +22,10 @@ in
           type = types.str;
           default = "mac,nodeadkeys";
         };
+        enableOSXRemaps = mkOption {
+          type = types.bool;
+          default = true;
+        };
       };
     };
   };
@@ -33,6 +37,21 @@ in
     mkIf keyboard.enable {
       console = {
         keyMap = keyboard.layout;
+      };
+      services = mkIf keyboard.enableOSXRemaps {
+        keyd = {
+          enable = true;
+          keyboards = {
+            default = {
+              ids = [ "*" ];
+              settings = {
+                main = {
+                  leftalt = "rightalt";
+                };
+              };
+            };
+          };
+        };
       };
     };
 }
