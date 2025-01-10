@@ -61,7 +61,6 @@ in
 
             # hypr
             h = "hyprctl";
-            hkill = "hyprctl dispatch exit";
 
             # docker
             d = "docker";

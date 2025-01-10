@@ -115,8 +115,6 @@ in
                 #
                 # <SUPER> + Q to kill window
                 "SUPER, Q, killactive,"
-                # <SUPER> + <SHIFT> + Q to kill session
-                "SUPER_SHIFT, Q, exec, uwsm stop"
                 # <SUPER> + V to toggle floating
                 "SUPER, V, togglefloating,"
                 # <SUPER> + M to toggle fullscreen
@@ -190,6 +188,8 @@ in
                 #
                 # <SUPER> + l to lock the wm
                 "SUPER, l, exec, hyprlock"
+                # <SUPER> + <SHIFT> + Q to shutdown
+                "SUPER_SHIFT, Q, exec, systemctl poweroff"
               ];
             };
           };
