@@ -51,35 +51,37 @@ in
               };
               cursor = {
                 # hide mouse after x/s
-                inactive_timeout = 10;
+                inactive_timeout = 3;
               };
               general = {
-                # gaps
-                gaps_in = 10;
-                gaps_out = 10;
-                # border
-                border_size = 2;
+                gaps_in = 4;
+                gaps_out = 6;
+                border_size = 1;
                 resize_on_border = true;
-                hover_icon_on_border = true;
                 "col.inactive_border" = "rgb(${lib.strings.removePrefix "#" colors.base01})";
                 "col.active_border" = "rgb(${lib.strings.removePrefix "#" colors.base02})";
-                # hy3 (plugin)
                 layout = "hy3";
-              };
-              decoration = {
-                # transparency
-                active_opacity = 1.0;
-                inactive_opacity = 1.0;
-                fullscreen_opacity = 1.0;
-                # border
-                rounding = 4;
               };
               misc = {
                 middle_click_paste = false;
                 animate_manual_resizes = true;
                 animate_mouse_windowdragging = true;
               };
-              # workspaces
+              decoration = {
+                rounding = 4;
+                inactive_opacity = 0.98;
+                dim_inactive = true;
+                dim_strength = 0.10;
+              };
+              animations = {
+                enabled = true;
+                animation = [
+                  "border, 1, 2, default"
+                  "fade, 1, 4, default"
+                  "windows, 1, 3, default, popin 80%"
+                  "workspaces, 1, 2, default, slide"
+                ];
+              };
               workspace = [
                 "1, monitor:DP-1, persistent:true, default:true"
                 "2, monitor:DP-1, persistent:true"
@@ -113,8 +115,6 @@ in
                 #
                 # <SUPER> + Q to kill window
                 "SUPER, Q, killactive,"
-                # <SUPER> + <SHIFT> + Q to kill session
-                "SUPER_SHIFT, Q, exec, uwsm stop"
                 # <SUPER> + V to toggle floating
                 "SUPER, V, togglefloating,"
                 # <SUPER> + M to toggle fullscreen
@@ -127,8 +127,16 @@ in
                 "SUPER, T, exec, uwsm app -- ${env.TERMINAL}"
                 # <SUPER> + F to open $BROWSER
                 "SUPER, F, exec, uwsm app -- ${env.BROWSER}"
+                # <SUPER> + N to open nautilus
+                "SUPER, N, exec, uwsm app -- nautilus"
                 # <SUPER> + <SPACE> to open rofi (drun)
                 "SUPER, SPACE, exec, rofi -show drun"
+
+                #
+                # ---- Screenshots ----
+                #
+                # <SUPER> + <PRINT> to screenshot a region
+                "SUPER_SHIFT, P, exec, hyprshot -m region"
 
                 #
                 # ---- Navigation ----
@@ -161,16 +169,12 @@ in
                 "SUPER_SHIFT, 5, movetoworkspace, 5"
                 # <SUPER> + <SHIFT> + 6 to move focused window to workspace (6)
                 "SUPER_SHIFT, 6, movetoworkspace, 6"
-                # <SUPER> + up to move focus (up)
-                "SUPER, up, movefocus, u"
-                # <SUPER> + down to move focus (down)
-                "SUPER, down, movefocus, d"
-                # <SUPER> + right to move focus (right)
-                "SUPER, left, movefocus, r"
-                # <SUPER> + left to move focus (left)
-                "SUPER, left, movefocus, l"
                 # <SUPER> + Tab to cycle focus
                 "SUPER, Tab, cyclenext"
+                # <SUPER> + <SHIFT> + L to move window (right)
+                "SUPER_SHIFT, L, movewindow, r"
+                # <SUPER> + <SHIFT> + L to move window (left)
+                "SUPER_SHIFT, H, movewindow, l"
                 # <SUPER> + <SHIFT> + Tab to cycle focus (reverse)
                 "SUPER_SHIFT, Tab, cyclenext, prev"
 
@@ -184,6 +188,8 @@ in
                 #
                 # <SUPER> + l to lock the wm
                 "SUPER, l, exec, hyprlock"
+                # <SUPER> + <SHIFT> + Q to shutdown
+                "SUPER_SHIFT, Q, exec, systemctl poweroff"
               ];
             };
           };
