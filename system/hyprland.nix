@@ -28,7 +28,12 @@ in
     mkIf hyprland.enable {
       environment = {
         systemPackages = attrValues {
-          inherit (pkgs) wl-clipboard;
+          inherit (pkgs)
+            wl-clipboard
+            libnotify
+            nautilus
+            hyprshot
+            ;
         };
       };
       programs = {

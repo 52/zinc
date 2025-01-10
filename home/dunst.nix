@@ -1,20 +1,9 @@
-{
-  lib,
-  pkgs,
-  config,
-  ...
-}:
+{ lib, config, ... }:
 let
-  inherit (builtins) attrValues;
   inherit (config) hyprland;
   inherit (lib) mkIf;
 in
 mkIf hyprland.enable {
-  home = {
-    packages = attrValues {
-      inherit (pkgs) libnotify;
-    };
-  };
   services = {
     dunst = {
       enable = true;
