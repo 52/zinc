@@ -54,10 +54,11 @@ in
                 inactive_timeout = 3;
               };
               general = {
-                gaps_in = 4;
+                gaps_in = 3;
                 gaps_out = 6;
-                border_size = 1;
+                border_size = 2;
                 resize_on_border = true;
+                hover_icon_on_border = false;
                 "col.inactive_border" = "rgb(${lib.strings.removePrefix "#" colors.base01})";
                 "col.active_border" = "rgb(${lib.strings.removePrefix "#" colors.base02})";
                 layout = "hy3";
@@ -68,10 +69,12 @@ in
                 animate_mouse_windowdragging = true;
               };
               decoration = {
-                rounding = 4;
-                inactive_opacity = 0.98;
+                rounding = 8;
+                active_opacity = 1.0;
+                inactive_opacity = 1.0;
+                fullscreen_opacity = 1.0;
                 dim_inactive = true;
-                dim_strength = 0.10;
+                dim_strength = 0.15;
               };
               animations = {
                 enabled = true;
@@ -82,6 +85,12 @@ in
                   "workspaces, 1, 2, default, slide"
                 ];
               };
+              windowrulev2 = [
+                "norounding,class:(GTK Application),title:(^$)"
+                "noborder,class:(GTK Application),title:(^$)"
+                "noshadow,class:(GTK Application),title:(^$)"
+                "noblur,class:(GTK Application),title:(^$)"
+              ];
               workspace = [
                 "1, monitor:DP-1, persistent:true, default:true"
                 "2, monitor:DP-1, persistent:true"

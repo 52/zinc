@@ -37,8 +37,8 @@ in
               font-style = light
               font-size = 16
 
-              window-padding-x = 10
-              window-padding-y = 5
+              window-padding-x = 15
+              window-padding-y = 10
               gtk-titlebar = false 
 
               background = ${colors.base00}
