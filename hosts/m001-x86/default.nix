@@ -66,7 +66,7 @@
           TERMINAL = "ghostty";
           # used by hyprland
           BROWSER = "firefox";
-          # used by tmux
+          # used by terminal & tmux
           SHELL = "fish";
           # used by git
           EDITOR = "nvim";

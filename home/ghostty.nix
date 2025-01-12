@@ -19,7 +19,8 @@ in
   config =
     let
       inherit (builtins) attrValues;
-      inherit (config) ghostty style env;
+      inherit (config) ghostty style;
+      inherit (config) xdg env;
       inherit (style) colors;
     in
     mkIf ghostty.enable {
@@ -48,7 +49,7 @@ in
               copy-on-select = true
 
               # shell
-              command = ${env.SHELL}
+              command = ${xdg.configHome}/ghostty/start.sh
 
               # keybinds
               keybind = super+c=copy_to_clipboard
@@ -56,6 +57,24 @@ in
               keybind = super+plus=increase_font_size:2
               keybind = super+minus=decrease_font_size:2
             '';
+          };
+          "ghostty/start.sh" = {
+            text = ''
+              #!${pkgs.bash}/bin/bash
+              set -euo pipefail
+
+              if ! command -v tmux >/dev/null 2>&1; then
+                exec ${pkgs.${env.SHELL}}/bin/${env.SHELL}
+              fi
+
+              SESSION="ghostty"
+              if tmux has-session -t "$SESSION" 2>/dev/null; then
+                  exec tmux attach-session -t "$SESSION"
+              else
+                  exec tmux new-session -s "$SESSION"
+              fi
+            '';
+            executable = true;
           };
         };
       };
