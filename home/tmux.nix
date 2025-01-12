@@ -25,9 +25,11 @@ in
         tmux = {
           enable = true;
           shell = "${pkgs.${env.SHELL}}/bin/${env.SHELL}";
-          historyLimit = 10000;
           extraConfig = ''
-            set-option -sa terminal-features ',xterm-256color:RGB'
+            set -ga terminal-overrides ",*256col*:Tc:RGB"
+            set -g default-terminal "xterm-256color"
+            set -g history-limit 50000
+            set -sg escape-time 0
           '';
         };
       };
