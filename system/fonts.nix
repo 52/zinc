@@ -39,6 +39,7 @@ in
             noto-fonts-cjk-serif
             noto-fonts-color-emoji
             # custom
+            berkeley-mono
             apple-fonts
             ;
         };
