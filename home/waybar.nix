@@ -148,7 +148,7 @@ mkIf hyprland.enable {
         }
 
         #custom-separator {
-          color: ${colors.base01};
+          color: ${colors.base02};
         }
       '';
     };

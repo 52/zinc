@@ -59,14 +59,16 @@ in
                 border_size = 2;
                 resize_on_border = true;
                 hover_icon_on_border = false;
-                "col.inactive_border" = "rgb(${lib.strings.removePrefix "#" colors.base01})";
                 "col.active_border" = "rgb(${lib.strings.removePrefix "#" colors.base02})";
+                "col.inactive_border" = "rgb(${lib.strings.removePrefix "#" colors.base01})";
                 layout = "hy3";
               };
               misc = {
                 middle_click_paste = false;
                 animate_manual_resizes = true;
                 animate_mouse_windowdragging = true;
+                disable_hyprland_logo = true;
+                disable_splash_rendering = true;
               };
               decoration = {
                 rounding = 8;

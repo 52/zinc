@@ -5,10 +5,10 @@
   ...
 }:
 stdenvNoCC.mkDerivation {
-  pname = "apple-fonts";
+  pname = "berkeley-mono";
   version = "1.0";
 
-  src = ./.;
+  src = ../../nix-secrets/fonts/berkeley-mono;
 
   nativeBuildInputs = [
     xorg.mkfontscale
@@ -26,8 +26,8 @@ stdenvNoCC.mkDerivation {
   '';
 
   meta = with lib; {
-    homepage = "https://developer.apple.com/fonts";
-    description = "Apple Fonts for nixOS";
+    homepage = "https://berkeleygraphics.com/typefaces/berkeley-mono";
+    description = "Berkeley Mono";
     platforms = platforms.all;
     license = licenses.unfree;
   };

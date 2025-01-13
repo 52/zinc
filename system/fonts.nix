@@ -39,6 +39,7 @@ in
             noto-fonts-cjk-serif
             noto-fonts-color-emoji
             # custom
+            berkeley-mono
             apple-fonts
             ;
         };
@@ -53,7 +54,7 @@ in
               "Noto Color Emoji"
             ];
             monospace = [
-              "SF Mono"
+              "Berkeley Mono"
               "Noto Color Emoji"
             ];
             emoji = [

@@ -6,41 +6,94 @@ in
 {
   options = {
     style = {
-      enable = mkOption {
-        type = types.bool;
-        default = false;
-        description = "Enables the 'home/style' module.";
-      };
       colors = {
         base00 = mkOption {
           type = types.str;
-          default = "#111111";
-          description = "Primary background color.";
+          default = "#141414";
+          description = ''
+            Default background color used in the scheme.
+          '';
         };
         base01 = mkOption {
           type = types.str;
-          default = "#202020";
-          description = "Background for inactive elements.";
+          default = "#242424";
+          description = ''
+            Lighter background for UI elements and emphasized content.
+          '';
         };
         base02 = mkOption {
           type = types.str;
-          default = "#505050";
-          description = "Background for selected, focused or active elements.";
+          default = "#3b3b3b";
+          description = ''
+            Selection background and highlighted content.
+          '';
         };
         base03 = mkOption {
           type = types.str;
-          default = "#606060";
-          description = "Comments, Invisibles, Line Highlighting";
+          default = "#5e5e5e";
+          description = ''
+            Comments, invisibles, and line highlighting.
+          '';
         };
         base04 = mkOption {
           type = types.str;
           default = "#b0b0b0";
-          description = "Foreground for inactive elements.";
+          description = ''
+            Foreground for inactive and secondary UI elements.
+          '';
         };
         base05 = mkOption {
           type = types.str;
           default = "#d9d9d9";
-          description = "Primary foreground color.";
+          description = ''
+            Default foreground and primary content color.
+          '';
+        };
+        base06 = mkOption {
+          type = types.str;
+          default = "#e0e0e0";
+          description = ''
+            Lighter foreground color for emphasis and highlights.
+          '';
+        };
+        base07 = mkOption {
+          type = types.str;
+          default = "#f5f5f5";
+          description = ''
+            Brightest foreground color for special emphasis.
+          '';
+        };
+        base08 = mkOption {
+          type = types.str;
+          default = "#da0b0b";
+        };
+        base09 = mkOption {
+          type = types.str;
+          default = "#ff9166";
+        };
+        base0A = mkOption {
+          type = types.str;
+          default = "#ebc746";
+        };
+        base0B = mkOption {
+          type = types.str;
+          default = "#9cc587";
+        };
+        base0C = mkOption {
+          type = types.str;
+          default = "#12cfc0";
+        };
+        base0D = mkOption {
+          type = types.str;
+          default = "#c8f0f7";
+        };
+        base0E = mkOption {
+          type = types.str;
+          default = "#e876e0";
+        };
+        base0F = mkOption {
+          type = types.str;
+          default = "#deaf8f";
         };
       };
       wallpaper = mkOption {
