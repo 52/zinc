@@ -18,8 +18,10 @@ in
   };
   config =
     let
+      inherit (builtins) attrValues;
       inherit (lib) concatLists;
-      inherit (config) nvim xdg;
+      inherit (config) nvim xdg style;
+      inherit (style) colors;
     in
     mkIf nvim.enable {
       programs = {
@@ -88,6 +90,12 @@ in
             vim.opt.diffopt:append('iwhite')
             vim.opt.diffopt:append('algorithm:histogram')
             vim.opt.diffopt:append('indent-heuristic')
+
+            -- functions
+            local bind = function(keys, func, desc, mode)
+              mode = mode or 'n'
+              vim.keymap.set(mode, keys, func, { desc = 'LSP: ' .. desc })
+            end
           '';
           plugins = concatLists [
             # stable plugins
@@ -120,7 +128,6 @@ in
                     nix = { 'nix', 'statix', 'deadnix', }
                   }
 
-                  -- lint autocmds
                   vim.api.nvim_create_autocmd({ "InsertLeave", "BufWritePost" }, {
                     callback = function()
                       require("lint").try_lint()
@@ -145,36 +152,101 @@ in
                 '';
               }
               {
+                plugin = nvim-lspconfig;
+                type = "lua";
+                config = ''
+                  -- lsp setup
+                  local lspconfig = require('lspconfig')
+                  local capabilities = require('blink.cmp').get_lsp_capabilities()
+
+                  local setup = function(name, opts)
+                    local merged_opts = vim.tbl_extend("force", {
+                      capabilities = capabilities,
+                    }, opts or {})
+                    lspconfig[name].setup(merged_opts)
+                  end
+
+                  -- lsp definitions
+                  setup('nixd')
+                  setup('rust_analyzer')
+
+                  -- lsp bindings
+                  bind('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
+                  bind('<leader>gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+                  bind('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
+                '';
+              }
+              {
                 plugin = fzf-lua;
                 type = "lua";
                 config = ''
                   -- fzf setup
                   require('fzf-lua').setup({
+                    'fzf-native',
                     winopts = {
-                      split = 'botright 14new',
+                      split = 'belowright 14new',
                     },
                     defaults = {
                       no_header_i = true,
-                      file_icons = false,
-                      git_icons = false,
                       previewer = false,
-                    }
+                    },
                   })
 
                   -- fzf bindings
-                  local builtin = require 'fzf-lua'
-                  vim.keymap.set('n', '<leader>ff', builtin.files, { desc = '[F]ind [F]iles' })
-                  vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = '[F]ind [B]uffers' })
-                  vim.keymap.set('n', '<leader>gf', builtin.live_grep, { desc = '[G]rep [F]iles' })
-                  vim.keymap.set('n', '<leader>gb', builtin.grep_curbuf, { desc = '[G]rep [B]uffer' })
+                  local fzf = require 'fzf-lua'
+                  bind('<leader>ff', fzf.files, '[F]ind [F]iles')
+                  bind('<leader>fg', fzf.git_files, '[F]ind [G]it Files')
+                  bind('<leader>fb', fzf.buffers, '[F]ind [B]uffers')
+                  bind('<leader>gf', fzf.live_grep, '[G]rep [F]iles')
+                  bind('<leader>gb', fzf.grep_curbuf, '[G]rep in [B]uffer')
+                '';
+              }
+              {
+                plugin = base16-nvim;
+                type = "lua";
+                config = ''
+                  -- colorscheme setup
+                  require("base16-colorscheme").setup({
+                    base00 = '${colors.base00}',
+                    base01 = '${colors.base01}', 
+                    base02 = '${colors.base02}',
+                    base03 = '${colors.base03}',
+                    base04 = '${colors.base04}',
+                    base05 = '${colors.base05}',
+                    base06 = '${colors.base06}',
+                    base07 = '${colors.base07}',
+                    base08 = '${colors.base08}',
+                    base09 = '${colors.base09}',
+                    base0A = '${colors.base0A}',
+                    base0B = '${colors.base0B}',
+                    base0C = '${colors.base0C}',
+                    base0D = '${colors.base0D}',
+                    base0E = '${colors.base0E}',
+                    base0F = '${colors.base0F}'
+                  })
                 '';
               }
             ])
             # unstable plugins
             (with pkgs.unstable.vimPlugins; [
-
+              {
+                plugin = blink-cmp;
+                type = "lua";
+                config = ''
+                  -- cmp setup
+                  require('blink-cmp').setup {}
+                '';
+              }
             ])
           ];
+          extraPackages = attrValues {
+            inherit (pkgs)
+              nixfmt-rfc-style
+              deadnix
+              statix
+              nixd
+              ;
+          };
         };
       };
     };

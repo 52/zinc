@@ -37,8 +37,8 @@ mkIf hyprland.enable {
             };
             "window" = {
               width = rasi.mkLiteral "768px";
-              border = rasi.mkLiteral "1px";
-              border-radius = rasi.mkLiteral "6px";
+              border = rasi.mkLiteral "2px";
+              border-radius = rasi.mkLiteral "9px";
               border-color = rasi.mkLiteral colors.base02;
               background-color = rasi.mkLiteral colors.base00;
               children = map rasi.mkLiteral [

@@ -35,8 +35,12 @@ in
             text = ''
               # theme 
               font-family = "monospace"
-              font-style = light
+              font-style = normal
               font-size = 16
+
+              font-style-bold = false
+              font-style-italic = false
+              font-style-bold-italic = false
 
               window-padding-x = 8
               window-padding-y = 8
