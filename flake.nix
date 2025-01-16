@@ -29,6 +29,11 @@
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    neovim-overlay = {
+      url = "github:jooooscha/nixpkgs-vim-extra-plugins";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

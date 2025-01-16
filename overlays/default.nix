@@ -25,4 +25,7 @@
 
   # add emacs overlay
   emacs-overlay = inputs.emacs-overlay.overlay;
+
+  # add neovim (extra plugins) overlay
+  neovim-overlay = inputs.neovim-overlay.overlays.default;
 }

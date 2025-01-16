@@ -49,6 +49,24 @@ in
             (with pkgs.unstable.vimPlugins; [
               blink-cmp
             ])
+
+            # extra plugins
+            (with pkgs.vimExtraPlugins; [
+              plenary-nvim
+            ])
+
+            # custom plugins
+            (with pkgs.vimUtils; [
+              (buildVimPlugin {
+                name = "compile-mode";
+                src = pkgs.fetchFromGitHub {
+                  owner = "ej-shafran";
+                  repo = "compile-mode.nvim";
+                  rev = "v5.4.0";
+                  sha256 = "sha256-ZCDxZcxyEapDB2korEecVslOKV5oPj5U9wudBtlP4x0=";
+                };
+              })
+            ])
           ];
           extraPackages = attrValues {
             inherit (pkgs)

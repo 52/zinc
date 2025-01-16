@@ -16,7 +16,7 @@ vim.g.maplocalleader = ','
 vim.opt.number = true
 
 vim.opt.cursorline = true
-vim.opt.guicursor = 'a:block'
+vim.opt.guicursor = 'a:block/,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor'
 
 vim.opt.ignorecase = true
 vim.opt.smartcase = true

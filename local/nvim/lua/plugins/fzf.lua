@@ -10,10 +10,24 @@ local bind = lib.bind
 
 require('fzf-lua').setup {
   fzf_opts = {
-    ['--marker'] = 'x',
+    ['--marker'] = '+',
     ['--pointer'] = '>',
-    ['--layout'] = 'reverse',
-    ['--no-scrollbar'] = true,
+  },
+  fzf_colors = {
+    ['fg'] = { 'fg', 'TelescopeNormal' },
+    ['bg'] = { 'bg', 'TelescopeNormal' },
+    ['hl'] = { 'fg', 'TelescopeMatching' },
+    ['fg+'] = { 'fg', 'TelescopeSelection' },
+    ['bg+'] = { 'bg', 'TelescopeSelection' },
+    ['hl+'] = { 'fg', 'TelescopeMatching' },
+    ['info'] = { 'fg', 'TelescopeMultiSelection' },
+    ['border'] = { 'fg', 'TelescopeBorder' },
+    ['gutter'] = '-1',
+    ['query'] = { 'fg', 'TelescopePromptNormal' },
+    ['prompt'] = { 'fg', 'TelescopePromptPrefix' },
+    ['pointer'] = { 'fg', 'TelescopeSelectionCaret' },
+    ['marker'] = { 'fg', 'TelescopeSelectionCaret' },
+    ['header'] = { 'fg', 'TelescopeTitle' },
   },
   winopts = {
     height = 0.30,
@@ -21,12 +35,13 @@ require('fzf-lua').setup {
     row = 1.00,
     col = 0.5,
     backdrop = false,
+    border = 'rounded',
     preview = {
       hidden = 'hidden',
     },
   },
   defaults = {
-    git_icons = true,
+    git_icons = false,
     no_header_i = true,
   },
 }
