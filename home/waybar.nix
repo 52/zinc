@@ -80,9 +80,9 @@ mkIf hyprland.enable {
       };
       style = ''
         * {
-          font-size: 16px;
-          font-weight: normal;
           font-family: 'monospace';
+          font-weight: normal;
+          font-size: 16px;
           min-width: 0;
           min-height: 0;
           border: none;
@@ -97,6 +97,7 @@ mkIf hyprland.enable {
         }
 
         window#waybar {
+          opacity: 0.98;
           background-color: ${colors.base00};
           border-bottom: 2px solid ${colors.base01};
         }

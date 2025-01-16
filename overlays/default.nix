@@ -22,4 +22,7 @@
       };
     };
   };
+
+  # add emacs overlay
+  emacs-overlay = inputs.emacs-overlay.overlay;
 }

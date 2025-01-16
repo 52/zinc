@@ -120,6 +120,11 @@
           enable = true;
         };
 
+        # home/emacs.nix
+        emacs = {
+          enable = true;
+        };
+
         # home/direnv.nix
         direnv = {
           enable = true;

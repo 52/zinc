@@ -54,6 +54,7 @@ in
             btop
             # utils
             ripgrep
+            skim
             fzf
             bat
             jq

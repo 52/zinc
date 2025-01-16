@@ -35,7 +35,7 @@ in
             text = ''
               # theme 
               font-family = "monospace"
-              font-style = normal
+              font-style = Light
               font-size = 16
 
               font-style-bold = false

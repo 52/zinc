@@ -17,6 +17,7 @@ in
       "home/ghostty.nix"
       "home/direnv.nix"
       "home/style.nix"
+      "home/emacs.nix"
       "home/bash.nix"
       "home/fish.nix"
       "home/tmux.nix"
