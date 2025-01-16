@@ -22,6 +22,8 @@ mkIf hyprland.enable {
             "custom/separator"
             "cpu"
             "custom/separator"
+            "pulseaudio"
+            "custom/separator"
             "bluetooth"
             "custom/separator"
             "network"
@@ -37,6 +39,11 @@ mkIf hyprland.enable {
             "format" = "{usage}% CPU";
             "tooltip" = false;
             "on-click" = "${env.TERMINAL} -e btop";
+          };
+          "pulseaudio" = {
+            "format" = "{volume}% VOL";
+            "format-muted" = "MUTE";
+            "tooltip-format" = "Current Sink: {desc}";
           };
           "bluetooth" = {
             "format-on" = "󰂯 No Connection";
@@ -117,6 +124,7 @@ mkIf hyprland.enable {
           background-color: ${colors.base00};
         }
 
+        #pulseaudio,
         #bluetooth,
         #network,
         #clock,
@@ -137,6 +145,7 @@ mkIf hyprland.enable {
           background-color: ${colors.base01};
         }
 
+        #pulseaudio:hover,
         #bluetooth:hover,
         #network:hover,
         #cpu:hover {
