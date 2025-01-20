@@ -17,6 +17,8 @@
     flake-utils.lib.eachDefaultSystem (
       system:
       let
+        inherit (nixpkgs) lib;
+
         # overlays
         overlays = [
           (import rust-overlay)
@@ -42,9 +44,19 @@
       in
       {
         devShell = pkgs.mkShell {
-          buildInputs = [
-            nightly
-            channel
+          buildInputs = lib.concatLists [
+            [
+              nightly
+              channel
+            ]
+
+            (with pkgs; [
+              cargo-flamegraph
+              cargo-criterion
+              cargo-show-asm
+              cargo-nextest
+              cargo-expand
+            ])
           ];
           shellHook = ''
             # ensure `cargo fmt` uses nightly `rustfmt`
