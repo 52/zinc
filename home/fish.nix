@@ -50,14 +50,8 @@ in
             gb = "git branch";
             gl = "git log --decorate --oneline --graph";
 
-            # vim
-            v = "nvim";
-            vi = "nvim";
-            vim = "nvim";
-
             # nix
             n = "nix";
-            nd = "nix develop";
 
             # hypr
             h = "hyprctl";
@@ -74,10 +68,21 @@ in
             td = "tmux detach";
             ta = "tmux attach -t";
           };
+          shellAliases = {
+            # vim
+            v = "nvim";
+            vi = "nvim";
+            vim = "nvim";
+
+            # zed
+            z = "zeditor";
+            ze = "zeditor";
+            zed = "zeditor";
+          };
           functions = {
             fish_greeting = {
               description = "Greeting to show when starting a fish shell.";
-              body = "";
+              body = '''';
             };
           };
         };

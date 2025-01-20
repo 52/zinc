@@ -33,15 +33,19 @@ in
         configFile = {
           "ghostty/config" = {
             text = ''
-              # theme 
+              # font
               font-family = "monospace"
-              font-style = normal
+              font-style = light
               font-size = 16
 
               font-style-bold = false
               font-style-italic = false
               font-style-bold-italic = false
 
+              adjust-underline-position = 2
+              adjust-underline-thickness = -25%
+
+              # window
               window-padding-x = 8
               window-padding-y = 8
               gtk-titlebar = false 
@@ -49,7 +53,7 @@ in
               background = ${colors.base00}
               foreground = ${colors.base05}
 
-              # config
+              # options
               copy-on-select = true
 
               # shell

@@ -1,0 +1,8 @@
+--
+--
+-- SPDX-License-Identifier: MIT
+-- Author: Max Karou <maxkarou@protonmail.com>
+-- URL: https://github.com/52/mkOS
+--
+
+require('nvim-autopairs').setup {}

@@ -120,6 +120,11 @@
           enable = true;
         };
 
+        # home/zed.nix
+        zed = {
+          enable = true;
+        };
+
         # home/direnv.nix
         direnv = {
           enable = true;

@@ -29,9 +29,6 @@ in
         enableDefaultPackages = false;
         packages = attrValues {
           inherit (pkgs)
-            # icon
-            material-design-icons
-            font-awesome
             # noto
             noto-fonts
             noto-fonts-extra
@@ -42,6 +39,10 @@ in
             berkeley-mono
             apple-fonts
             ;
+
+          nerdfonts = pkgs.nerdfonts.override {
+            fonts = [ "NerdFontsSymbolsOnly" ];
+          };
         };
         fontconfig = {
           defaultFonts = {

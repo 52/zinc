@@ -9,7 +9,7 @@ in
       colors = {
         base00 = mkOption {
           type = types.str;
-          default = "#141414";
+          default = "#121212";
           description = ''
             Default background color used in the scheme.
           '';
@@ -63,47 +63,15 @@ in
             Brightest foreground color for special emphasis.
           '';
         };
-        base08 = mkOption {
-          type = types.str;
-          default = "#da0b0b";
-        };
-        base09 = mkOption {
-          type = types.str;
-          default = "#ff9166";
-        };
-        base0A = mkOption {
-          type = types.str;
-          default = "#ebc746";
-        };
-        base0B = mkOption {
-          type = types.str;
-          default = "#9cc587";
-        };
-        base0C = mkOption {
-          type = types.str;
-          default = "#12cfc0";
-        };
-        base0D = mkOption {
-          type = types.str;
-          default = "#c8f0f7";
-        };
-        base0E = mkOption {
-          type = types.str;
-          default = "#e876e0";
-        };
-        base0F = mkOption {
-          type = types.str;
-          default = "#deaf8f";
-        };
       };
       wallpaper = mkOption {
         type = types.str;
-        default = relativeToRoot "public/137242.png";
+        default = relativeToRoot "local/assets/137242.png";
         description = "The wallpaper's source path.";
       };
       userImage = mkOption {
         type = types.str;
-        default = relativeToRoot "public/359349.png";
+        default = relativeToRoot "local/assets/359349.png";
         description = "The user's profile picture source path.";
       };
     };
