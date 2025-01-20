@@ -1,5 +1,5 @@
 {
-  description = "mkOS";
+  description = "mOS";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
