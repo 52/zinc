@@ -9,7 +9,7 @@ in
       colors = {
         base00 = mkOption {
           type = types.str;
-          default = "#141414";
+          default = "#121212";
           description = ''
             Default background color used in the scheme.
           '';

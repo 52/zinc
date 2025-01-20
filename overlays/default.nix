@@ -28,4 +28,7 @@
 
   # add neovim (extra plugins) overlay
   neovim-overlay = inputs.neovim-overlay.overlays.default;
+
+  # add vscode (extensions) overlay
+  vscode-overlay = inputs.vscode-overlay.overlays.default;
 }

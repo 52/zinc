@@ -31,7 +31,6 @@
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 (setq frame-title-format nil)
 
-(setq inhibit-startup-message t)
 (setq inhibit-splash-screen t)
 
 (blink-cursor-mode -1)

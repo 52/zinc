@@ -8,8 +8,7 @@
 -- load modules
 require 'editor'
 require 'keymaps'
-
--- load themes
+require 'colors'
 
 -- load plugins
 require 'plugins.treesitter'

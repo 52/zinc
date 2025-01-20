@@ -47,6 +47,7 @@ in
 
             # unstable plugins
             (with pkgs.unstable.vimPlugins; [
+              lush-nvim
               blink-cmp
             ])
 

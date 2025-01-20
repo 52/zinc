@@ -18,7 +18,7 @@ in
   };
   config =
     let
-      inherit (config) emacs xdg;
+      inherit (config) emacs;
     in
     mkIf emacs.enable {
       xdg = {
@@ -32,10 +32,11 @@ in
       programs = {
         emacs = {
           enable = true;
-          package = pkgs.emacsWithPackagesFromUsePackage {
-            config = "${xdg.configHome}/emacs/init.el";
-            package = pkgs.emacs30-pgtk;
-          };
+          package = pkgs.emacs30-pgtk.pkgs.withPackages (
+            epkgs: with epkgs; [
+              evil
+            ]
+          );
         };
       };
     };

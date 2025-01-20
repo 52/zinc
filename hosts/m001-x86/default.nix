@@ -120,8 +120,8 @@
           enable = true;
         };
 
-        # home/emacs.nix
-        emacs = {
+        # home/zed.nix
+        zed = {
           enable = true;
         };
 
