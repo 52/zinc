@@ -85,6 +85,7 @@
             echo ""
             echo "Using latest nightly:"
             echo "$($RUSTFMT --version)"
+            echo ""
           '';
         };
       }

@@ -18,7 +18,7 @@ in
   };
   config =
     let
-      inherit (config) fish;
+      inherit (config) fish env;
     in
     mkIf fish.enable {
       programs = {
@@ -80,9 +80,16 @@ in
             zed = "zeditor";
           };
           functions = {
-            fish_greeting = {
-              description = "Greeting to show when starting a fish shell.";
-              body = '''';
+            nd = {
+              description = "Shortcut for executing upstream flakes.";
+              body = ''
+                if test (count $argv) -eq 1
+                  set flake "github:52/mOS?dir=flakes/$argv"
+                  command nix develop $flake --no-write-lock-file --impure -c ${pkgs.${env.SHELL}}/bin/${env.SHELL}
+                else
+                  echo "Usage: nd <flake-name>"
+                end
+              '';
             };
           };
         };
