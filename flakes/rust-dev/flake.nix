@@ -17,6 +17,7 @@
     flake-utils.lib.eachDefaultSystem (
       system:
       let
+        inherit (builtins) pathExists;
         inherit (nixpkgs) lib;
 
         # overlays
@@ -29,14 +30,27 @@
           inherit system overlays;
         };
 
-        # rust channel
+        # rust-overlay
         rust = pkgs.rust-bin;
-        channel = rust.stable.latest.minimal.override {
-          extensions = [
-            "rust-src"
-            "rust-analyzer"
-            "clippy"
-          ];
+
+        # rust toolchain file
+        pwd = builtins.getEnv "PWD";
+        file = lib.findFirst pathExists null [
+          "${pwd}/rust-toolchain.toml"
+          "${pwd}/rust-toolchain"
+        ];
+
+        # rust extensions
+        extensions = [
+          "rust-analyzer"
+          "rust-src"
+          "clippy"
+        ];
+
+        # rust toolchain
+        base = if file != null then rust.fromRustupToolchainFile file else rust.stable.latest.minimal;
+        channel = base.override {
+          extensions = lib.unique (extensions ++ (base.extensions or [ ]));
         };
 
         # nightly components
@@ -62,11 +76,16 @@
             # ensure `cargo fmt` uses nightly `rustfmt`
             export RUSTFMT="${nightly}/bin/rustfmt"
 
+            echo ""
+            ${lib.optionalString (file != null) ''echo "Using file \"${toString file}\":"''}
+            ${lib.optionalString (file == null) ''echo "Using latest stable:"''}
             echo "$(${channel}/bin/rustc --version)"
             echo "$(${channel}/bin/cargo --version)"
-
             echo "$(${channel}/bin/rust-analyzer --version)"
+            echo ""
+            echo "Using latest nightly:"
             echo "$($RUSTFMT --version)"
+            echo ""
           '';
         };
       }
