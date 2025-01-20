@@ -4,4 +4,4 @@
        ⦚ 
 
 > [!IMPORTANT]  
-> Not ready for use - breaking changes are expected.
+> Personal configuration - use at own risk.
