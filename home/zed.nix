@@ -121,6 +121,27 @@ in
                   "${leader} r n" = "editor::Rename";
                 };
               }
+              {
+                "context" = "Pane";
+                bindings = {
+                  "ctrl-n" = "search::SelectNextMatch";
+                  "ctrl-p" = "search::SelectPrevMatch";
+                };
+              }
+              {
+                "context" = "ProjectSearchBar";
+                bindings = {
+                  "ctrl-n" = "search::SelectNextMatch";
+                  "ctrl-p" = "search::SelectPrevMatch";
+                };
+              }
+              {
+                "context" = "BufferSearchBar";
+                bindings = {
+                  "ctrl-n" = "search::SelectNextMatch";
+                  "ctrl-p" = "search::SelectPrevMatch";
+                };
+              }
             ];
         };
       };
