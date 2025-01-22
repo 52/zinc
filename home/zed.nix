@@ -88,6 +88,11 @@ in
               use_system_clipboard = "always";
             };
 
+            # lsp
+            inlay_hints = {
+              enable = true;
+            };
+
             # telemetry
             telemetry = {
               diagnostics = false;
@@ -123,21 +128,13 @@ in
                 };
               }
               {
-                "context" = "Pane";
+                "context" = "Editor";
                 bindings = {
-                  "ctrl-n" = "search::SelectNextMatch";
-                  "ctrl-p" = "search::SelectPrevMatch";
+                  "ctrl-h" = "editor::ToggleInlayHints";
                 };
               }
               {
-                "context" = "ProjectSearchBar";
-                bindings = {
-                  "ctrl-n" = "search::SelectNextMatch";
-                  "ctrl-p" = "search::SelectPrevMatch";
-                };
-              }
-              {
-                "context" = "BufferSearchBar";
+                "context" = "Pane || ProjectSearchBar || BufferSearchBar";
                 bindings = {
                   "ctrl-n" = "search::SelectNextMatch";
                   "ctrl-p" = "search::SelectPrevMatch";
