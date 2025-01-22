@@ -27,6 +27,7 @@ in
           package = pkgs.unstable.zed-editor;
           extensions = [
             "vscode-dark-modern"
+            "git-firefly"
             "dockerfile"
             "make"
             "toml"
