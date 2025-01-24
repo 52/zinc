@@ -88,11 +88,6 @@ in
               use_system_clipboard = "always";
             };
 
-            # lsp
-            inlay_hints = {
-              enable = true;
-            };
-
             # telemetry
             telemetry = {
               diagnostics = false;
