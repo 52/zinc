@@ -24,7 +24,7 @@ in
       programs = {
         zed-editor = {
           enable = true;
-          package = pkgs.unstable.zed-editor;
+          package = pkgs.zed-editor;
           extensions = [
             "vscode-dark-modern"
             "git-firefly"
