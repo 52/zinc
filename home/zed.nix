@@ -114,18 +114,13 @@ in
               {
                 "context" = "Editor && vim_mode == normal && !VimWaiting && !menu";
                 bindings = {
+                  "${leader} c c" = "editor::ToggleComments";
                   "${leader} c a" = "editor::ToggleCodeActions";
                   "${leader} g r" = "editor::FindAllReferences";
                   "${leader} g i" = "editor::GoToImplementation";
                   "${leader} g t" = "editor::GoToTypeDefinition";
                   "${leader} g d" = "editor::GoToDefinition";
                   "${leader} r n" = "editor::Rename";
-                };
-              }
-              {
-                "context" = "Editor";
-                bindings = {
-                  "ctrl-h" = "editor::ToggleInlayHints";
                 };
               }
               {
