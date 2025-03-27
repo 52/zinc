@@ -34,8 +34,8 @@
           shellHook = ''
             echo ""
             echo "Using node versions:"
-            echo "$($node --version)"
-            echo "$($npm --version)"
+            echo "$(node --version)"
+            echo "$(npm --version)"
             echo ""
           '';
         };
