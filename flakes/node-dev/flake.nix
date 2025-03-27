@@ -26,7 +26,7 @@
         devShell = pkgs.mkShell {
           buildInputs = lib.concatLists [
             (with pkgs; [
-              nodejs
+              nodejs_22
               typescript
               typescript-language-server
             ])
@@ -34,8 +34,8 @@
           shellHook = ''
             echo ""
             echo "Using node versions:"
-            echo "$(node --version)"
-            echo "$(npm --version)"
+            echo "$(${pkgs.nodejs_22}/bin/node --version)"
+            echo "$(${pkgs.nodejs_22}/bin/npm --version)"
             echo ""
           '';
         };
