@@ -70,6 +70,7 @@
               cargo-show-asm
               cargo-nextest
               cargo-expand
+              cargo-watch
               cargo-hack
               cargo-fuzz
             ])
