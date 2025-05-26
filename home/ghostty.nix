@@ -35,7 +35,7 @@ in
             text = ''
               # font
               font-family = "monospace"
-              font-style = light
+              font-style = regular
               font-size = 16
 
               font-style-bold = false

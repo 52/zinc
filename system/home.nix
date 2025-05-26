@@ -16,9 +16,7 @@ in
       "home/hyprland.nix"
       "home/ghostty.nix"
       "home/direnv.nix"
-      "home/vscode.nix"
       "home/style.nix"
-      "home/emacs.nix"
       "home/bash.nix"
       "home/fish.nix"
       "home/tmux.nix"
@@ -29,6 +27,7 @@ in
       "home/git.nix"
       "home/env.nix"
       "home/xdg.nix"
+      "home/vim.nix"
     ];
     useGlobalPkgs = true;
     extraSpecialArgs = {

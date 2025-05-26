@@ -23,12 +23,6 @@
     };
   };
 
-  # add emacs overlay
-  emacs-overlay = inputs.emacs-overlay.overlay;
-
-  # add neovim (extra plugins) overlay
-  neovim-overlay = inputs.neovim-overlay.overlays.default;
-
-  # add vscode (extensions) overlay
-  vscode-overlay = inputs.vscode-overlay.overlays.default;
+  # add vim (extra plugins) overlay
+  vim-overlay = inputs.vim-overlay.overlays.default;
 }

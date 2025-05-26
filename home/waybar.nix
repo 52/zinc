@@ -87,7 +87,7 @@ mkIf hyprland.enable {
       };
       style = ''
         * {
-          font-family: 'monospace';
+          font-family: 'Berkeley Mono';
           font-weight: normal;
           font-size: 16px;
           min-width: 0;

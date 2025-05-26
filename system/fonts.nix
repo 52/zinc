@@ -35,6 +35,12 @@ in
             noto-fonts-cjk-sans
             noto-fonts-cjk-serif
             noto-fonts-color-emoji
+            # microsoft
+            corefonts
+            # google
+            roboto
+            roboto-mono
+            open-sans
             # custom
             berkeley-mono
             apple-fonts

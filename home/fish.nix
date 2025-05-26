@@ -68,17 +68,6 @@ in
             td = "tmux detach";
             ta = "tmux attach -t";
           };
-          shellAliases = {
-            # vim
-            v = "nvim";
-            vi = "nvim";
-            vim = "nvim";
-
-            # zed
-            z = "zeditor";
-            ze = "zeditor";
-            zed = "zeditor";
-          };
           functions = {
             nd = {
               description = "Shortcut for executing upstream flakes.";

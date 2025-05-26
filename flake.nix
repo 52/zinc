@@ -1,5 +1,5 @@
 {
-  description = "mOS";
+  description = "A modular, multi-host nixOS configuration";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
@@ -25,18 +25,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    emacs-overlay = {
-      url = "github:nix-community/emacs-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    neovim-overlay = {
-      url = "github:jooooscha/nixpkgs-vim-extra-plugins";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    vscode-overlay = {
-      url = "github:nix-community/nix-vscode-extensions";
+    vim-overlay = {
+      url = "github:52/vim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

@@ -57,6 +57,7 @@ in
             skim
             fzf
             bat
+            fd
             jq
             ;
         };

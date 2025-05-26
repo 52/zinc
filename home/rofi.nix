@@ -12,7 +12,7 @@ mkIf hyprland.enable {
     {
       rofi = {
         enable = true;
-        font = "monospace 14";
+        font = "Berkeley Mono 14";
         terminal = env.TERMINAL;
         extraConfig = {
           display-drun = "";

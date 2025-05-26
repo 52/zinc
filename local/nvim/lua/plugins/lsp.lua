@@ -5,12 +5,9 @@
 --
 
 local lspconfig = require 'lspconfig'
-local capabilities = require('blink.cmp').get_lsp_capabilities()
 
 local setup = function(name, opts)
-  local merged_opts = vim.tbl_extend('force', {
-    capabilities = capabilities,
-  }, opts or {})
+  local merged_opts = vim.tbl_extend('force', {}, opts or {})
   lspconfig[name].setup(merged_opts)
 end
 

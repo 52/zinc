@@ -120,6 +120,11 @@
           enable = true;
         };
 
+        # home/vim.nix
+        vim = {
+          enable = true;
+        };
+
         # home/zed.nix
         zed = {
           enable = true;
