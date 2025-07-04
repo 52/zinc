@@ -1,76 +1,64 @@
 {
   lib,
-  pkgs,
   config,
   inputs,
   ...
 }:
 let
   inherit (lib) mkOption mkIf types;
-  inherit (builtins) attrValues;
+  cfg = config.steam;
 in
 {
-  imports = attrValues {
+  imports = builtins.attrValues {
     inherit (inputs.nix-gaming.nixosModules)
       pipewireLowLatency
       platformOptimizations
       ;
   };
-  options = {
-    system = {
-      steam = {
-        enable = mkOption {
-          type = types.bool;
-          default = true;
-        };
-        members = mkOption {
-          type = types.listOf types.str;
-          default = [ ];
-        };
-      };
+
+  options.steam = {
+    enable = mkOption {
+      type = types.bool;
+      description = "Whether to enable the steam module";
+      default = false;
+    };
+
+    members = mkOption {
+      type = types.listOf types.str;
+      description = "<todo>";
+      default = [ ];
     };
   };
-  config =
-    let
-      inherit (config) system;
-      inherit (system) steam;
-    in
-    mkIf steam.enable {
-      services = {
-        pipewire = {
-          lowLatency = {
-            enable = true;
-          };
-        };
-      };
-      programs = {
-        steam = {
-          inherit (steam) enable;
-          platformOptimizations = {
-            enable = true;
-          };
-        };
-        gamemode = {
-          inherit (steam) enable;
-          settings = {
-            general = {
-              renice = 10;
-              softrealtime = "on";
-              inhibit_screensaver = 1;
-            };
-            custom = {
-              start = "${pkgs.libnotify}/bin/notify-send 'Gamemode started!'";
-              end = "${pkgs.libnotify}/bin/notify-send 'Gamemode ended!'";
-            };
-          };
-        };
-      };
-      users = {
-        groups = {
-          gamemode = {
-            inherit (steam) members;
-          };
+
+  config = mkIf cfg.enable {
+    # enable steam, see: https://store.steampowered.com/
+    programs.steam = {
+      enable = true;
+
+      # enable platform optimizations
+      platformOptimizations.enable = true;
+    };
+
+    # enable gamemode, see: https://github.com/FeralInteractive/gamemode/
+    programs.gamemode = {
+      enable = true;
+
+      settings = {
+        general = {
+          # enable soft real-time scheduling
+          softrealtime = "on";
+          # prevent screen from sleeping
+          inhibit_screensaver = 1;
         };
       };
     };
+
+    # enable low-latency audio compatibility
+    services.pipewire.lowLatency.enable = true;
+
+    # manage the 'gamemode' group
+    users.groups.gamemode = {
+      inherit (cfg) members;
+    };
+  };
 }

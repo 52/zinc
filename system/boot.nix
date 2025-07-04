@@ -1,35 +1,23 @@
-{ lib, config, ... }:
-let
-  inherit (lib) mkOption mkIf types;
-in
 {
-  options = {
-    system = {
-      boot = {
-        enable = mkOption {
-          type = types.bool;
-          default = true;
-        };
-      };
-    };
+  ...
+}:
+{
+  # enable systemd-boot as bootloader, see: https://wiki.archlinux.org/title/Systemd-boot/
+  boot.loader.systemd-boot = {
+    enable = true;
+
+    # limit boot menu entries to 10 items
+    configurationLimit = 10;
+
+    # use highest available resolution (console)
+    consoleMode = "max";
   };
-  config =
-    let
-      inherit (config) system;
-      inherit (system) boot;
-    in
-    mkIf boot.enable {
-      boot = {
-        loader = {
-          systemd-boot = {
-            enable = true;
-            configurationLimit = 10;
-          };
-          efi = {
-            canTouchEfiVariables = true;
-          };
-          timeout = 3;
-        };
-      };
-    };
+
+  boot.loader = {
+    # limit boot menu timeout to 3s
+    timeout = 3;
+
+    # allow modification of efi variables
+    efi.canTouchEfiVariables = true;
+  };
 }

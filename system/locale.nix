@@ -5,63 +5,70 @@
 }:
 let
   inherit (lib) mkOption mkIf types;
+  cfg = config.locale;
 in
 {
-  options = {
-    system = {
-      locale = {
-        enable = mkOption {
-          type = types.bool;
-          default = true;
-        };
-        defaultLocale = mkOption {
-          type = types.str;
-          default = "en_US.UTF-8";
-        };
-        supportedLocales = mkOption {
-          type = types.listOf types.str;
-          default = [
-            "en_US.UTF-8"
-            "de_DE.UTF-8"
-          ];
-        };
-        localeCategories = mkOption {
-          type = types.listOf types.str;
-          default = [
-            "LC_ADDRESS"
-            "LC_IDENTIFICATION"
-            "LC_MEASUREMENT"
-            "LC_MONETARY"
-            "LC_NAME"
-            "LC_NUMERIC"
-            "LC_PAPER"
-            "LC_TELEPHONE"
-            "LC_TIME"
-          ];
-        };
-      };
+  options.locale = {
+    default = mkOption {
+      type = types.str;
+      description = "<todo>";
+      default = "en_US.UTF-8";
+    };
+
+    supported = mkOption {
+      type = types.listOf types.str;
+      description = "<todo>";
+      default = [
+        "en_US.UTF-8"
+        "de_DE.UTF-8"
+      ];
+    };
+
+    categories = mkOption {
+      type = types.listOf types.str;
+      description = "<todo>";
+      default = [
+        "LC_ADDRESS"
+        "LC_IDENTIFICATION"
+        "LC_MEASUREMENT"
+        "LC_MONETARY"
+        "LC_NAME"
+        "LC_NUMERIC"
+        "LC_PAPER"
+        "LC_TELEPHONE"
+        "LC_TIME"
+      ];
+    };
+
+    timeZone = mkOption {
+      type = types.str;
+      description = "<todo>";
+      default = "Europe/Berlin";
     };
   };
-  config =
-    let
-      inherit (builtins) listToAttrs;
-      inherit (config) system;
-      inherit (system) locale;
-    in
-    mkIf locale.enable {
-      i18n =
-        let
-          inherit (locale) defaultLocale supportedLocales localeCategories;
-        in
-        {
-          inherit defaultLocale;
-          supportedLocales = map (x: "${x}/UTF-8") supportedLocales;
-          extraLocaleSettings = builtins.listToAttrs (
-            map (name: {
-              inherit name;
-              value = defaultLocale;
-            }) localeCategories
-          );
-        };
-    };
+
+  config = mkIf cfg.enable {
+    i18n =
+      let
+        inherit (cfg) defaultLocale supportedLocales localeCategories;
+      in
+      {
+        # set the system-wide locale
+        inherit defaultLocale;
+
+        # set the supported locales
+        supportedLocales = map (locale: "${locale}/UTF-8") supportedLocales;
+
+        # set specific locale categories
+        extraLocaleSettings = builtins.listToAttrs (
+          map (name: {
+            inherit name;
+            value = defaultLocale;
+          }) localeCategories
+        );
+      };
+
+    # set the local time zone
+    time.timeZone = cfg.timeZone;
+  };
 }

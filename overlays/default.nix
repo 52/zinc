@@ -1,9 +1,15 @@
-{ inputs, ... }:
 {
-  # add custom pkgs
+  inputs,
+  ...
+}:
+{
+  # <todo>
   additions = final: _prev: import ../pkgs { pkgs = final; };
 
-  # add stable pkgs
+  # <todo>
+  overrides = final: prev: { };
+
+  # <todo>
   stable-packages = final: _prev: {
     stable = import inputs.nixpkgs-stable {
       inherit (final) system;
@@ -13,7 +19,7 @@
     };
   };
 
-  # add unstable pkgs
+  # <todo>
   unstable-packages = final: _prev: {
     unstable = import inputs.nixpkgs-unstable {
       inherit (final) system;
@@ -23,6 +29,6 @@
     };
   };
 
-  # add vim (extra plugins) overlay
+  # <todo>
   vim-overlay = inputs.vim-overlay.overlays.default;
 }

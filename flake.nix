@@ -2,16 +2,14 @@
   description = "A modular, multi-host nixOS configuration";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    hardware = {
-      url = "github:nixos/nixos-hardware";
-    };
+    hardware.url = "github:nixos/nixos-hardware";
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.11";
+      url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -40,16 +38,14 @@
     let
       inherit (self) outputs;
 
-      # custom lib, see '/lib'
-      lib = nixpkgs.lib.extend (_: _: { custom = import ./lib { inherit inputs outputs; }; });
-
-      # systems supported by this configuration
       systems = [
         "x86_64-linux"
       ];
 
-      # generates an attrset for all systems
+      # generate an attribute set for each system
       forEachSystem = f: lib.genAttrs systems (system: f pkgsFor.${system});
+
+      # generate 'nixpkgs' for each system
       pkgsFor = lib.genAttrs systems (
         system:
         import nixpkgs {
@@ -58,16 +54,21 @@
         }
       );
 
+      # custom lib, see: 'lib'
+      lib = nixpkgs.lib.extend (_: _: import ./lib { inherit inputs; });
+
+      # custom packages, see: 'pkgs'
+      packages = forEachSystem (pkgs: import ./pkgs { inherit pkgs; });
+
+      # custom overlays, see: 'overlays'
+      overlays = import ./overlays { inherit inputs; };
+
       specialArgs = {
         inherit lib inputs outputs;
       };
     in
     {
-      # custom overlays, see: '/overlays'
-      overlays = import ./overlays { inherit inputs outputs; };
-
-      # custom packages, see: '/pkgs'
-      packages = forEachSystem (pkgs: import ./pkgs { inherit pkgs; });
+      inherit overlays packages;
 
       # formatter used by 'nix fmt', see: https://nix-community.github.io/nixpkgs-fmt
       formatter = forEachSystem (pkgs: pkgs.nixfmt-rfc-style);
@@ -76,6 +77,13 @@
       devShells = forEachSystem (pkgs: {
         default = pkgs.mkShell {
           packages = with pkgs; [
+            # nix
+            nixfmt-rfc-style
+            deadnix
+            statix
+            nixd
+
+            # secrets
             sops
             age
           ];
