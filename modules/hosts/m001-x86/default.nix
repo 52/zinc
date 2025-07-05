@@ -14,6 +14,9 @@
 
     # system
     (lib.importAll "modules/system")
+
+    # users
+    (lib.relativePath "modules/users/max@m001-x86.nix")
   ];
 
   # system/network.nix
