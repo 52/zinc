@@ -12,13 +12,13 @@ in
   options.docker = {
     enable = mkOption {
       type = types.bool;
-      description = "Whether to enable the docker module";
+      description = "Whether to enable the 'docker' module";
       default = false;
     };
 
     members = mkOption {
       type = types.listOf types.str;
-      description = "<todo>";
+      description = "Users to add to the 'docker' group";
       default = [ ];
     };
   };

@@ -24,7 +24,7 @@ in
 
     remaps = mkOption {
       type = types.attrsOf (types.listOf types.str);
-      description = "<todo>";
+      description = "Keyd profiles mapped to device Ids";
       default = { };
     };
   };

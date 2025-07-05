@@ -11,7 +11,7 @@ in
   options.network = {
     hostName = mkOption {
       type = types.str;
-      description = "<todo>";
+      description = "The hostname of the system";
       default = "";
     };
   };

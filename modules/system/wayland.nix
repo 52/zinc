@@ -12,7 +12,7 @@ in
   options.wayland = {
     enable = mkOption {
       type = types.bool;
-      description = "Whether to enable the wayland module";
+      description = "Whether to enable the 'wayland' module";
       default = false;
     };
   };

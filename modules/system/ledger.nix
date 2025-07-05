@@ -12,7 +12,7 @@ in
   options.ledger = {
     enable = {
       type = types.bool;
-      description = "Whether to enable the ledger module";
+      description = "Whether to enable the 'ledger' module";
       default = false;
     };
   };

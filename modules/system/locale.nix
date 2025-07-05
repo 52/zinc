@@ -11,13 +11,13 @@ in
   options.locale = {
     default = mkOption {
       type = types.str;
-      description = "<todo>";
+      description = "System-wide default locale";
       default = "en_US.UTF-8";
     };
 
     supported = mkOption {
       type = types.listOf types.str;
-      description = "<todo>";
+      description = "List of supported locales";
       default = [
         "en_US.UTF-8"
         "de_DE.UTF-8"
@@ -26,7 +26,7 @@ in
 
     categories = mkOption {
       type = types.listOf types.str;
-      description = "<todo>";
+      description = "List of locale categories";
       default = [
         "LC_ADDRESS"
         "LC_IDENTIFICATION"
@@ -42,7 +42,7 @@ in
 
     timeZone = mkOption {
       type = types.str;
-      description = "<todo>";
+      description = "System-wide default timezone";
       default = "Europe/Berlin";
     };
   };

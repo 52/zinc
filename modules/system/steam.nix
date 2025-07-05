@@ -19,13 +19,13 @@ in
   options.steam = {
     enable = mkOption {
       type = types.bool;
-      description = "Whether to enable the steam module";
+      description = "Whether to enable the 'steam' module";
       default = false;
     };
 
     members = mkOption {
       type = types.listOf types.str;
-      description = "<todo>";
+      description = "Users to add to the 'gamemode' group";
       default = [ ];
     };
   };
