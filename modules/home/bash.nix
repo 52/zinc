@@ -3,6 +3,10 @@
   ...
 }:
 {
+  # set default shell
+  home.sessionVariables.SHELL = "bash";
+
+  # enable bash, see: https://www.gnu.org/software/bash/
   programs.bash = {
     enable = true;
 
