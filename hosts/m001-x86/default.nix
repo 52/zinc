@@ -13,7 +13,7 @@
     inputs.hardware.nixosModules.common-pc-ssd
 
     # system
-    (lib.importAll "system")
+    (lib.importAll "modules/system")
   ];
 
   # system/network.nix
@@ -42,20 +42,6 @@
   keyboard = {
     remaps = {
       "keychron-k8" = [ "3434:0281" ];
-    };
-  };
-
-  # home-manager
-  home-manager = {
-    users."max" = {
-
-      # <todo>
-      home = {
-        username = "max";
-        homeDirectory = "/home/max";
-        stateVersion = "24.11";
-      };
-
     };
   };
 

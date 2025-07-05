@@ -44,7 +44,7 @@
   # configure home-manager
   home-manager = {
     # extra modules available to all users
-    sharedModules = lib.importAll "home";
+    sharedModules = lib.importAll "modules/home";
 
     # use the system level 'pkgs'
     useGlobalPkgs = true;
