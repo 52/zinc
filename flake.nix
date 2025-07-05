@@ -93,8 +93,8 @@
       nixosConfigurations = {
         m001-x86 = lib.nixosSystem {
           inherit specialArgs;
-          modules = [
-            ./hosts/m001-x86
+          modules = map lib.relativePath [
+            "modules/hosts/m001-x86"
           ];
         };
       };

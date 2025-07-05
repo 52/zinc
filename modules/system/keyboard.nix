@@ -42,7 +42,7 @@ in
       enable = true;
       keyboards = builtins.mapAttrs (name: ids: {
         inherit ids;
-        extraConfig = builtins.readFile (lib.relativeToRoot "local/keyd/${name}.conf");
+        extraConfig = builtins.readFile (lib.relativePath "local/keyd/${name}.conf");
       }) cfg.remaps;
     };
 
