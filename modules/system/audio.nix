@@ -19,7 +19,7 @@
     alsa.support32Bit = true;
   };
 
-  # remove the `.pulse-cookie` from $HOME (<todo>)
+  # remove the `.pulse-cookie` from $HOME
   services.pulseaudio.extraClientConf = "cookie-file = /tmp/pulse-cookie";
 
   # enabled for better performance, see: https://discourse.nixos.org/t/how-to-use-pipewire-instead-of-pulseaudio/22853/3/

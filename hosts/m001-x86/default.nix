@@ -5,15 +5,14 @@
 }:
 {
   imports = lib.flatten [
-    # <todo>
+    # hardware
     ./hardware.nix
 
-    # <todo>
     inputs.hardware.nixosModules.common-cpu-amd
     inputs.hardware.nixosModules.common-gpu-amd
     inputs.hardware.nixosModules.common-pc-ssd
 
-    # system modules
+    # system
     (lib.importAll "system")
   ];
 
@@ -43,6 +42,20 @@
   keyboard = {
     remaps = {
       "keychron-k8" = [ "3434:0281" ];
+    };
+  };
+
+  # home-manager
+  home-manager = {
+    users."max" = {
+
+      # <todo>
+      home = {
+        username = "max";
+        homeDirectory = "/home/max";
+        stateVersion = "24.11";
+      };
+
     };
   };
 
