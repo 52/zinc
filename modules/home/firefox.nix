@@ -50,6 +50,11 @@ mkIf wayland.enable {
         EmailTracking = true;
       };
 
+      # define preferences
+      Preferences = {
+        "browser.startup.page" = 3;
+      };
+
       # install extensions
       ExtensionUpdate = false;
       ExtensionSettings =
