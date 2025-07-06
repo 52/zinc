@@ -89,7 +89,7 @@
     };
 
     # enable 'bash-sensible', see: https://github.com/mrzool/bash-sensible/
-    interactiveShellInit = ''
+    initExtra = ''
       # enable case-insensitve completion
       bind "set completion-ignore-case on"
 
