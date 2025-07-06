@@ -25,6 +25,9 @@ in
         ;
     };
 
+    # enable polkit, see: https://nixos.wiki/wiki/Sway/
+    security.polkit.enable = true;
+
     # manage the 'video' group
     users.groups.video = {
       members = builtins.attrNames (lib.filterAttrs (_: u: u.isNormalUser or false) config.users.users);
