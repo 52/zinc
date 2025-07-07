@@ -43,8 +43,13 @@
 
   # configure home-manager
   home-manager = {
-    # extra modules available to all users
-    sharedModules = lib.importAll "modules/home";
+    sharedModules = lib.flatten [
+      # sops-nix, see: https://github.com/mic92/sops-nix
+      inputs.sops-nix.homeManagerModules.sops
+
+      # import all files in 'modules/home'
+      (lib.importAll "modules/home")
+    ];
 
     # use the system level 'pkgs'
     useGlobalPkgs = true;
