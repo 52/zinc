@@ -1,6 +1,4 @@
-{
-  ...
-}:
+{ ... }:
 {
   # enable bluez, see: https://www.bluez.org/
   hardware.bluetooth = {

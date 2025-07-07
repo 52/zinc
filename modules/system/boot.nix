@@ -1,6 +1,4 @@
-{
-  ...
-}:
+{ ... }:
 {
   # enable systemd-boot as bootloader, see: https://wiki.archlinux.org/title/Systemd-boot/
   boot.loader.systemd-boot = {
