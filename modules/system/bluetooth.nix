@@ -7,7 +7,6 @@
     # automatically power-on at boot
     powerOnBoot = true;
 
-    # configure bluez
     settings.General = {
       # enable experimental features
       Experimental = true;

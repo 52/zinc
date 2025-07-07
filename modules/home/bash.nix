@@ -19,7 +19,6 @@
     # remove the `.bash_history` file from $HOME
     historyFile = "${config.xdg.dataHome}/bash/bash_history";
 
-    # set features (history)
     historyControl = [
       # ignore duplicate entries
       "ignoredups"
@@ -28,7 +27,6 @@
       "erasedups"
     ];
 
-    # set features (shell)
     shellOptions = [
       # enable recursive globbing
       "globstar 2> /dev/null"
@@ -55,7 +53,6 @@
       "dirspell 2> /dev/null"
     ];
 
-    # set aliases
     shellAliases = {
       ".." = "cd ..";
 

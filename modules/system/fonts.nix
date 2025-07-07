@@ -4,7 +4,6 @@
 }:
 {
   fonts = {
-    # install system fonts
     packages = builtins.attrValues {
       inherit (pkgs)
         # noto
@@ -23,7 +22,7 @@
         open-sans
 
         # custom
-        berkeley-mono
+        # berkeley-mono
         apple-fonts
         ;
 
@@ -32,7 +31,6 @@
         ;
     };
 
-    # set default fonts
     fontconfig.defaultFonts = {
       serif = [
         "New York Medium"
@@ -43,7 +41,7 @@
         "Noto Color Emoji"
       ];
       monospace = [
-        "Berkeley Mono"
+        "SF Mono"
         "Noto Color Emoji"
       ];
       emoji = [

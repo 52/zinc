@@ -5,12 +5,12 @@
   ...
 }:
 let
-  inherit (lib) mkIf types;
+  inherit (lib) mkIf mkOption types;
   cfg = config.ledger;
 in
 {
   options.ledger = {
-    enable = {
+    enable = mkOption {
       type = types.bool;
       description = "Whether to enable the 'ledger' module";
       default = false;

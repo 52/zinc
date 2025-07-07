@@ -4,14 +4,13 @@
   programs.foot = {
     enable = true;
 
-    # configure foot
     settings = {
       main = {
-        # <todo>
-        app-id = "foot";
-
-        # <todo>
+        # set primary font
         font = "monospace:size=14";
+
+        # enable dpi-awareness (scaling)
+        dpi-aware = "yes";
       };
     };
   };

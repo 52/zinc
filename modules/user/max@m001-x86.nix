@@ -21,17 +21,23 @@ lib.mkUser {
       ;
   };
 
-  # configure modules (home-manager)
+  # configure home-manager
   modules = {
+    # home/git.nix
+    git = {
+      userName = "Max Karou";
+      userEmail = "maxkarou@protonmail.com";
+    };
+
+    # home/ssh.nix
     ssh = {
       enable = true;
       enableGitIntegration = true;
     };
 
-    sops = {
-      age.keyFile = "/home/max/.age-key.txt";
-      defaultSopsFile = lib.relativePath "nix-secrets/secrets.yaml";
-
+    # home/sops.nix
+    sops-nix = {
+      enable = true;
       secrets = {
         "ssh/id_max" = {
           path = ".ssh/id_max";

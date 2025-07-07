@@ -41,18 +41,15 @@
     };
   };
 
-  # configure home-manager
   home-manager = {
-    sharedModules = lib.flatten [
-      # sops-nix, see: https://github.com/mic92/sops-nix
-      inputs.sops-nix.homeManagerModules.sops
-
-      # import all files in 'modules/home'
-      (lib.importAll "modules/home")
-    ];
+    # globally shared modules
+    sharedModules = lib.importAll "modules/home";
 
     # use the system level 'pkgs'
     useGlobalPkgs = true;
+
+    # set extra args
+    extraSpecialArgs = { inherit inputs outputs; };
   };
 
   # disable nixos documentation

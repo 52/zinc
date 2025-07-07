@@ -4,7 +4,6 @@
   config,
   ...
 }:
-
 let
   inherit (lib) mkOption mkIf types;
   cfg = config.ssh;

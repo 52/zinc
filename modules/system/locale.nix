@@ -48,25 +48,21 @@ in
   };
 
   config = {
-    i18n =
-      let
-        inherit (cfg) defaultLocale supportedLocales localeCategories;
-      in
-      {
-        # set the system-wide locale
-        inherit defaultLocale;
+    i18n = {
+      # set the system-wide locale
+      defaultLocale = cfg.default;
 
-        # set the supported locales
-        supportedLocales = map (locale: "${locale}/UTF-8") supportedLocales;
+      # set the supported locales
+      supportedLocales = map (locale: "${locale}/UTF-8") cfg.supported;
 
-        # set specific locale categories
-        extraLocaleSettings = builtins.listToAttrs (
-          map (name: {
-            inherit name;
-            value = defaultLocale;
-          }) localeCategories
-        );
-      };
+      # set specific locale categories
+      extraLocaleSettings = builtins.listToAttrs (
+        map (name: {
+          inherit name;
+          value = cfg.default;
+        }) cfg.categories
+      );
+    };
 
     # set the local time zone
     time.timeZone = cfg.timeZone;

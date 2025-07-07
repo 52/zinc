@@ -6,7 +6,6 @@
   xdg = {
     enable = true;
 
-    # configure the 'user_dirs.dirs' file
     userDirs = {
       enable = true;
 

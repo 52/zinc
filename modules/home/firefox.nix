@@ -24,7 +24,6 @@ mkIf wayland.enable {
   programs.firefox = {
     enable = true;
 
-    # set policies
     policies = {
       # disable updates
       AppAutoUpdate = false;

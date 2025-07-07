@@ -1,15 +1,101 @@
 {
   lib,
+  config,
   osConfig,
   ...
 }:
 let
   inherit (lib) mkIf;
-  inherit (osConfig) wayland;
+  inherit (osConfig) wayland keyboard;
+  env = config.home.sessionVariables;
 in
 mkIf wayland.enable {
   # enable sway, see: https://swaywm.org/
   wayland.windowManager.sway = {
     enable = true;
+
+    config = rec {
+      modifier = "Mod4";
+
+      input."type:keyboard" = {
+        # set keyboard layouts
+        xkb_layout = keyboard.layout;
+        xkb_variant = keyboard.variant;
+
+        # enable faster typing speed
+        repeat_delay = "250";
+        repeat_rate = "60";
+      };
+
+      keybindings = {
+        # 
+        # ---- Window ----
+        # 
+        # <MOD> + Q to kill window
+        "${modifier}+q" = "kill";
+        # <MOD> + V to toggle floating
+        "${modifier}+v" = "floating toggle";
+        # <MOD> + M to toggle fullscreen
+        "${modifier}+m" = "fullscreen toggle";
+
+        # 
+        # ---- Application ----
+        # 
+        # <MOD> + T to open $TERMINAL
+        "${modifier}+t" = "exec uwsm app -- ${env.TERMINAL or "foot"}";
+        # <MOD> + F to open $BROWSER
+        "${modifier}+f" = "exec uwsm app -- ${env.BROWSER or "firefox"}";
+
+        #
+        # ---- Workspace ----
+        #
+        # <MOD> + 1 to switch workspace (1)
+        "${modifier}+1" = "workspace 1";
+        # <MOD> + 2 to switch workspace (2)
+        "${modifier}+2" = "workspace 2";
+        # <MOD> + 3 to switch workspace (3)
+        "${modifier}+3" = "workspace 3";
+        # <MOD> + 4 to switch workspace (4)
+        "${modifier}+4" = "workspace 4";
+        # <MOD> + 5 to switch workspace (5)
+        "${modifier}+5" = "workspace 5";
+        # <MOD> + 6 to switch workspace (6)
+        "${modifier}+6" = "workspace 6";
+        # <MOD> + 7 to switch workspace (7)
+        "${modifier}+7" = "workspace 7";
+        # <MOD> + 8 to switch workspace (8)
+        "${modifier}+8" = "workspace 8";
+        # <MOD> + 9 to switch workspace (9)
+        "${modifier}+9" = "workspace 9";
+        # <MOD> + <SHIFT> + 1 to move focused window to workspace (1)
+        "${modifier}+Shift+1" = "move container to workspace 1";
+        # <MOD> + <SHIFT> + 2 to move focused window to workspace (2)
+        "${modifier}+Shift+2" = "move container to workspace 2";
+        # <MOD> + <SHIFT> + 3 to move focused window to workspace (3)
+        "${modifier}+Shift+3" = "move container to workspace 3";
+        # <MOD> + <SHIFT> + 4 to move focused window to workspace (4)
+        "${modifier}+Shift+4" = "move container to workspace 4";
+        # <MOD> + <SHIFT> + 5 to move focused window to workspace (5)
+        "${modifier}+Shift+5" = "move container to workspace 5";
+        # <MOD> + <SHIFT> + 6 to move focused window to workspace (6)
+        "${modifier}+Shift+6" = "move container to workspace 6";
+        # <MOD> + <SHIFT> + 7 to move focused window to workspace (7)
+        "${modifier}+Shift+7" = "move container to workspace 7";
+        # <MOD> + <SHIFT> + 8 to move focused window to workspace (8)
+        "${modifier}+Shift+8" = "move container to workspace 8";
+        # <MOD> + <SHIFT> + 9 to move focused window to workspace (9)
+        "${modifier}+Shift+9" = "move container to workspace 9";
+        # <MOD> + <TAB> to cycle focus
+        "${modifier}+Tab" = "focus next";
+        # <MOD> + <TAB> to cycle focus (reverse)
+        "${modifier}+Shift+Tab" = "focus prev";
+
+        #
+        # ---- Miscellaneous ----
+        #
+        # <MOD> + <SHIFT> + Q to exit
+        "${modifier}+Shift+q" = "exit";
+      };
+    };
   };
 }

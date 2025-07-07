@@ -25,6 +25,32 @@ in
         ;
     };
 
+    # enable sway, see: https://swaywm.org/
+    programs.sway = {
+      enable = true;
+    };
+
+    # enable uwsm, see: https://github.com/vladimir-csp/uwsm/
+    programs.uwsm = {
+      enable = true;
+
+      # primary compositor (sway)
+      waylandCompositors.sway = {
+        prettyName = "Sway";
+        comment = "Sway compositor managed by UWSM";
+        binPath = "/run/current-system/sw/bin/sway";
+      };
+    };
+
+    # automatically start uwsm on login
+    programs.bash.loginShellInit = ''
+      if [ "$(tty)" = "/dev/tty1" ]; then
+        if uwsm check may-start; then
+          exec uwsm start sway-uwsm.desktop
+        fi
+      fi
+    '';
+
     # enable polkit, see: https://nixos.wiki/wiki/Sway/
     security.polkit.enable = true;
 
