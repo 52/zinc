@@ -4,7 +4,7 @@
   ...
 }:
 let
-  inherit (lib) mkOption mkIf types;
+  inherit (lib) mkOption types;
   cfg = config.locale;
 in
 {
@@ -47,7 +47,7 @@ in
     };
   };
 
-  config = mkIf cfg.enable {
+  config = {
     i18n =
       let
         inherit (cfg) defaultLocale supportedLocales localeCategories;
