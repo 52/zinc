@@ -17,6 +17,11 @@ mkIf wayland.enable {
     config = rec {
       modifier = "Mod4";
 
+      # Define startup commands.
+      startup = [
+        { command = "mako"; }
+      ];
+
       focus = {
         # Enable wrapping focus changes.
         wrapping = "yes";
@@ -56,6 +61,8 @@ mkIf wayland.enable {
         "${modifier}+t" = "exec uwsm app -- ${env.TERMINAL or "foot"}";
         # <MOD> + F to open $BROWSER
         "${modifier}+f" = "exec uwsm app -- ${env.BROWSER or "firefox"}";
+        # <MOD< + <SPACE> to open rofi
+        "${modifier}+Space" = "exec rofi -show drun -show-icons";
 
         #
         # ---- Workspace ----

@@ -1,5 +1,8 @@
 { ... }:
 {
+  # Set the default terminal.
+  env.TERMINAL = "foot";
+  
   # Enable foot, see: https://codeberg.org/dnkl/foot/
   programs.foot = {
     enable = true;
