@@ -26,7 +26,7 @@ in
   config = mkIf (cfg != { }) (
     lib.mkMerge [
       # Mirror variables to 'home.sessionVariables'.
-      ({ home.sessionVariables = cfg; })
+      { home.sessionVariables = cfg; }
 
       # Create 'uwsm/env' when wayland is enabled.
       (mkIf wayland.enable {
