@@ -1,16 +1,26 @@
 { ... }:
 {
-  # enable foot, see: https://codeberg.org/dnkl/foot/
+  # Enable foot, see: https://codeberg.org/dnkl/foot/
   programs.foot = {
     enable = true;
 
     settings = {
       main = {
-        # set primary font
+        # Set the primary font.
         font = "monospace:size=14";
 
-        # enable dpi-awareness (scaling)
-        dpi-aware = "yes";
+        # Copy to primary and clipboard on select.
+        selection-target = "both";
+      };
+
+      key-bindings = {
+        # Clipboard.
+        clipboard-copy = "Super+c";
+        clipboard-paste = "Super+v";
+
+        # Fonts.
+        font-increase = "Super+plus";
+        font-decrease = "Super+minus";
       };
     };
   };

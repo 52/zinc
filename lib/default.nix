@@ -76,7 +76,7 @@ rec {
       ## Home-manager modules configuration.
       ##
       #@ AttrSet
-      modules ? { },
+      home ? { },
 
       ## Home-manager state version, see: https://github.com/nix-community/home-manager/issues/5794
       ##
@@ -93,6 +93,6 @@ rec {
         home = {
           inherit packages stateVersion;
         };
-      } // modules;
+      } // home;
     };
 }

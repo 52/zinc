@@ -3,16 +3,13 @@
   ...
 }:
 {
-  # enable vim, see: https://www.vim.org/
-  home = {
-    # set default editor
-    sessionVariables.EDITOR = "vim";
+  # Set the default editor.
+  env.EDITOR = "vim";
 
-    # install 'vim-custom' from 'github:52/vim'
-    packages = builtins.attrValues {
-      inherit (pkgs)
-        vim-custom
-        ;
-    };
+  # Enable vim, see: https://www.vim.org/.
+  home.packages = builtins.attrValues {
+    inherit (pkgs)
+      vim-custom
+      ;
   };
 }

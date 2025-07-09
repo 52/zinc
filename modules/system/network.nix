@@ -18,44 +18,44 @@ in
 
   config = {
     networking = {
-      # set system hostname
+      # Set the system hostname.
       inherit (cfg) hostName;
 
-      # enable networkmanager, see: https://github.com/NetworkManager/NetworkManager/
+      # Enable networkmanager, see: https://github.com/NetworkManager/NetworkManager/
       networkmanager.enable = true;
 
-      # enable network firewall
+      # Enable the network firewall.
       firewall = {
         enable = true;
 
-        # open ports (TCP)
+        # Open (TCP) ports.
         allowedTCPPorts = [ ];
 
-        # open ports (UDP)
+        # Open (UDP) ports.
         allowedUDPPorts = [ ];
       };
     };
 
-    # enable avahi (local network discovery), see: https://avahi.org/
+    # Enable avahi (local network discovery), see: https://avahi.org/
     services.avahi = {
       enable = true;
 
-      # enable mDNS NSS (IPv4), see: https://github.com/avahi/nss-mdns/
+      # Enable mDNS NSS (IPv4), see: https://github.com/avahi/nss-mdns/
       nssmdns4 = true;
 
-      # enable publishing
+      # Enable local network publishing.
       publish = {
         enable = true;
 
-        # publish locally used domain
+        # Publish locally used domain.
         domain = true;
 
-        # publish user services
+        # Publish user services.
         userServices = true;
       };
     };
 
-    # manage the 'networkmanager' group
+    # Manage the 'networkmanager' group.
     users.groups.networkmanager = {
       members = builtins.attrNames (
         lib.filterAttrs (_: user: user.isNormalUser or false) config.users.users

@@ -42,10 +42,10 @@
         "x86_64-linux"
       ];
 
-      # generate an attribute set for each system
+      # Generate an attribute set for each system.
       forEachSystem = f: lib.genAttrs systems (system: f pkgsFor.${system});
 
-      # generate 'nixpkgs' for each system
+      # Generate 'nixpkgs' for each system.
       pkgsFor = lib.genAttrs systems (
         system:
         import nixpkgs {
@@ -54,13 +54,13 @@
         }
       );
 
-      # custom lib, see: 'lib'
+      # Custom library, see: 'lib' folder.
       lib = nixpkgs.lib.extend (_: _: import ./lib { inherit inputs; });
 
-      # custom packages, see: 'pkgs'
+      # Custom packages, see: 'pkgs' folder.
       packages = forEachSystem (pkgs: import ./pkgs { inherit pkgs; });
 
-      # custom overlays, see: 'overlays'
+      # Custom overlays, see: 'overlays' folder.
       overlays = import ./overlays { inherit inputs; };
 
       specialArgs = {
@@ -70,20 +70,17 @@
     {
       inherit overlays packages;
 
-      # formatter used by 'nix fmt', see: https://nix-community.github.io/nixpkgs-fmt
+      # Formatter used by 'nix fmt', see: https://nix-community.github.io/nixpkgs-fmt/
       formatter = forEachSystem (pkgs: pkgs.nixfmt-rfc-style);
 
-      # shell used by 'nix develop', see: https://nix.dev/manual/nix/2.17/command-ref/new-cli/nix3-develop
+      # Shell used by 'nix develop', see: https://nix.dev/manual/nix/2.18/command-ref/new-cli/nix3-develop/
       devShells = forEachSystem (pkgs: {
         default = pkgs.mkShell {
           packages = with pkgs; [
-            # nix
             nixfmt-rfc-style
             deadnix
             statix
             nixd
-
-            # secrets
             sops
             age
           ];

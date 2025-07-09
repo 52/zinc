@@ -18,14 +18,14 @@ in
   };
 
   config = mkIf cfg.enable {
-    # install dependencies (system-wide)
+    # Install system-wide dependencies.
     environment.systemPackages = builtins.attrValues {
       inherit (pkgs)
         ledger-live-desktop
         ;
     };
 
-    # enable hardware support for ledger devices, see: https://www.ledger.com/
+    # Enable ledger, see: https://www.ledger.com/
     hardware.ledger.enable = true;
   };
 }

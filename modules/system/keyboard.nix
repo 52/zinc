@@ -30,14 +30,14 @@ in
   };
 
   config = {
-    # install dependencies (system-wide)
+    # Install system-wide dependencies.
     environment.systemPackages = builtins.attrValues {
       inherit (pkgs)
         keyd
         ;
     };
 
-    # apply keyboard remaps
+    # Apply keyboard remappings with 'keyd'.
     services.keyd = mkIf (cfg.remaps != { }) {
       enable = true;
       keyboards = builtins.mapAttrs (name: ids: {
@@ -46,7 +46,7 @@ in
       }) cfg.remaps;
     };
 
-    # set keyboard layout (tty)
+    # Set the keyboard layout (TTY).
     console.keyMap = cfg.layout;
   };
 }

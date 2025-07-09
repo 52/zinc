@@ -3,68 +3,68 @@
   ...
 }:
 {
-  # set default shell
-  home.sessionVariables.SHELL = "bash";
+  # Set the default shell.
+  env.SHELL = "bash";
 
-  # enable bash, see: https://www.gnu.org/software/bash/
+  # Enable bash, see: https://www.gnu.org/software/bash/
   programs.bash = {
     enable = true;
 
-    # limit the number of lines (memory)
+    # Limit the number of lines (memory).
     historySize = 500000;
 
-    # limit the number of lines (flushed)
+    # Limit the number of lines (flushed).
     historyFileSize = 100000;
 
-    # remove the `.bash_history` file from $HOME
+    # Remove the '.bash_history' file from home.
     historyFile = "${config.xdg.dataHome}/bash/bash_history";
 
     historyControl = [
-      # ignore duplicate entries
+      # Ignore duplicate entries.
       "ignoredups"
 
-      # remove duplicate entries
+      # Remove duplicate entries.
       "erasedups"
     ];
 
     shellOptions = [
-      # enable recursive globbing
+      # Enable recursive globbing.
       "globstar 2> /dev/null"
 
-      # enable case-insensitive globbing
+      # Enable case-insensitive globbing.
       "nocaseglob;"
 
-      # append to history file
+      # Append to history file.
       "histappend"
 
-      # update window frequently
+      # Update window more frequently.
       "checkwinsize"
 
-      # save multi-line commands as one entry
+      # Save multi-line commands as one entry.
       "cmdhist"
 
-      # prepend 'cd' to directory names
+      # Prepend 'cd' to directory names.
       "autocd 2> /dev/null"
 
-      # correct spelling errors during 'cd'
+      # Correct spelling errors during 'cd'.
       "cdspell 2> /dev/null"
 
-      # correct spelling errors during tab-completion
+      # Correct spelling errors during completion.
       "dirspell 2> /dev/null"
     ];
 
     shellAliases = {
       ".." = "cd ..";
 
-      # disk
+      # Disk
       df = "df -h";
       du = "du -h -c";
 
-      # list
+      # List
       ls = "ls -lF -G --group-directories-first --color=auto";
       la = "ls -lAF -G --group-directories-first --color=auto";
 
-      # git
+      # Git
       g = "git";
       ga = "git add";
       gp = "git push";
@@ -74,32 +74,44 @@
       gb = "git branch";
       gl = "git log --decorate --oneline --graph";
 
-      # nix
+      # Nix
       n = "nix";
       nd = "nix develop";
 
-      # tmux
+      # Vim
+      v = "vim";
+      vi = "vim";
+
+      # Tmux
       t = "tmux";
       tl = "tmux ls";
       td = "tmux detach";
       ta = "tmux attach -t";
+      tk = "tmux kill-session -t";
     };
 
-    # enable 'bash-sensible', see: https://github.com/mrzool/bash-sensible/
+    # Enable 'bash-sensible', see: https://github.com/mrzool/bash-sensible/
     initExtra = ''
-      # enable case-insensitve completion
+      # Enable case-insensitve completion.
       bind "set completion-ignore-case on"
 
-      # treat hyphens and underscores equally
+      # Treat hyphens and underscores equally.
       bind "set completion-map-case on"
 
-      # display all matches immediatly
+      # Display all matches immediatly.
       bind "set show-all-if-ambiguous on"
 
-      # append slash to symlinked directories
+      # Append slash to symlinked directories.
       bind "set mark-symlinked-directories on"
 
-      # enable incremental history search
+      # Move cursor to eol when cycling.
+      bind "set history-preserve-point off"
+
+      # Cycle through autocomplete.
+      bind 'tab: menu-complete'
+      bind '"\e[Z": menu-complete-backward'
+
+      # Enable incremental history search.
       bind '"\e[A": history-search-backward'
       bind '"\e[B": history-search-forward'
       bind '"\e[C": forward-char'

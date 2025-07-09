@@ -24,22 +24,22 @@ in
   };
 
   config = mkIf cfg.enable {
-    # install dependencies (system-wide)
+    # Install system-wide dependencies.
     environment.systemPackages = builtins.attrValues {
       inherit (pkgs)
         kubectl
         ;
     };
 
-    # enable docker, see: https://docs.docker.com/
+    # Enable docker, see: https://docs.docker.com/
     virtualisation.docker = {
       enable = true;
 
-      # enable periodical pruning of docker resources
+      # Enable periodical pruning of resources.
       autoPrune.enable = true;
     };
 
-    # manage the 'docker' group
+    # Manage the 'docker' group.
     users.groups.docker = {
       inherit (cfg) members;
     };

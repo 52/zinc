@@ -42,11 +42,11 @@ in
   };
 
   config = mkIf cfg.enable {
-    # enable sops, https://github.com/mic92/sops-nix/
+    # Enable sops, https://github.com/mic92/sops-nix/
     sops = {
       inherit (cfg) secrets defaultSopsFile;
 
-      # set key file
+      # Set the key file.
       age.keyFile = cfg.ageKeyFile;
     };
   };

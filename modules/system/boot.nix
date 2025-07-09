@@ -1,21 +1,21 @@
 { ... }:
 {
-  # enable systemd-boot as bootloader, see: https://wiki.archlinux.org/title/Systemd-boot/
+  # Enable systemd-boot as bootloader, see: https://wiki.archlinux.org/title/Systemd-boot/
   boot.loader.systemd-boot = {
     enable = true;
 
-    # limit boot menu entries to 10 items
+    # Limit boot menu entries to 10 items.
     configurationLimit = 10;
 
-    # use highest available resolution (console)
+    # Use highest available resolution in console.
     consoleMode = "max";
   };
 
   boot.loader = {
-    # limit boot menu timeout to 3s
+    # Limit boot menu timeout to 3 seconds.
     timeout = 3;
 
-    # allow modification of efi variables
+    # Allow modification of EFI variables.
     efi.canTouchEfiVariables = true;
   };
 }

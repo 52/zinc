@@ -1,17 +1,17 @@
 { ... }:
 {
-  # enable bluez, see: https://www.bluez.org/
+  # Enable bluez, see: https://www.bluez.org/
   hardware.bluetooth = {
     enable = true;
 
-    # automatically power-on at boot
+    # Automatically start bluetooth at boot.
     powerOnBoot = true;
 
     settings.General = {
-      # enable experimental features
+      # Enable experimental features.
       Experimental = true;
 
-      # use faster advertising interval
+      # Enable faster advertising interval.
       FastConnectable = true;
     };
   };

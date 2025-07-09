@@ -42,20 +42,20 @@ in
 
     timeZone = mkOption {
       type = types.str;
-      description = "System-wide default timezone";
+      description = "System time zone";
       default = "Europe/Berlin";
     };
   };
 
   config = {
     i18n = {
-      # set the system-wide locale
+      # Set the system-wide locale.
       defaultLocale = cfg.default;
 
-      # set the supported locales
+      # Set the supported locales.
       supportedLocales = map (locale: "${locale}/UTF-8") cfg.supported;
 
-      # set specific locale categories
+      # Set the specific locale categories.
       extraLocaleSettings = builtins.listToAttrs (
         map (name: {
           inherit name;
@@ -64,7 +64,7 @@ in
       );
     };
 
-    # set the local time zone
+    # Set the system time zone (local).
     time.timeZone = cfg.timeZone;
   };
 }

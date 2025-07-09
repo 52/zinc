@@ -18,23 +18,23 @@ in
   };
 
   config = mkIf cfg.enable {
-    # install dependencies (system-wide)
+    # Install system-wide dependencies.
     environment.systemPackages = builtins.attrValues {
       inherit (pkgs)
         wl-clipboard
         ;
     };
 
-    # enable sway, see: https://swaywm.org/
+    # Enable sway, see: https://swaywm.org/
     programs.sway = {
       enable = true;
     };
 
-    # enable uwsm, see: https://github.com/vladimir-csp/uwsm/
+    # Enable uwsm, see: https://github.com/vladimir-csp/uwsm/
     programs.uwsm = {
       enable = true;
 
-      # primary compositor (sway)
+      # Define the primary compositor (sway).
       waylandCompositors.sway = {
         prettyName = "Sway";
         comment = "Sway compositor managed by UWSM";
@@ -42,7 +42,7 @@ in
       };
     };
 
-    # automatically start uwsm on login
+    # Automatically start uwsm on login.
     programs.bash.loginShellInit = ''
       if [ "$(tty)" = "/dev/tty1" ]; then
         if uwsm check may-start; then
@@ -51,10 +51,10 @@ in
       fi
     '';
 
-    # enable polkit, see: https://nixos.wiki/wiki/Sway/
+    # Enable polkit, see: https://nixos.wiki/wiki/Sway/
     security.polkit.enable = true;
 
-    # manage the 'video' group
+    # Manage the 'video' group.
     users.groups.video = {
       members = builtins.attrNames (lib.filterAttrs (_: u: u.isNormalUser or false) config.users.users);
     };

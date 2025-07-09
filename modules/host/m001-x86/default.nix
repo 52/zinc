@@ -5,17 +5,17 @@
 }:
 {
   imports = lib.flatten [
-    # hardware
+    # Import hardware modules.
     ./hardware.nix
 
     inputs.hardware.nixosModules.common-cpu-amd
     inputs.hardware.nixosModules.common-gpu-amd
     inputs.hardware.nixosModules.common-pc-ssd
 
-    # system
+    # Import system modules.
     (lib.importAll "modules/system")
 
-    # users
+    # Import system user profiles.
     (lib.relativePath "modules/user/max@m001-x86.nix")
   ];
 

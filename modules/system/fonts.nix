@@ -5,27 +5,31 @@
 {
   fonts = {
     packages = builtins.attrValues {
+      # Corefonts, see: https://corefonts.sourceforge.net/
       inherit (pkgs)
-        # noto
+        corefonts
+        ;
+
+      # Google, see: https://fonts.google.com/
+      inherit (pkgs)
+        roboto
+        roboto-mono
+
         noto-fonts
         noto-fonts-extra
         noto-fonts-cjk-sans
         noto-fonts-cjk-serif
         noto-fonts-color-emoji
 
-        # microsoft
-        corefonts
-
-        # google
-        roboto
-        roboto-mono
         open-sans
+        ;
 
-        # custom
-        # berkeley-mono
+      # Custom Fonts
+      inherit (pkgs)
         apple-fonts
         ;
 
+      # Nerd Fonts
       inherit (pkgs.nerd-fonts)
         symbols-only
         ;

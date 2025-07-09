@@ -11,47 +11,42 @@
       ;
   };
 
-  # enable nix, see: https://github.com/NixOS/nix/
+  # Enable nix, see: https://github.com/NixOS/nix/
   nix = {
     enable = true;
 
     settings = {
-      # enable experimental features
+      # Enable experimental features.
       experimental-features = [
         "nix-command"
         "flakes"
       ];
 
-      # disable warning for dirty git repositories
+      # Disable warning for dirty git repositories.
       warn-dirty = false;
     };
   };
 
-  # enable nixpkgs, see: https://nixos.org/manual/nixpkgs/stable/
+  # Enable nixpkgs, see: https://nixos.org/manual/nixpkgs/stable/
   nixpkgs = {
-    # set custom overlays
+    # Set the custom overlays.
     overlays = builtins.attrValues outputs.overlays;
 
-    config = {
-      # allow use of proprietary software
-      allowUnfree = true;
-
-      # enforce strict build-time dependencies
-      strictDepsByDefault = false;
-    };
+    # Allow use of proprietary software.
+    config.allowUnfree =true;
   };
 
   home-manager = {
-    # globally shared modules
+    # Define globally shared modules.
     sharedModules = lib.importAll "modules/home";
 
-    # use the system level 'pkgs'
+    # Use the system packages.
     useGlobalPkgs = true;
 
-    # set extra args
+    # Set extra arguments.
     extraSpecialArgs = { inherit inputs outputs; };
   };
 
-  # disable nixos documentation
+  # Disable the nixOS documentation.
   documentation.nixos.enable = false;
 }

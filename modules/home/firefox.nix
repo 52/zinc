@@ -8,39 +8,38 @@ let
   inherit (osConfig) wayland;
 in
 mkIf wayland.enable {
-  # set environment variables (user)
-  home.sessionVariables = {
-    # set default browser
+  env = {
+    # Set the default browser.
     BROWSER = "firefox";
 
-    # enable GPU rendering (firefox)
+    # Enable GPU rendering (firefox).
     MOZ_WEBRENDER = "1";
 
-    # enable wayland support (firefox)
+    # Enable wayland support (firefox).
     MOZ_ENABLE_WAYLAND = "1";
   };
 
-  # enable firefox, see: https://www.mozilla.org/en-US/firefox/new/
+  # Enable firefox, see: https://www.mozilla.org/en-US/firefox/new/
   programs.firefox = {
     enable = true;
 
     policies = {
-      # disable updates
+      # Disable automatic updates.
       AppAutoUpdate = false;
       BackgroundAppUpdate = false;
 
-      # allow features
+      # Allow native features.
       DisableFirefoxAccounts = false;
       DisableBuiltinPDFViewer = false;
 
-      # disable features
+      # Disable annoying features.
       DisablePocket = true;
       DisableTelemetry = true;
       OfferToSaveLogins = false;
       DisableFirefoxStudies = true;
       DontCheckDefaultBrowser = true;
 
-      # enable tracking protection
+      # Enable tracking protection.
       EnableTrackingProtection = {
         Value = true;
         Locked = true;
@@ -49,12 +48,12 @@ mkIf wayland.enable {
         EmailTracking = true;
       };
 
-      # define preferences
+      # Define general preferences.
       Preferences = {
         "browser.startup.page" = 3;
       };
 
-      # install extensions
+      # Install marketplace extensions.
       ExtensionUpdate = false;
       ExtensionSettings =
         let

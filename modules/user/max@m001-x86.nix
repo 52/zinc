@@ -7,10 +7,10 @@ lib.mkUser {
   name = "max";
   description = "Max Karou";
 
-  # enable 'sudo' access
+  # Enable 'sudo' access.
   groups = [ "wheel" ];
 
-  # install dependencies (user)
+  # Install user dependencies.
   packages = builtins.attrValues {
     inherit (pkgs)
       hyperfine
@@ -21,8 +21,8 @@ lib.mkUser {
       ;
   };
 
-  # configure home-manager
-  modules = {
+  # Configure home-manager modules.
+  home = {
     # home/git.nix
     git = {
       userName = "Max Karou";

@@ -31,32 +31,31 @@ in
   };
 
   config = mkIf cfg.enable {
-    # enable steam, see: https://store.steampowered.com/
+    # Enable steam, see: https://store.steampowered.com/
     programs.steam = {
       enable = true;
 
-      # enable platform optimizations
+      # Enable diverse platform optimizations.
       platformOptimizations.enable = true;
     };
 
-    # enable gamemode, see: https://github.com/FeralInteractive/gamemode/
+    # Enable gamemode, see: https://github.com/FeralInteractive/gamemode/
     programs.gamemode = {
       enable = true;
 
-      settings = {
-        general = {
-          # enable soft real-time scheduling
-          softrealtime = "on";
-          # prevent screen from sleeping
-          inhibit_screensaver = 1;
-        };
+      settings.general = {
+        # Enable soft real-time scheduling.
+        softrealtime = "on";
+
+        # Prevent screen from sleeping.
+        inhibit_screensaver = 1;
       };
     };
 
-    # enable low-latency audio compatibility
+    # Enable low-latency audio compatibility.
     services.pipewire.lowLatency.enable = true;
 
-    # manage the 'gamemode' group
+    # Manage the 'gamemode' group.
     users.groups.gamemode = {
       inherit (cfg) members;
     };

@@ -9,7 +9,7 @@
     userDirs = {
       enable = true;
 
-      # automatically create directories
+      # Automatically create directories.
       createDirectories = true;
 
       documents = "${config.home.homeDirectory}/Documents";
@@ -20,7 +20,7 @@
       videos = "${config.home.homeDirectory}/Media/Video";
       music = "${config.home.homeDirectory}/Media/Audio";
 
-      # disable $XDG_PUBLICSHARE_DIR and $XDG_TEMPLATES_DIR
+      # Disable $XDG_PUBLICSHARE_DIR and $XDG_TEMPLATES_DIR.
       extraConfig = {
         XDG_PUBLICSHARE_DIR = "/var/empty";
         XDG_TEMPLATES_DIR = "/var/empty";
@@ -28,6 +28,6 @@
     };
   };
 
-  # force programs to use XDG directories (when possible)
+  # Force programs to adhere to the XDG Spec when possible.
   home.preferXdgDirectories = true;
 }
