@@ -15,14 +15,14 @@
         # Copy to primary and clipboard on select.
         selection-target = "both";
 
-        # <todo>
+        # Set the window padding.
         pad = "5x5";
       };
 
-      # <todo>
+      # Set scrollback history.
       scrollback.lines = 50000;
 
-      # <todo>
+      # Make cursor blink.
       cursor.blink = "yes";
 
       key-bindings = {
