@@ -44,7 +44,7 @@
   # system/keyboard.nix
   keyboard = {
     remaps = {
-      "keychron-k8" = [ "3434:0281" ];
+      "macos" = [ "3434:0281" ];
     };
   };
 

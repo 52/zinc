@@ -90,8 +90,9 @@
       tk = "tmux kill-session -t";
     };
 
-    # Enable 'bash-sensible', see: https://github.com/mrzool/bash-sensible/
     initExtra = ''
+      ## Enable 'bash-sensible', see: https://github.com/mrzool/bash-sensible/
+
       # Enable case-insensitve completion.
       bind "set completion-ignore-case on"
 
@@ -116,6 +117,9 @@
       bind '"\e[B": history-search-forward'
       bind '"\e[C": forward-char'
       bind '"\e[D": backward-char'
+
+      ## Load the '__git_ps1' command.
+      . $HOME/.nix-profile/share/git/contrib/completion/git-prompt.sh
     '';
   };
 }
