@@ -105,6 +105,11 @@ mkIf wayland.enable {
         # <MOD> + <SHIFT> + 9 to move focused window to workspace (9)
         "${modifier}+Shift+9" = "move container to workspace 9";
 
+        # <MOD> + <SHIFT> + L to move focused window (right)
+        "${modifier}+Shift+l" = "move right";
+        # <MOD> + <SHIFT> + H to move focused window (left)
+        "${modifier}+Shift+h" = "move left";
+
         # <MOD> + <TAB> to cycle focus
         "${modifier}+Tab" = "focus next";
         # <MOD> + <TAB> to cycle focus (reverse)
