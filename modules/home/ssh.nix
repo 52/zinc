@@ -53,6 +53,23 @@ in
 
         # Enable ssh-agent, see: https://en.wikipedia.org/wiki/Ssh-agent/
         services.ssh-agent.enable = true;
+
+        # Fix: Ordering for managed compositors (e.g. UWSM) compatibility.
+        # See: https://github.com/Vladimir-csp/uwsm/issues/75/
+        systemd.user.services."ssh-agent" = {
+          # Force ssh-agent to run before 'graphical-session'.
+          Unit.Before = [ "graphical-session-pre.target" ];
+
+          Service = {
+            # Export SSH_AUTH_SOCK to the user environment after ssh-agent starts.
+            # This ensures all services can access the socket.
+            ExecStartPost = "systemctl --user set-environment \"SSH_AUTH_SOCK=%t/ssh-agent\"";
+
+            # Clean up the environment when ssh-agent stops.
+            # This prevents stale socket references.
+            ExecStopPost = "systemctl --user unset-environment SSH_AUTH_SOCK";
+          };
+        };
       }
 
       (mkIf cfg.enableGitIntegration {
