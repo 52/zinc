@@ -1,17 +1,15 @@
 {
-  description = "mOS";
+  description = "A modular, multi-host nixOS configuration";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    hardware = {
-      url = "github:nixos/nixos-hardware";
-    };
+    hardware.url = "github:nixos/nixos-hardware";
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.11";
+      url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -25,18 +23,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    emacs-overlay = {
-      url = "github:nix-community/emacs-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    neovim-overlay = {
-      url = "github:jooooscha/nixpkgs-vim-extra-plugins";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    vscode-overlay = {
-      url = "github:nix-community/nix-vscode-extensions";
+    vix = {
+      url = "github:52/vix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -50,16 +38,14 @@
     let
       inherit (self) outputs;
 
-      # custom lib, see '/lib'
-      lib = nixpkgs.lib.extend (_: _: { custom = import ./lib { inherit inputs outputs; }; });
-
-      # systems supported by this configuration
       systems = [
         "x86_64-linux"
       ];
 
-      # generates an attrset for all systems
+      # Generate an attribute set for each system.
       forEachSystem = f: lib.genAttrs systems (system: f pkgsFor.${system});
+
+      # Generate 'nixpkgs' for each system.
       pkgsFor = lib.genAttrs systems (
         system:
         import nixpkgs {
@@ -68,24 +54,33 @@
         }
       );
 
+      # Custom library, see: 'lib' folder.
+      lib = nixpkgs.lib.extend (_: _: import ./lib { inherit inputs; });
+
+      # Custom packages, see: 'pkgs' folder.
+      packages = forEachSystem (pkgs: import ./pkgs { inherit pkgs; });
+
+      # Custom overlays, see: 'overlays' folder.
+      overlays = import ./overlays { inherit inputs; };
+
       specialArgs = {
         inherit lib inputs outputs;
       };
     in
     {
-      # custom overlays, see: '/overlays'
-      overlays = import ./overlays { inherit inputs outputs; };
+      inherit overlays packages;
 
-      # custom packages, see: '/pkgs'
-      packages = forEachSystem (pkgs: import ./pkgs { inherit pkgs; });
-
-      # formatter used by 'nix fmt', see: https://nix-community.github.io/nixpkgs-fmt
+      # Formatter used by 'nix fmt', see: https://nix-community.github.io/nixpkgs-fmt/
       formatter = forEachSystem (pkgs: pkgs.nixfmt-rfc-style);
 
-      # shell used by 'nix develop', see: https://nix.dev/manual/nix/2.17/command-ref/new-cli/nix3-develop
+      # Shell used by 'nix develop', see: https://nix.dev/manual/nix/2.18/command-ref/new-cli/nix3-develop/
       devShells = forEachSystem (pkgs: {
         default = pkgs.mkShell {
           packages = with pkgs; [
+            nixfmt-rfc-style
+            deadnix
+            statix
+            nixd
             sops
             age
           ];
@@ -95,8 +90,8 @@
       nixosConfigurations = {
         m001-x86 = lib.nixosSystem {
           inherit specialArgs;
-          modules = [
-            ./hosts/m001-x86
+          modules = map lib.relativePath [
+            "modules/host/m001-x86"
           ];
         };
       };

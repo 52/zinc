@@ -1,9 +1,15 @@
-{ inputs, ... }:
 {
-  # add custom pkgs
+  inputs,
+  ...
+}:
+{
+  # Add custom packages.
   additions = final: _prev: import ../pkgs { pkgs = final; };
 
-  # add stable pkgs
+  # Add custom overrides.
+  overrides = final: prev: { };
+
+  # Add stable packages.
   stable-packages = final: _prev: {
     stable = import inputs.nixpkgs-stable {
       inherit (final) system;
@@ -13,7 +19,7 @@
     };
   };
 
-  # add unstable pkgs
+  # Add unstable packages.
   unstable-packages = final: _prev: {
     unstable = import inputs.nixpkgs-unstable {
       inherit (final) system;
@@ -23,12 +29,6 @@
     };
   };
 
-  # add emacs overlay
-  emacs-overlay = inputs.emacs-overlay.overlay;
-
-  # add neovim (extra plugins) overlay
-  neovim-overlay = inputs.neovim-overlay.overlays.default;
-
-  # add vscode (extensions) overlay
-  vscode-overlay = inputs.vscode-overlay.overlays.default;
+  # Add the 'github:52/vix' overlay.
+  vix = inputs.vix.overlays.default;
 }
