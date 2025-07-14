@@ -23,8 +23,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    vim-overlay = {
-      url = "github:52/vim";
+    vix = {
+      url = "github:52/vix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

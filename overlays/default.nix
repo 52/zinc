@@ -29,6 +29,6 @@
     };
   };
 
-  # Add the 'github:52/vim' overlay.
-  vim-overlay = inputs.vim-overlay.overlays.default;
+  # Add the 'github:52/vix' overlay.
+  vix = inputs.vix.overlays.default;
 }

@@ -9,7 +9,7 @@
   # Enable vim, see: https://www.vim.org/.
   home.packages = builtins.attrValues {
     inherit (pkgs)
-      vim-custom
+      vix
       ;
   };
 }

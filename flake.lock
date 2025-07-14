@@ -165,7 +165,7 @@
         "nixpkgs-stable": "nixpkgs-stable",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "sops-nix": "sops-nix",
-        "vim-overlay": "vim-overlay"
+        "vix": "vix"
       }
     },
     "sops-nix": {
@@ -203,7 +203,7 @@
         "type": "github"
       }
     },
-    "vim-overlay": {
+    "vix": {
       "inputs": {
         "flake-utils": "flake-utils",
         "nixpkgs": [
@@ -211,16 +211,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1752506424,
-        "narHash": "sha256-8PY709O5HI8gPadbdIVVsMI4btkLYlKtLepdYUw6RGk=",
+        "lastModified": 1752513195,
+        "narHash": "sha256-QwkbwUqJDfdLk3X1+RIJSu0gJCom/s8e0IZ80t48amU=",
         "owner": "52",
-        "repo": "vim",
-        "rev": "2699278734c29a71d7b8a358326059321104405c",
+        "repo": "vix",
+        "rev": "c97dbbef5217b6b4955e84517f7a17e53267beef",
         "type": "github"
       },
       "original": {
         "owner": "52",
-        "repo": "vim",
+        "repo": "vix",
         "type": "github"
       }
     }
