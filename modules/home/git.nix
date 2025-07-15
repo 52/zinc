@@ -91,10 +91,10 @@ in
         init.defaultBranch = "master";
 
         # Sort branches by most recent commit.
-        branch.sort = "-comitterdate";
+        branch.sort = "-committerdate";
 
-        # Sort tags by most recent commit.
-        tag.sort = "-comitterdate";
+        # Sort tags by the version and name.
+        tag.sort = "version:refname";
 
         # Enable columized output.
         column.ui = "auto";
