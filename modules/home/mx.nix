@@ -14,6 +14,6 @@ in
 {
   # Install the 'mx' toolkit, see: 'bin' folder.
   home.packages = builtins.map (
-    name: pkgs.writeShellScriptBin name (lib.readRelativeFile "bin/${name}")
+    name: pkgs.writeShellScriptBin name (lib.readFileRelative "bin/${name}")
   ) scripts;
 }
