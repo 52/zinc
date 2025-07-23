@@ -10,7 +10,7 @@
     settings = {
       main = {
         # Set the primary font.
-        font = "monospace:size=20";
+        font = "monospace:size=24";
 
         # Copy to primary and clipboard on select.
         selection-target = "both";
