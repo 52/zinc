@@ -7,5 +7,5 @@
   apple-fonts = pkgs.callPackage ./apple-fonts.nix { };
 
   # 'Berkeley Mono', see: https://usgraphics.com/products/berkeley-mono/
-#   berkeley-mono = pkgs.callPackage ./berkeley-mono.nix { };
+  #berkeley-mono = pkgs.callPackage ./berkeley-mono.nix { };
 }
