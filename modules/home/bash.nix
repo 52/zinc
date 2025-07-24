@@ -122,7 +122,7 @@
       . $HOME/.nix-profile/share/git/contrib/completion/git-prompt.sh
 
       ## Set custom prompt
-      PS1='\[\e[32m\]\w''$(__git_ps1 "\[\e[31m\] [%s]")\[\e[36m\]''${IN_NIX_SHELL:+*}\[\e[0m\] '
+      PS1='\[\e[32m\]\w''$(__git_ps1 "\[\e[31m\] [%s]")\[\e[36m\]''${IN_NIX_SHELL:+ *}\[\e[0m\] '
     '';
   };
 }
