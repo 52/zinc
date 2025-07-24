@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+# Get the debug flag from the parent process.
+DEBUG="${MX_DEBUG:-0}"
+
+# Assert that we have exactly one argument.
+if [[ $# -ne 1 ]]; then
+  echo "Usage: mx flake [name]"
+  exit 1
+fi
+
+# Get the flake name.
+FLAKE="$1"
+
+# Build the remote flake url.
+FLAKE_URL="github:52/nix-flakes?dir=${FLAKE}"
+
+# Build the 'nix develop' command.
+COMMAND="nix develop ${FLAKE_URL} --refresh --no-write-lock-file --impure -c ${SHELL:-bash}"
+
+if [[ "$DEBUG" -eq 1 ]]; then
+  echo "[dbg]: running '$COMMAND'"
+fi
+
+# Enter the development environment.
+exec $COMMAND

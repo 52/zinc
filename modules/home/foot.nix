@@ -10,13 +10,13 @@
     settings = {
       main = {
         # Set the primary font.
-        font = "monospace:size=16";
+        font = "monospace:size=24";
 
         # Copy to primary and clipboard on select.
         selection-target = "both";
 
         # Set the window padding.
-        pad = "5x5";
+        pad = "6x12";
       };
 
       # Set scrollback history.

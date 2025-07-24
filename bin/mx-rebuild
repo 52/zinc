@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+# Get the debug flag from the parent process.
+DEBUG="${MX_DEBUG:-0}"
+
+# Assert that we have at most one argument.
+if [[ $# -gt 1 ]]; then
+  echo "Usage: mx rebuild [path]"
+  exit 1
+fi
+
+# Get the flake path.
+# Defaults to the current directory.
+FLAKE="${1:-.}"
+
+# Assert that the directory exists.
+if [[ ! -d "$FLAKE" ]]; then
+  echo "[err]: '$FLAKE' does not exist"
+  exit 1
+fi
+
+# Assert that the directory contains a 'flake.nix'.
+if [[ ! -f "$FLAKE/flake.nix" ]]; then
+  echo "[err]: 'flake.nix' not found in directory"
+  exit 1
+fi
+
+# Get the system hostname.
+HOSTNAME="$(hostname)"
+
+# Build the 'nixos-rebuild' command.
+COMMAND="sudo nixos-rebuild switch --flake ${FLAKE}?submodules=1#${HOSTNAME}"
+
+if [[ "$DEBUG" -eq 1 ]]; then
+  echo "[dbg]: running '$COMMAND'"
+fi
+
+# Execute the system rebuild.
+exec $COMMAND

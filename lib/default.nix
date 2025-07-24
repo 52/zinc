@@ -3,7 +3,7 @@
   ...
 }:
 rec {
-  ## Convert a path to an absolute path from the flake root.
+  ## Convert a path to a relative path from the flake root.
   ##
   ## ```nix
   ## relativePath "system/audio.nix"
@@ -11,6 +11,15 @@ rec {
   ##
   #@ String -> Path
   relativePath = path: "${inputs.self}/${path}";
+
+  ## Read the contents of a file from a path relative to the flake root.
+  ##
+  ## ```nix
+  ## readFileRelative "bin/mx"
+  ## ```
+  ##
+  #@ String -> String
+  readFileRelative = path: builtins.readFile (relativePath path);
 
   ## Filter a list of filenames by extension.
   ##
