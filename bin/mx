@@ -8,8 +8,9 @@
 #   -h, --help    -- Displays this help message.
 #
 # COMMANDS:
-#   - rebuild     -- Rebuilds the system.
-#   - flake       -- Enter a remote development (flake) environment.
+#   - rebuild [path]     -- Rebuilds the system.
+#   - flake [name]       -- Enter a remote development environment.
+#   
 
 # Get the script directory.
 DIRECTORY="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
