@@ -14,6 +14,9 @@ mkIf wayland.enable {
   wayland.windowManager.sway = {
     enable = true;
 
+    # Enable GTK application support.
+    wrapperFeatures.gtk = true;
+
     config = rec {
       modifier = "Mod4";
 
@@ -21,6 +24,14 @@ mkIf wayland.enable {
       startup = [
         { command = "mako"; }
       ];
+
+      gaps = {
+        # Set the inner window gaps.
+        inner = 12;
+
+        # Set the outer window gaps.
+        outer = 6;
+      };
 
       focus = {
         # Enable wrapping focus changes.
