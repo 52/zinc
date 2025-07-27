@@ -20,10 +20,13 @@ mkIf wayland.enable {
     config = rec {
       modifier = "Mod4";
 
-      # Define startup commands.
       startup = [
+        # Ensure 'mako' is running on startup.
         { command = "mako"; }
       ];
+
+      # Disable annoying 'swaybar'.
+      bars = [];
 
       gaps = {
         # Set the inner window gaps.
