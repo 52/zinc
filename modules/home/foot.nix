@@ -12,7 +12,7 @@
         # Set the primary font.
         font = "monospace:size=18";
 
-        # <todo>
+        # Adjust vertical letter offset.
         vertical-letter-offset = "1.0";
 
         # Copy to primary and clipboard on select.
