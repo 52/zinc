@@ -10,10 +10,7 @@
     settings = {
       main = {
         # Set the primary font.
-        font = "monospace:size=18";
-
-        # Adjust the font line-height.
-        line-height = 24;
+        font = "monospace:size=20:weight=semilight";
 
         # Copy to primary and clipboard on select.
         selection-target = "both";
@@ -41,7 +38,7 @@
       # Set the colorscheme.
       colors = {
         background = "1c1c1c";
-        foreground = "f6f6f6";
+        foreground = "e8e8e8";
       };
     };
   };
