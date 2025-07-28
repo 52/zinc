@@ -12,8 +12,8 @@
         # Set the primary font.
         font = "monospace:size=18";
 
-        # Adjust vertical letter offset.
-        vertical-letter-offset = "1.0";
+        # Adjust the font line-height.
+        line-height = 24;
 
         # Copy to primary and clipboard on select.
         selection-target = "both";
