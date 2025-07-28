@@ -27,6 +27,7 @@
       # Custom Fonts
       inherit (pkgs)
         apple-fonts
+        berkeley-mono
         ;
 
       # Nerd Fonts
@@ -45,7 +46,7 @@
         "Noto Color Emoji"
       ];
       monospace = [
-        "SF Mono"
+        "Berkeley Mono"
         "Noto Color Emoji"
       ];
       emoji = [
