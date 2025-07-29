@@ -26,7 +26,7 @@ mkIf wayland.enable {
       ];
 
       # Disable annoying 'swaybar'.
-      bars = [];
+      bars = [ ];
 
       gaps = {
         # Set the inner window gaps.
