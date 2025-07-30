@@ -22,9 +22,6 @@
       # Set scrollback history.
       scrollback.lines = 50000;
 
-      # Make cursor blink.
-      cursor.blink = "yes";
-
       key-bindings = {
         # Clipboard.
         clipboard-copy = "Super+c";
