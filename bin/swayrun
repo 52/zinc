@@ -146,13 +146,15 @@ while [[ $ELAPSED -lt $TIMEOUT ]]; do
   ELAPSED=$((ELAPSED + 1))
 done
 
+# Sleep for 0.5s.
+sleep 0.5
+
 # Switch to original workspace.
 if [[ "$WORKSPACE" != "$CURRENT_WORKSPACE" ]]; then
   if [[ "$DEBUG" -eq 1 ]]; then
     debug "Switching to original workspace '$CURRENT_WORKSPACE'"
   fi
 
-  sleep 0.5
   swaymsg "workspace $CURRENT_WORKSPACE" >/dev/null
 fi
 
@@ -164,6 +166,7 @@ if [[ $SUCCESS -eq 1 ]]; then
 
   exit 0
 else
-  error "Failed to start '$PROGRAM', exiting process..."
+  error "Timed out waiting for window for '$PROGRAM' (PID: $PID), exiting process..."
+  kill "$PID" 2>/dev/null
   exit 1
 fi
