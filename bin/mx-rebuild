@@ -45,7 +45,7 @@ FLAKE="${1:-.}"
 
 # Assert that the directory exists.
 if [[ ! -d "$FLAKE" ]]; then
-  error "'$FLAKE' does not exist, exiting process..."
+  error "Path '$FLAKE' does not exist, exiting process..."
   exit 1
 fi
 
@@ -62,7 +62,7 @@ HOSTNAME="$(hostname)"
 COMMAND="sudo nixos-rebuild switch --flake ${FLAKE}?submodules=1#${HOSTNAME}"
 
 if [[ "$DEBUG" -eq 1 ]]; then
-  debug "Rebuilding '$HOSTNAME' using '$FLAKE'"
+  debug "Rebuilding '$HOSTNAME' from path '$FLAKE'"
   debug "Executing command '$COMMAND'"
 fi
 
