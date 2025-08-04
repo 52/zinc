@@ -12,6 +12,6 @@ in
 {
   # Install all scripts, see: 'bin' folder.
   home.packages = builtins.map (
-    name: pkgs.writeShellScriptBin name (lib.readFileRelative "bin/${name}")
+    name: pkgs.writeScriptBin name (lib.readFileRelative "bin/${name}")
   ) scripts;
 }
