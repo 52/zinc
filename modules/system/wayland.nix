@@ -22,6 +22,9 @@ in
     environment.systemPackages = builtins.attrValues {
       inherit (pkgs)
         wl-clipboard
+        ripgrep
+        btop
+        jq
         ;
     };
 

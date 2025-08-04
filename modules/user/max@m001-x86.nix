@@ -14,10 +14,6 @@ lib.mkUser {
   packages = builtins.attrValues {
     inherit (pkgs)
       hyperfine
-      ripgrep
-      btop
-      bat
-      jq
       ;
   };
 
