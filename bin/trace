@@ -7,9 +7,9 @@
 #   -h, --help    -- Displays this help message.
 #
 # LEVELS:
-#   --info  [message]    -- Prints an info message.
-#   --debug [message]    -- Prints a debug message.
-#   --error [message]    -- Prints an error message.
+#   --info        -- Prints an info message.
+#   --debug       -- Prints a debug message.
+#   --error       -- Prints an error message.
 # 
 
 # Color used for [INFO] messages.
