@@ -132,7 +132,7 @@ while [[ $ELAPSED -lt $TIMEOUT ]]; do
   fi
 
   # Assert that the window has appeared.
-  if [[ -n $(swaymsg -t get_tree | jq -r ".. | select(.app_id? == \"$PROGRAM\") | .app_id") ]]; then
+  if [[ -n $(swaymsg -t get_tree | jq -r '.. | select(.app_id? == "'$PROGRAM'" or .window_properties.instance? == "'$PROGRAM'") | "1"') ]]; then
     if [[ "$DEBUG" -eq 1 ]]; then
       debug "Found window with app_id '$PROGRAM'"
     fi
