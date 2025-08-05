@@ -46,7 +46,7 @@
         "Noto Color Emoji"
       ];
       monospace = [
-        "Berkeley Mono"
+        "SF Mono"
         "Noto Color Emoji"
       ];
       emoji = [
