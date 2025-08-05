@@ -1,10 +1,12 @@
 {
   lib,
+  config,
   osConfig,
   ...
 }:
 let
   inherit (lib) mkIf;
+  inherit (config) theme;
   inherit (osConfig) wayland;
 in
 mkIf wayland.enable {
@@ -14,8 +16,8 @@ mkIf wayland.enable {
   # Manage the configuration file directly.
   # See: https://man.archlinux.org/man/mako.5.en
   xdg.configFile."mako/config".text = ''
-    # Set the font.
-    font=monospace 12
+    # Set the width.
+    width=350
 
     # Set the padding.
     padding=10
@@ -33,9 +35,12 @@ mkIf wayland.enable {
     default-timeout=5000
 
     # Set the background color.
-    background-color=#1c1c1c
+    background-color=#${theme.colors.background}
 
     # Set the foreground color.
-    text-color=#e8e8e8
+    text-color=#${theme.colors.foreground}
+
+    # Set the border color.
+    border-color=#${theme.colors.focus}
   '';
 }

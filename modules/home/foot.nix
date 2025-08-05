@@ -1,10 +1,12 @@
 {
   lib,
+  config,
   osConfig,
   ...
 }:
 let
   inherit (lib) mkIf;
+  inherit (config) theme;
   inherit (osConfig) wayland;
 in
 mkIf wayland.enable {
@@ -19,16 +21,13 @@ mkIf wayland.enable {
   xdg.configFile."foot/foot.ini".text = ''
     [main]
     # Set the terminal font.
-    font=monospace:size=14
+    font=monospace:size=16:weight=light
 
     # Set the font adjustment.
     font-size-adjustment=2px
 
     # Set the window padding.
     pad=8x8
-
-    # Enable monitor DPI-only sizing.
-    dpi-aware=yes
 
     # Set the clipboard target.
     selection-target=both
@@ -48,9 +47,9 @@ mkIf wayland.enable {
 
     [colors]
     # Set the background color.
-    background=1c1c1c
+    background=${theme.colors.background}
 
     # Set the foreground color.
-    foreground=e8e8e8
+    foreground=${theme.colors.foreground}
   '';
 }

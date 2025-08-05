@@ -7,15 +7,15 @@
 }:
 let
   inherit (lib) mkIf;
+  inherit (config) theme env;
   inherit (osConfig) wayland keyboard;
-  env = config.env;
 
   # List of startup commands and programs.
   autostart = lib.concatStringsSep " && sleep 1 && " [
     "swayrun -w 1 ${env.BROWSER or "firefox"}"
     "swayrun -w 1 ${env.TERMINAL or "foot"}"
     "swayrun -w 2 vesktop"
-    "swayrun -w 3 spotify"
+    "swayrun -w 2 spotify"
   ];
 in
 mkIf wayland.enable {
@@ -60,9 +60,9 @@ mkIf wayland.enable {
         # ---- Keypress ----
         #
         # Set the repetition delay.
-        repeat_delay = "250";
+        repeat_delay = "200";
         # Set the repetition rate.
-        repeat_rate = "60";
+        repeat_rate = "80";
       };
 
       # Hide the cursor after 3 seconds.
@@ -160,5 +160,24 @@ mkIf wayland.enable {
         "${modifier}+Shift+q" = "exit";
       };
     };
+
+    # Manage the configuration file directly.
+    # See: https://man.archlinux.org/man/sway.5/
+    extraConfig = ''
+      # Set the border width.
+      default_border pixel 1
+
+      # Set the border colors for window states.
+      # Note: '#FFFFFF' is a placeholder here and has no effect.
+      client.unfocused #${theme.colors.border} #FFFFFF #FFFFFF #FFFFFF #${theme.colors.border}
+      client.focused   #${theme.colors.focus}  #FFFFFF #FFFFFF #FFFFFF #${theme.colors.focus}
+
+      # Set the window gaps.
+      gaps inner 12
+      gaps outer 9
+
+      # Set the background image.
+      output * bg ${theme.wallpaper} fill
+    '';
   };
 }
