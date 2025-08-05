@@ -3,6 +3,7 @@
   ...
 }:
 {
+  # Enable xdg, see: https://specifications.freedesktop.org/basedir-spec/latest/
   xdg = {
     enable = true;
 
@@ -12,17 +13,21 @@
       # Automatically create directories.
       createDirectories = true;
 
-      documents = "${config.home.homeDirectory}/Documents";
-      download = "${config.home.homeDirectory}/Downloads";
+      # Set the user directories.
       desktop = "${config.home.homeDirectory}/Desktop";
+      download = "${config.home.homeDirectory}/Downloads";
+      documents = "${config.home.homeDirectory}/Documents";
 
-      pictures = "${config.home.homeDirectory}/Media/Images";
+      # Set the media directories.
       videos = "${config.home.homeDirectory}/Media/Video";
       music = "${config.home.homeDirectory}/Media/Audio";
+      pictures = "${config.home.homeDirectory}/Media/Images";
 
-      # Disable $XDG_PUBLICSHARE_DIR and $XDG_TEMPLATES_DIR.
       extraConfig = {
+        # Disable the $XDG_PUBLISHSHARE_DIR directory.
         XDG_PUBLICSHARE_DIR = "/var/empty";
+
+        # Disable the $XDG_TEMPLATES_DIR directory.
         XDG_TEMPLATES_DIR = "/var/empty";
       };
     };
