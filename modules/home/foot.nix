@@ -20,24 +20,36 @@ mkIf wayland.enable {
     [main]
     # Set the terminal font.
     font=monospace:size=16:weight=light
+
+    # Set the font adjustment.
+    font-size-adjustment=2px
+
     # Set the window padding.
     pad=8x8
+
+    # Enable monitor DPI-only sizing.
+    dpi-aware=yes
+
     # Set the clipboard target.
     selection-target=both
 
     [key-bindings]
     # <SUPER> + C to copy to clipboard.
     clipboard-copy=Super+c
+
     # <SUPER> + P to paste from clipboard.
     clipboard-paste=Super+p
+
     # <SUPER> + "+" to increase the font size.
     font-increase=Super+plus
+
     # <SUPER> + "-" to decrease the font size.
     font-decrease=Super+minus
 
     [colors]
     # Set the background color.
     background=1c1c1c
+
     # Set the foreground color.
     foreground=e8e8e8
   '';
