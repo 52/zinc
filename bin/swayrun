@@ -115,7 +115,7 @@ if ! kill -0 "$PID" 2>/dev/null; then
 fi
 
 if [[ "$DEBUG" -eq 1 ]]; then
-  debug "Waiting for '$PROGRAM' to start"
+  debug "Waiting for '$PROGRAM' to start (PID: $PID)"
 fi
 
 # Track the elapsed time.
@@ -124,46 +124,72 @@ ELAPSED=0
 # Track whether the loop was successful.
 SUCCESS=0
 
-while [[ $ELAPSED -lt $TIMEOUT ]]; do
-  # Assert that the program is still running.
-  if ! kill -0 "$PID" 2>/dev/null; then
-    error "Program exited, exiting process..."
-    exit 1
+# Create marker files for IPC.
+MARKER_FILE="/tmp/swayrun.$$.$RANDOM.success"
+PID_FILE="/tmp/swayrun.$$.$RANDOM.pid"
+echo "$PID" > "$PID_FILE"
+
+# Subscribe to sway window events.
+swaymsg -t subscribe -m '[ "window" ]' | while read -r event; do
+  # Extract the app_id from the event.
+  APP_ID=$(echo "$event" | jq -r '.container.app_id // empty')
+
+  # Extract the instance from the event.
+  INSTANCE=$(echo "$event" | jq -r '.container.window_properties.instance // empty')
+
+  if [[ "$DEBUG" -eq 1 ]] && [[ -n "$APP_ID" ]]; then
+    debug "Window appeared while waiting for '$PROGRAM' (APP_ID: $APP_ID)"
   fi
 
-  # Assert that the window has appeared.
-  if [[ -n $(swaymsg -t get_tree | jq -r '.. | select(.app_id? == "'$PROGRAM'" or .window_properties.instance? == "'$PROGRAM'") | "1"') ]]; then
-    if [[ "$DEBUG" -eq 1 ]]; then
-      debug "Found window with app_id '$PROGRAM'"
-    fi
+  if [[ "$DEBUG" -eq 1 ]] && [[ -n "$INSTANCE" ]]; then
+    debug "Window appeared while waiting for '$PROGRAM' (INSTANCE: $INSTANCE)"
+  fi
 
+  # Assert that the window is the one we're interested in.
+  if [[ "${APP_ID,,}" == "${PROGRAM,,}" ]] || [[ "${INSTANCE,,}" == "${PROGRAM,,}" ]]; then
+    WINDOW_ID=$(echo "$event" | jq -r '.container.id')
+    
+    if [[ "$DEBUG" -eq 1 ]]; then
+      debug "Window appeared for program '$PROGRAM' (WINDOW_ID: $WINDOW_ID)"
+    fi
+    
+    # Move the window to the specified workspace.
+    swaymsg "[con_id=$WINDOW_ID] move container to workspace $WORKSPACE" >/dev/null
+    
+    # Create the marker file.
+    touch "$MARKER_FILE"
+    
+    # Exit the process.
+    exit 0
+  fi
+done &
+
+# Capture the monitor process ID.
+MONITOR_PID=$!
+
+# Wait for the window to appear or timeout.
+while [[ $ELAPSED -lt $TIMEOUT ]]; do
+  # Assert that the marker file was created.
+  if [[ -f "$MARKER_FILE" ]]; then
     SUCCESS=1
     break
   fi
-
-  # Sleep for n seconds.
+  
   sleep 0.1
   ELAPSED=$((ELAPSED + 1))
 done
 
-# Sleep for 0.5s.
-sleep 0.5
+# Clean up the marker file.
+rm -f "$MARKER_FILE" "$PID_FILE"
 
-# Switch to original workspace.
-if [[ "$WORKSPACE" != "$CURRENT_WORKSPACE" ]]; then
-  if [[ "$DEBUG" -eq 1 ]]; then
-    debug "Switching to original workspace '$CURRENT_WORKSPACE'"
-  fi
-
-  swaymsg "workspace $CURRENT_WORKSPACE" >/dev/null
-fi
+# Clean up the monitor process.
+kill $MONITOR_PID 2>/dev/null
 
 # Exit the script.
 if [[ $SUCCESS -eq 1 ]]; then
   if [[ "$DEBUG" -eq 1 ]]; then
     debug "Successfully started '$PROGRAM' in workspace '$WORKSPACE'"
   fi
-
   exit 0
 else
   error "Timed out waiting for window for '$PROGRAM' (PID: $PID), exiting process..."
