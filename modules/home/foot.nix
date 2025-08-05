@@ -21,7 +21,7 @@ mkIf wayland.enable {
     # Set the terminal font.
     font=monospace:size=16:weight=light
     # Set the window padding.
-    pad=8x8 center
+    pad=8x8
     # Set the clipboard target.
     selection-target=both
 
