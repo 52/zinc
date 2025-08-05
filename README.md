@@ -16,7 +16,7 @@ Licensed under <a href="LICENSE-APACHE">Apache License, Version 2.0</a> or <a hr
 ## Contribution
 
 <sup>
-Contributions to this crate will be dual-licensed under <a href="LICENSE-APACHE">Apache-2.0</a> and <a href="LICENSE-MIT">MIT</a> by default, unless specifically indicated otherwise.
+Contributions to this project will be dual-licensed under <a href="LICENSE-APACHE">Apache-2.0</a> and <a href="LICENSE-MIT">MIT</a> by default, unless specifically indicated otherwise.
 </sup>
 
 [License-Apache]: https://opensource.org/licenses/Apache-2.0
