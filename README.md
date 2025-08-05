@@ -1,5 +1,5 @@
 <div align="left">
-  <h1><code>mOS</code></h1>
+  <h1><code>mx</code></h1>
 </div>
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)][License-Apache]
