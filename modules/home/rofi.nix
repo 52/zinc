@@ -11,13 +11,17 @@ let
 in
 mkIf wayland.enable {
   # Enable rofi, see: https://github.com/davatorium/rofi/
-  programs.rofi = {
-    enable = true;
+  programs.rofi.enable = true;
 
-    # Set default font.
-    font = "monospace 14";
+  # Manage the configuration file directly.
+  # See: https://man.archlinux.org/man/rofi-theme.5.en
+  xdg.configFile."rofi/config.rasi".text = ''
+    configuration {
+      /* Set the font. */
+      font: "monospace 14";
 
-    # Set default terminal.
-    terminal = env.TERMINAL;
-  };
+      /* Set the default terminal. */
+      terminal: "${env.TERMINAL}";
+    }
+  '';
 }

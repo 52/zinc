@@ -1,5 +1,6 @@
 {
   lib,
+  pkgs,
   config,
   osConfig,
   ...
@@ -8,8 +9,24 @@ let
   inherit (lib) mkIf;
   inherit (osConfig) wayland keyboard;
   env = config.env;
+
+  # List of startup commands and programs.
+  autostart = lib.concatStringsSep " && sleep 1 && " [
+    "swayrun -w 1 ${env.BROWSER or "firefox"}"
+    "swayrun -w 1 ${env.TERMINAL or "foot"}"
+    "swayrun -w 2 vesktop"
+    "swayrun -w 3 spotify"
+  ];
 in
 mkIf wayland.enable {
+  # Install additional dependencies.
+  home.packages = builtins.attrValues {
+    inherit (pkgs)
+      spotify
+      vesktop
+      ;
+  };
+
   # Enable sway, see: https://swaywm.org/
   wayland.windowManager.sway = {
     enable = true;
@@ -21,41 +38,38 @@ mkIf wayland.enable {
       modifier = "Mod4";
 
       startup = [
-        # Ensure 'mako' is running on startup.
-        { command = "mako"; }
+        # Ensure 'waybar' is running on startup.
+        { command = "exec uwsm app -- waybar"; }
+        # Autostart applications in specific workspaces.
+        { command = "exec sh -c '${autostart}'"; }
       ];
 
       # Disable annoying 'swaybar'.
       bars = [ ];
 
-      gaps = {
-        # Set the inner window gaps.
-        inner = 12;
-
-        # Set the outer window gaps.
-        outer = 6;
-      };
-
-      focus = {
-        # Enable wrapping focus changes.
-        wrapping = "yes";
-
-        # Disable focus change on hover.
-        followMouse = false;
-      };
-
       input."type:keyboard" = {
-        # Set the keyboard layouts.
-        xkb_layout = keyboard.layout;
+        #
+        # ---- XKB ----
+        #
+        # Set the keyboard variant.
         xkb_variant = keyboard.variant;
+        # Set the keyboard layout.
+        xkb_layout = keyboard.layout;
 
-        # Enable faster typing speed.
+        #
+        # ---- Keypress ----
+        #
+        # Set the repetition delay.
         repeat_delay = "250";
+        # Set the repetition rate.
         repeat_rate = "60";
       };
 
       # Hide the cursor after 3 seconds.
       seat."*".hide_cursor = "3000";
+
+      # Enable wrapping focus changes.
+      focus.wrapping = "yes";
 
       keybindings = {
         #

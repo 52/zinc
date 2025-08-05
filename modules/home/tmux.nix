@@ -5,8 +5,8 @@
     enable = true;
 
     extraConfig = ''
-      set -ga terminal-overrides ",*256col*:Tc:RGB"
-      set -g default-terminal "xterm-256color"
+      set -ag terminal-overrides ",xterm-256color:RGB"
+      set -g default-terminal "tmux-256color"
       set -g history-limit 50000
 
       # Fix: <esc> delay in vim
