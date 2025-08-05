@@ -19,7 +19,7 @@ mkIf wayland.enable {
   xdg.configFile."foot/foot.ini".text = ''
     [main]
     # Set the terminal font.
-    font=monospace:size=16:weight=light
+    font=monospace:size=14
 
     # Set the font adjustment.
     font-size-adjustment=2px
