@@ -6,11 +6,12 @@
 }:
 let
   inherit (lib) mkIf;
-  inherit (config) theme;
   inherit (osConfig) wayland;
+  inherit (config) theme;
 in
 mkIf wayland.enable {
-  # Enable mako, see: https://github.com/emersion/mako/
+  # Enable "mako".
+  # See: https://github.com/emersion/mako
   services.mako.enable = true;
 
   # Manage the configuration file directly.
@@ -28,7 +29,7 @@ mkIf wayland.enable {
     # Set the border radius.
     border-radius=5
 
-    # Set the maximum n of visible popups.
+    # Set the maximum visible notifications.
     max-visible=10
 
     # Set the default timeout.

@@ -5,49 +5,62 @@
 }:
 {
   imports = lib.flatten [
-    # Import hardware modules.
+    #
+    # ---- Hardware ----
+    #
     ./hardware.nix
 
     inputs.hardware.nixosModules.common-cpu-amd
     inputs.hardware.nixosModules.common-gpu-amd
     inputs.hardware.nixosModules.common-pc-ssd
 
-    # Import system modules.
+    #
+    # ---- System ----
+    #
     (lib.importAll "modules/system")
 
-    # Import system user profiles.
+    #
+    # ---- Users ----
+    #
     (lib.relativePath "modules/user/max@m001-x86.nix")
   ];
 
-  # system/network.nix
-  network = {
-    hostName = "m001-x86";
-  };
+  # Must be a valid DNS label.
+  # WARNING: Do not use (_) or you may run into unexpected issues.
+  networking.hostName = "m001-x86";
 
-  # system/wayland.nix
+  # The time zone used when displaying times and dates.
+  # See: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time.timeZone = "Europe/Berlin";
+
+  # Enable the "wayland" module.
+  # See: "system/wayland.nix"
   wayland = {
     enable = true;
   };
 
-  # system/docker.nix
+  # Enable the "docker" module.
+  # See: "system/docker.nix"
   docker = {
     enable = true;
     members = [ "max" ];
   };
 
-  # system/steam.nix
+  # Enable the "steam" module.
+  # See: "system/steam.nix"
   steam = {
     enable = true;
     members = [ "max" ];
   };
 
-  # system/keyboard.nix
-  keyboard = {
-    remaps = {
-      "macos" = [ "3434:0281" ];
-    };
+  # Set keyboard overrides/profiles.
+  # See: "system/keyboard.nix"
+  keyboard.overrides = {
+    "macos" = [ "3434:0281" ];
   };
 
-  # WARNING - SEE: https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
+  # Tracks the original version for compatibility.
+  # This should almost never be changed after the first installation.
+  # See: https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "24.11";
 }

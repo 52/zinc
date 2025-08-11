@@ -7,10 +7,11 @@
 let
   inherit (lib) mkIf;
   inherit (osConfig) wayland;
-  env = config.env;
+  inherit (config) env;
 in
 mkIf wayland.enable {
-  # Enable rofi, see: https://github.com/davatorium/rofi/
+  # Enable "rofi".
+  # See: https://github.com/davatorium/rofi
   programs.rofi.enable = true;
 
   # Manage the configuration file directly.

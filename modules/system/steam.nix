@@ -11,51 +11,53 @@ in
 {
   imports = builtins.attrValues {
     inherit (inputs.nix-gaming.nixosModules)
-      pipewireLowLatency
       platformOptimizations
+      pipewireLowLatency
       ;
   };
 
   options.steam = {
     enable = mkOption {
       type = types.bool;
-      description = "Whether to enable the 'steam' module";
       default = false;
+      description = ''
+        Whether to enable the "steam" module.
+
+        This enables the Steam platform with optimizations
+        from the "nix-gaming" modules.
+      '';
     };
 
     members = mkOption {
       type = types.listOf types.str;
-      description = "Users to add to the 'gamemode' group";
       default = [ ];
+      description = ''
+        List of users to add to the "gamemode" group.
+
+        These users will be able to use GameMode for
+        performance optimizations while gaming.
+      '';
     };
   };
 
   config = mkIf cfg.enable {
-    # Enable steam, see: https://store.steampowered.com/
+    # Enable "Steam".
+    # See: https://store.steampowered.com
     programs.steam = {
       enable = true;
 
-      # Enable diverse platform optimizations.
+      # Enable a variety of platform optimizations.
       platformOptimizations.enable = true;
     };
 
-    # Enable gamemode, see: https://github.com/FeralInteractive/gamemode/
-    programs.gamemode = {
-      enable = true;
-
-      settings.general = {
-        # Enable soft real-time scheduling.
-        softrealtime = "on";
-
-        # Prevent screen from sleeping.
-        inhibit_screensaver = 1;
-      };
-    };
+    # Enable "GameMode".
+    # See: https://wiki.archlinux.org/title/GameMode
+    programs.gamemode.enable = true;
 
     # Enable low-latency audio compatibility.
     services.pipewire.lowLatency.enable = true;
 
-    # Manage the 'gamemode' group.
+    # Manage the "gamemode" group.
     users.groups.gamemode = {
       inherit (cfg) members;
     };

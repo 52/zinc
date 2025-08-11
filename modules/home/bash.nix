@@ -6,65 +6,63 @@
   # Set the default shell.
   env.SHELL = "bash";
 
-  # Enable bash, see: https://www.gnu.org/software/bash/
+  # Enable "bash".
+  # See: https://www.gnu.org/software/bash
   programs.bash = {
     enable = true;
 
-    # Limit the number of lines (memory).
+    # Limit the history size to n-lines.
     historySize = 500000;
 
-    # Limit the number of lines (flushed).
+    # Limit the on disk history file to n-lines.
     historyFileSize = 100000;
 
-    # Remove the '.bash_history' file from home.
+    # Remove the ".bash_history" file from $HOME.
     historyFile = "${config.xdg.dataHome}/bash/bash_history";
 
     historyControl = [
-      # Ignore duplicate entries.
+      # Ignore duplicate entries in history.
       "ignoredups"
 
-      # Remove duplicate entries.
+      # Remove duplicate entries from history.
       "erasedups"
     ];
 
     shellOptions = [
-      # Enable recursive globbing.
+      # Enable recursive pattern matching with "**".
       "globstar 2> /dev/null"
 
-      # Enable case-insensitive globbing.
-      "nocaseglob;"
+      # Enable case-insensitive filename matching.
+      "nocaseglob"
 
-      # Append to history file.
+      # Append new lines to the history file.
       "histappend"
 
-      # Update window more frequently.
+      # Check the window size after each command.
       "checkwinsize"
 
-      # Save multi-line commands as one entry.
+      # Save multi-line commands as a single history entry.
       "cmdhist"
 
-      # Prepend 'cd' to directory names.
+      # Automatically prepend "cd" to directory names.
       "autocd 2> /dev/null"
 
-      # Correct spelling errors during 'cd'.
+      # Automatically correct spelling errors in "cd".
       "cdspell 2> /dev/null"
 
-      # Correct spelling errors during completion.
+      # Automatically correct spelling errors in completion.
       "dirspell 2> /dev/null"
     ];
 
     shellAliases = {
       ".." = "cd ..";
 
-      # Disk
       df = "df -h";
       du = "du -h -c";
 
-      # List
       ls = "ls -lF -G --group-directories-first --color=auto";
       la = "ls -lAF -G --group-directories-first --color=auto";
 
-      # Git
       g = "git";
       ga = "git add";
       gp = "git push";
@@ -74,15 +72,12 @@
       gb = "git branch";
       gl = "git log --decorate --oneline --graph";
 
-      # Nix
       n = "nix";
       nd = "nix develop";
 
-      # Vim
       v = "vim";
       vi = "vim";
 
-      # Tmux
       t = "tmux";
       tl = "tmux ls";
       td = "tmux detach";
@@ -91,37 +86,38 @@
     };
 
     initExtra = ''
-      ## Enable 'bash-sensible', see: https://github.com/mrzool/bash-sensible/
+      ## Enable "bash-sensible".
+      ## See: https://github.com/mrzool/bash-sensible
 
-      # Enable case-insensitve completion.
+      # Enable case-insensitive completion.
       bind "set completion-ignore-case on"
 
-      # Treat hyphens and underscores equally.
+      # Treat hyphens and underscores as equivalent.
       bind "set completion-map-case on"
 
-      # Display all matches immediatly.
+      # Display all matches immediately.
       bind "set show-all-if-ambiguous on"
 
-      # Append slash to symlinked directories.
+      # Append slashes to symlinked directories.
       bind "set mark-symlinked-directories on"
 
-      # Move cursor to eol when cycling.
+      # Move the cursor to EOL when cycling through history.
       bind "set history-preserve-point off"
 
-      # Cycle through autocomplete.
+      # Enable cycling through tab completion options.
       bind 'tab: menu-complete'
       bind '"\e[Z": menu-complete-backward'
 
-      # Enable incremental history search.
+      # Enable incremental history search with arrow keys.
       bind '"\e[A": history-search-backward'
       bind '"\e[B": history-search-forward'
       bind '"\e[C": forward-char'
       bind '"\e[D": backward-char'
 
-      ## Load the '__git_ps1' command.
+      ## Load the "__git_ps1" command.
       . $HOME/.nix-profile/share/git/contrib/completion/git-prompt.sh
 
-      ## Set custom prompt
+      ## Load the custom prompt.
       PS1='\[\e[32m\]\w''$(__git_ps1 "\[\e[31m\] [%s]")\[\e[36m\]''${IN_NIX_SHELL:+ *}\[\e[0m\] '
     '';
   };

@@ -4,16 +4,11 @@
 }:
 {
   fonts = {
+    # Install system fonts.
+    # See: https://wiki.nixos.org/wiki/fonts
     packages = builtins.attrValues {
-      # Corefonts, see: https://corefonts.sourceforge.net/
       inherit (pkgs)
-        corefonts
-        ;
-
-      # Google, see: https://fonts.google.com/
-      inherit (pkgs)
-        roboto
-        roboto-mono
+        material-symbols
 
         noto-fonts
         noto-fonts-extra
@@ -21,37 +16,23 @@
         noto-fonts-cjk-serif
         noto-fonts-color-emoji
 
-        open-sans
-        ;
-
-      # Custom Fonts
-      inherit (pkgs)
         apple-fonts
         berkeley-mono
-        ;
-
-      # Nerd Fonts
-      inherit (pkgs.nerd-fonts)
-        symbols-only
         ;
     };
 
     fontconfig.defaultFonts = {
-      serif = [
-        "New York Medium"
-        "Noto Color Emoji"
-      ];
-      sansSerif = [
-        "SF Pro Text"
-        "Noto Color Emoji"
-      ];
-      monospace = [
-        "SF Mono"
-        "Noto Color Emoji"
-      ];
-      emoji = [
-        "Noto Color Emoji"
-      ];
+      # Set the default serif font.
+      serif = [ "New York" ];
+
+      # Set the default sans-serif font.
+      sansSerif = [ "SF Pro Text" ];
+
+      # Set the default monospace font.
+      monospace = [ "SF Mono" ];
+
+      # Set the default emoji font.
+      emoji = [ "Noto Color Emoji" ];
     };
   };
 }

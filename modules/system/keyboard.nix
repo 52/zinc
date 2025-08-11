@@ -12,20 +12,35 @@ in
   options.keyboard = {
     layout = mkOption {
       type = types.str;
-      description = "Keyboard layout for all keyboards";
       default = "de";
+      description = ''
+        The keyboard layout to use.
+
+        This sets the system-wide keyboard layout for
+        both console and graphical environments.
+      '';
     };
 
     variant = mkOption {
       type = types.str;
-      description = "Keyboard variant for all keyboards";
       default = "mac_nodeadkeys";
+      description = ''
+        The keyboard variant to use.
+
+        This sets the system-wide keyboard variant with
+        specific mappings and behaviours.
+      '';
     };
 
-    remaps = mkOption {
+    overrides = mkOption {
       type = types.attrsOf (types.listOf types.str);
-      description = "Keyd profiles mapped to device Ids";
       default = { };
+      description = ''
+        Profiles mapped to their target device identifiers.
+
+        These profiles are loaded from "local/keyd" and applied
+        to specific keyboard devices using "keyd".
+      '';
     };
   };
 
@@ -37,16 +52,18 @@ in
         ;
     };
 
-    # Apply keyboard remappings with 'keyd'.
-    services.keyd = mkIf (cfg.remaps != { }) {
+    # Enable "keyd".
+    # See: https://github.com/rvaiya/keyd
+    services.keyd = mkIf (cfg.overrides != { }) {
       enable = true;
+
       keyboards = builtins.mapAttrs (name: ids: {
         inherit ids;
         extraConfig = builtins.readFile (lib.relativePath "local/keyd/${name}.conf");
-      }) cfg.remaps;
+      }) cfg.overrides;
     };
 
-    # Set the keyboard layout (TTY).
+    # Set the keyboard layout for the console.
     console.keyMap = cfg.layout;
   };
 }

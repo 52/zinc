@@ -1,6 +1,7 @@
 { ... }:
 {
-  # Enable bluez, see: https://www.bluez.org/
+  # Enable "BlueZ".
+  # See: https://www.bluez.org
   hardware.bluetooth = {
     enable = true;
 
@@ -8,10 +9,10 @@
     powerOnBoot = true;
 
     settings.General = {
-      # Enable experimental features.
+      # Enable D-Bus experimental interfaces.
       Experimental = true;
 
-      # Enable faster advertising interval.
+      # Enable faster advertising intervals.
       FastConnectable = true;
     };
   };

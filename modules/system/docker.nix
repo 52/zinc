@@ -12,14 +12,24 @@ in
   options.docker = {
     enable = mkOption {
       type = types.bool;
-      description = "Whether to enable the 'docker' module";
       default = false;
+      description = ''
+        Whether to enable the "docker" module.
+
+        This enables Docker containers and sets sane
+        default configurations.
+      '';
     };
 
     members = mkOption {
       type = types.listOf types.str;
-      description = "Users to add to the 'docker' group";
       default = [ ];
+      description = ''
+        List of users to add to the "docker" group.
+
+        These users will have permissions to manage Docker
+        containers without requiring root privileges.
+      '';
     };
   };
 
@@ -31,15 +41,16 @@ in
         ;
     };
 
-    # Enable docker, see: https://docs.docker.com/
+    # Enable "Docker".
+    # See: https://docs.docker.com
     virtualisation.docker = {
       enable = true;
 
-      # Enable periodical pruning of resources.
+      # Enable the periodic pruning of resources.
       autoPrune.enable = true;
     };
 
-    # Manage the 'docker' group.
+    # Manage the "docker" group.
     users.groups.docker = {
       inherit (cfg) members;
     };

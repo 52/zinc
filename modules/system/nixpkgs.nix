@@ -11,42 +11,29 @@
       ;
   };
 
-  # Enable nix, see: https://github.com/NixOS/nix/
-  nix = {
-    enable = true;
-
-    settings = {
-      # Enable experimental features.
-      experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
-
-      # Disable warning for dirty git repositories.
-      warn-dirty = false;
-    };
-  };
-
-  # Enable nixpkgs, see: https://nixos.org/manual/nixpkgs/stable/
   nixpkgs = {
-    # Set the custom overlays.
+    # Set the list of overlays to apply to "nixpkgs".
     overlays = builtins.attrValues outputs.overlays;
 
-    # Allow use of proprietary software.
-    config.allowUnfree =true;
+    # Enable the use of proprietary packages.
+    config.allowUnfree = true;
   };
 
   home-manager = {
-    # Define globally shared modules.
+    # Import all home-manager modules.
     sharedModules = lib.importAll "modules/home";
 
-    # Use the system packages.
+    # Use the system-wide "nixpkgs" instance.
     useGlobalPkgs = true;
 
-    # Set extra arguments.
+    # Set global arguments for use in home-manager modules.
     extraSpecialArgs = { inherit inputs outputs; };
   };
 
-  # Disable the nixOS documentation.
-  documentation.nixos.enable = false;
+  # Enable experimental features for "nix".
+  # See: https://nix.dev/manual/nix/2.18/contributing/experimental-features/
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 }
