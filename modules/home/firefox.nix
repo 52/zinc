@@ -8,56 +8,50 @@
 let
   inherit (lib) mkIf;
   inherit (osConfig) wayland;
-  user = config.home.username;
 in
 mkIf wayland.enable {
   env = {
     # Set the default browser.
     BROWSER = "firefox";
+
     # Enable GPU rendering.
     MOZ_WEBRENDER = "1";
+
     # Enable wayland support.
     MOZ_ENABLE_WAYLAND = "1";
   };
 
-  # Enable firefox, see: https://www.mozilla.org/en-US/firefox/new/
+  # Enable "Firefox".
+  # See: https://www.mozilla.org/en-US/firefox/new
   programs.firefox = {
     enable = true;
 
     # Set the default user profile.
-    profiles.${user} = {
+    profiles.${config.home.username} = {
       settings = {
-        #
-        # ---- Browser ----
-        #
-        # Restore previous session on startup.
-        "browser.startup.page" = 3;
-        # Don't ask if this is the default browser.
-        "browser.shell.checkDefaultBrowser" = false;
-
-        #
-        # ---- Updates ----
-        #
         # Disables automatic updates.
         "app.update.auto" = false;
         # Disables automatic background updates.
         "app.update.background.enabled" = false;
 
-        #
-        # ---- Layout ----
-        #
+        # Restore previous session on startup.
+        "browser.startup.page" = 3;
+        # Don't ask if this is the default browser.
+        "browser.shell.checkDefaultBrowser" = false;
+        # Don't switch to a new tab that was opened.
+        "browser.tabs.loadBookmarksInBackground" = true;
+
         # Remove the "Account" button from the toolbar.
         "identity.fxaccounts.toolbar.enabled" = false;
-        # Ensure the bookmarks toolbar is always visible.
-        "browser.toolbars.bookmarks.visibility" = "always";
+        # Ensure bookmarks toolbar are only visible in a new tab.
+        "browser.toolbars.bookmarks.visibility" = "newtab";
         # Disable "Web search" on the Firefox Home page.
         "browser.newtabpage.activity-stream.showSearch" = false;
         # Disable "Shortcuts" on the Firefox Home page.
         "browser.newtabpage.activity-stream.feeds.topsites" = false;
+        # Enable "userChrome.css" customization support.
+        "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
 
-        #
-        # ---- Passwords ----
-        #
         # Disable "Ask to save passwords".
         "signon.rememberSignons" = false;
         # Disable "Save and fill addresses".
@@ -65,9 +59,6 @@ mkIf wayland.enable {
         # Disable "Save and fill payment methods".
         "extensions.formautofill.creditCards.enabled" = false;
 
-        #
-        # ---- Features ----
-        #
         # Disable "Recommend extensions as you browse".
         "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons" = false;
         # Disable "Recommend features as you browse".
@@ -75,9 +66,6 @@ mkIf wayland.enable {
         # Disable Pocket integration.
         "extensions.pocket.enabled" = false;
 
-        #
-        # ---- Telemetry ----
-        #
         # Disables the master switch for all data reporting.
         "datareporting.policy.dataSubmissionEnabled" = false;
         # Disables the submission of Firefox Health Reports.
@@ -103,9 +91,6 @@ mkIf wayland.enable {
         # Disables participation in Firefox "Studies".
         "app.shield.optoutstudies.enabled" = false;
 
-        #
-        # ---- Privacy ----
-        #
         # Sets the master privacy preset to "Strict".
         "browser.contentblocking.category" = "strict";
         # Enables Total Cookie Protection by partitioning network state.
@@ -120,12 +105,96 @@ mkIf wayland.enable {
         "privacy.trackingprotection.fingerprinting.enabled" = true;
       };
 
-      # Set the browser extensions.
+      # Install browser extensions.
       extensions.packages = builtins.attrValues {
         inherit (pkgs.nur.repos.rycee.firefox-addons)
           ublock-origin
           ;
       };
+
+      # Set custom "userChrome.css" styles.
+      userChrome = ''
+        :root {
+          /* Rounded corners */
+          --tab-border-radius: 8px !important;
+          --toolbarbutton-border-radius: 8px !important;
+        }
+
+        /* Remove default shadows from tab bar */
+        #tabbrowser-tabs,
+        .tab-background {
+          box-shadow: none !important;
+        }
+
+        /* Remove icons from the URL bar */
+        #alltabs-button,
+        #identity-icon-box,
+        #picture-in-picture-button,
+        #reader-mode-button,
+        #tracking-protection-icon-container {
+          display: none !important;
+        }
+
+        /* Remove "This time search with..." suggestions */
+        #urlbar .search-one-offs {
+          display: none !important;
+        }
+
+        /* Round the URL bar */
+        #urlbar,
+        #urlbar-background {
+          border-radius: 8px !important;
+        }
+
+        /* Remove fullscreen warning border */
+        #fullscreen-warning {
+          border: none !important;
+          background: -moz-Dialog !important;
+        }
+
+        /* Tab layout tweaks */
+        .tabbrowser-tab {
+          padding-top: 2px !important;
+          padding-bottom: 2px !important;
+        }
+
+        /* Tab close button visibility and transitions */
+        .tabbrowser-tab:not(:hover) .tab-close-button {
+          opacity: 0% !important;
+          transition: 0.3s !important;
+        }
+
+        .tab-close-button[selected]:not(:hover) {
+          opacity: 45% !important;
+          transition: 0.3s !important;
+        }
+
+        .tabbrowser-tab:hover .tab-close-button,
+        .tab-close-button:hover,
+        .tab-close-button[selected]:hover {
+          opacity: 100% !important;
+          background: none !important;
+          cursor: pointer;
+          transition: 0.3s !important;
+        }
+
+        /* Remove border around navigation toolbox */
+        #navigator-toolbox {
+          border: none !important;
+        }
+
+        /* Add spacer width when in fullscreen or without custom title bar */
+        :root[inFullscreen] .titlebar-spacer {
+          display: block !important;
+          width: 8px !important;
+        }
+
+        /* Remove the extensions and import button */
+        #unified-extensions-button,
+        #import-button {
+          display: none !important;
+        }
+      '';
     };
   };
 }

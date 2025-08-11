@@ -5,52 +5,74 @@
 }:
 let
   inherit (lib) mkOption types;
+  inherit (config) env;
   cfg = config.git;
-  env = config.env;
 in
 {
   options.git = {
-    userName = mkOption {
-      type = types.str;
-      description = "Default git user name";
-      default = throw "Must provide a non-empty string";
+    enable = mkOption {
+      type = types.bool;
+      default = false;
+      description = ''
+        Whether to enable the "git" module.
+
+        This configures Git with sensible defaults.
+      '';
     };
 
-    userEmail = mkOption {
+    name = mkOption {
       type = types.str;
-      description = "Default git user email";
       default = throw "Must provide a non-empty string";
+      description = ''
+        The user name used in commits.
+
+        Ths will be shown as the author name in commit history.
+      '';
+    };
+
+    email = mkOption {
+      type = types.str;
+      default = throw "Must provide a non-empty string";
+      description = ''
+        The user email used in commits.
+
+        Ths will be shown as the author email in commit history.
+      '';
     };
   };
 
   config = {
-    # Enable git, https://git-scm.com/
+    # Enable "git".
+    # See: https://git-scm.com
     programs.git = {
       enable = true;
 
-      # Set the username and email.
-      inherit (cfg) userName userEmail;
+      # Set the author name.
+      userName = cfg.name;
+
+      # Set the author email.
+      userEmail = cfg.email;
 
       extraConfig = {
         core = {
           # Set the default editor.
           editor = env.EDITOR;
 
-          # Enable file-system monitor.
+          # Monitor the file-system for changes.
           fsmonitor = true;
 
-          # Enable untracked file caching.
+          # Enable caching of untracked files.
           untrackedCache = true;
         };
 
         push = {
-          # Push only current branch.
+          # Push only the current branch.
           default = "simple";
 
-          # Automatically create remote branch.
+          # Automatically create remote branches.
           autoSetupRemote = true;
 
-          # Automatically push tags with commits.
+          # Automatically push annotated tags.
           followTags = true;
         };
 
@@ -58,39 +80,39 @@ in
           # Automatically squash commits.
           autoSquash = true;
 
-          # Automatically stash before rebase.
+          # Automatically stash changes.
           autoStash = true;
 
-          # Automatically update references.
+          # Automatically update dependent branches.
           updateRefs = true;
         };
 
         diff = {
-          # Use histogram diff algorithm.
+          # Use the histogram diff algorithm.
           algorithm = "histogram";
 
-          # Display moved lines in color.
+          # Highlight moved lines in different colors.
           colorMoved = "plain";
 
           # Use descriptive prefixes.
           mnemonicPrefix = true;
 
-          # Detect renamed files.
+          # Detect and display renamed files.
           renames = true;
         };
 
         commit = {
-          # Cleanup at scissors marker.
+          # Clean up commit messages at the scissors markers.
           cleanup = "scissors";
 
-          # Display complete diff.
+          # Display the full diff in the commit message editor.
           verbose = true;
         };
 
-        # Set the default branch to 'master'.
+        # Set the default branch name.
         init.defaultBranch = "master";
 
-        # Sort branches by most recent commit.
+        # Sort branches by the most recent commit.
         branch.sort = "-committerdate";
 
         # Sort tags by the version and name.
@@ -102,7 +124,7 @@ in
         # Enable colored output.
         color.ui = "auto";
 
-        # Enable auto-correct.
+        # Enable autocorrect for mistyped commands.
         help.autocorrect = 1;
       };
     };

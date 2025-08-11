@@ -5,117 +5,115 @@
 }:
 let
   inherit (lib) mkOption mkIf types;
+  inherit (config) git;
   cfg = config.ssh;
 in
 {
   options.ssh = {
-    enable = mkOption {
-      type = types.bool;
-      description = "Whether to enable the 'ssh' module";
-      default = false;
-    };
-
     enableGitIntegration = mkOption {
       type = types.bool;
-      description = "Whether to enable the 'git' integration";
+      default = git.enable or false;
+      description = ''
+        Whether to enable the SSH integration for Git.
+
+        This configures match blocks and URL rewrites for
+        popular platforms like "GitHub" and "GitLab".
+      '';
+    };
+
+    enableGitSigning = mkOption {
+      type = types.bool;
       default = false;
-    };
+      description = ''
+        Whether to enable SSH-based commit signing.
 
-    publicKeyFile = mkOption {
-      type = types.str;
-      description = "Path to the public key file";
-      default = "${config.home.homeDirectory}/.ssh/id_${config.home.username}.pub";
-    };
-
-    privateKeyFile = mkOption {
-      type = types.str;
-      description = "Path to the private key file";
-      default = "${config.home.homeDirectory}/.ssh/id_${config.home.username}";
+        This enables the use of SSH keys for signing commits
+        instead of "GPG" (GNU Privacy Guard).
+      '';
     };
   };
 
-  config = mkIf cfg.enable (
-    lib.mkMerge [
-      {
-        # Enable ssh, see: https://www.openssh.com/
-        programs.ssh = {
-          enable = true;
+  config = lib.mkMerge [
+    {
+      # Enable "SSH".
+      # See: https://www.openssh.com
+      programs.ssh = {
+        enable = true;
 
-          # Automatically add keys to 'ssh-agent'.
-          addKeysToAgent = "yes";
+        # Automatically add keys to the "ssh-agent".
+        addKeysToAgent = "yes";
 
-          # Restrict to secure algorithms only.
-          extraConfig = ''
-            HostKeyAlgorithms ssh-ed25519,ssh-ed25519-cert-v01@openssh.com
-            PubkeyAcceptedAlgorithms ssh-ed25519,ssh-ed25519-cert-v01@openssh.com 
-          '';
-        };
-
-        # Enable ssh-agent, see: https://en.wikipedia.org/wiki/Ssh-agent/
-        services.ssh-agent.enable = true;
-
-        # Fix: Ordering for managed compositors (e.g. UWSM) compatibility.
-        # See: https://github.com/Vladimir-csp/uwsm/issues/75/
-        systemd.user.services."ssh-agent" = {
-          # Force ssh-agent to run before 'graphical-session'.
-          Unit.Before = [ "graphical-session-pre.target" ];
-
-          Service = {
-            # Export SSH_AUTH_SOCK to the user environment after ssh-agent starts.
-            # This ensures all services can access the socket.
-            ExecStartPost = "systemctl --user set-environment \"SSH_AUTH_SOCK=%t/ssh-agent\"";
-
-            # Clean up the environment when ssh-agent stops.
-            # This prevents stale socket references.
-            ExecStopPost = "systemctl --user unset-environment SSH_AUTH_SOCK";
-          };
-        };
-      }
-
-      (mkIf cfg.enableGitIntegration {
-        # Add match blocks for common git hosts.
-        programs.ssh.matchBlocks."git" = {
-          # Set user for authentication.
-          user = "git";
-
-          # Match on 'github' and 'gitlab' hosts.
-          host = "github.com gitlab.com";
-
-          # Set the private key file.
-          identityFile = cfg.privateKeyFile;
-
-          # Only use specified identity.
-          identitiesOnly = true;
-        };
-
-        # Enable signed git commits.
-        programs.git = {
-          signing = {
-            # Sign commits by default.
-            signByDefault = true;
-
-            # Set the public key file.
-            key = cfg.publicKeyFile;
-          };
-
-          extraConfig = {
-            # Use ssh for signing.
-            gpg.format = "ssh";
-
-            # Rewrite 'https' to 'ssh' for git hosts.
-            url = {
-              "ssh://git@github.com".insteadOf = "https://github.com";
-              "ssh://git@gitlab.com".insteadOf = "https://gitlab.com";
-            };
-          };
-        };
-
-        # Add common git services to 'known_hosts'.
-        home.file.".ssh/known_hosts".text = ''
-          github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl
-          gitlab.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAfuCHKVTjquxvt6CM6tdG4SLp1Btn/nOeHHE5UOzRdf
+        # Set the preferred cryptographic algorithms.
+        extraConfig = ''
+          HostKeyAlgorithms ssh-ed25519,ssh-ed25519-cert-v01@openssh.com
+          PubkeyAcceptedAlgorithms ssh-ed25519,ssh-ed25519-cert-v01@openssh.com 
         '';
-      })
-    ]
-  );
+      };
+
+      # Enable "ssh-agent".
+      # See: https://en.wikipedia.org/wiki/ssh-agent
+      services.ssh-agent.enable = true;
+
+      # Fix: Ordering for managed compositors (e.g. UWSM) compatibility.
+      # See: https://github.com/Vladimir-csp/uwsm/issues/75
+      systemd.user.services."ssh-agent" = {
+        # Force "ssh-agent" to run before "graphical-session".
+        Unit.Before = [ "graphical-session-pre.target" ];
+
+        Service = {
+          # Export "SSH_AUTH_SOCK" to the user environment after "ssh-agent" starts.
+          # This ensures that all services can access the socket.
+          ExecStartPost = "systemctl --user set-environment \"SSH_AUTH_SOCK=%t/ssh-agent\"";
+
+          # Afterwards, we unset "SSH_AUTH_SOCK" when "ssh-agent" stops.
+          # This prevents any stale socket references.
+          ExecStopPost = "systemctl --user unset-environment SSH_AUTH_SOCK";
+        };
+      };
+    }
+
+    (mkIf cfg.enableGitIntegration {
+      # Set the "git" match block.
+      programs.ssh.matchBlocks."git" = {
+        # Set the user for authentication.
+        user = "git";
+
+        # Match only on "GitHub" and "GitLab" hosts.
+        host = "github.com gitlab.com";
+
+        # Set the identity file (Private Key).
+        identityFile = "${config.home.homeDirectory}/.ssh/id_ed25519";
+
+        # Only use the specified identity.
+        identitiesOnly = true;
+      };
+
+      # Force rewrite "HTTPS" to "SSH".
+      programs.git.extraConfig.url = {
+        "ssh://git@github.com".insteadOf = "https://github.com";
+        "ssh://git@gitlab.com".insteadOf = "https://gitlab.com";
+      };
+
+      # Pre-populate the "known_hosts" file.
+      home.file.".ssh/known_hosts".text = ''
+        github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl
+        gitlab.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAfuCHKVTjquxvt6CM6tdG4SLp1Btn/nOeHHE5UOzRdf
+      '';
+    })
+
+    (mkIf cfg.enableGitSigning {
+      programs.git = {
+        signing = {
+          # Enable signing by default.
+          signByDefault = true;
+
+          # Set the public key file.
+          key = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
+        };
+
+        # Set the signing format to "SSH".
+        extraConfig.gpg.format = "ssh";
+      };
+    })
+  ];
 }

@@ -4,29 +4,40 @@
   ...
 }:
 {
-  # Enable pipewire, see: https://pipewire.org/
+  # Enable "PipeWire".
+  # See: https://pipewire.org
   services.pipewire = {
     enable = true;
 
-    # Enable the jack connection kit, see: https://jackaudio.org/
+    # Enable "JACK" compatibility.
+    # See: https://jackaudio.org
     jack.enable = true;
 
-    # Enable pulseaudio compatibility.
+    # Enable "PulseAudio" compatibility.
+    # See: https://wiki.archlinux.org/title/PulseAudio
     pulse.enable = true;
 
-    # Enable alsa compatibility.
-    alsa.enable = true;
-    alsa.support32Bit = true;
+    # Enable "ALSA" compatibility.
+    # See: https://wiki.archlinux.org/title/Advanced_Linux_Sound_Architecture
+    alsa = {
+      enable = true;
+
+      # Enable 32-bit "ALSA" support on 64-bit systems.
+      support32Bit = true;
+    };
   };
 
-  # Remove the '.pulse-cookie' from home.
+  # Remove the ".pulse-cookie" file from $HOME.
   services.pulseaudio.extraClientConf = "cookie-file = /tmp/pulse-cookie";
 
-  # Enabled for better performance, see: https://discourse.nixos.org/t/how-to-use-pipewire-instead-of-pulseaudio/22853/3/
+  # Enable real-time scheduling for better performance.
+  # See: https://discourse.nixos.org/t/how-to-use-pipewire-instead-of-pulseaudio/22853/3
   security.rtkit.enable = true;
 
-  # Manage the 'audio' group.
+  # Manage the "audio" group.
   users.groups.audio = {
-    members = builtins.attrNames (lib.filterAttrs (_: u: u.isNormalUser or false) config.users.users);
+    members = builtins.attrNames (
+      lib.filterAttrs (_: user: user.isNormalUser or false) config.users.users
+    );
   };
 }

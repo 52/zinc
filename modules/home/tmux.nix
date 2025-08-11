@@ -1,11 +1,12 @@
 { ... }:
 {
-  # Enable tmux, see: https://github.com/tmux/tmux/wiki/
+  # Enable "tmux".
+  # See: https://github.com/tmux/tmux/wiki
   programs.tmux = {
     enable = true;
 
     # Manage the configuration file directly.
-    # See: https://github.com/tmux/tmux/wiki/Getting-Started#configuring-tmux/
+    # See: https://github.com/tmux/tmux/wiki/Getting-Started#configuring-tmux
     extraConfig = ''
       # Terminal overrides for true color support.
       set -ag terminal-overrides ",xterm-256color:RGB"

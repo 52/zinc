@@ -19,16 +19,21 @@ in
         int
         float
       ]);
-    description = "Set of environment variables";
     default = { };
+    description = ''
+      Set of environment variables.
+
+      These variables will be available in the user's shell
+      sesion and exported to "uwsm" when Wayland is enabled.
+    '';
   };
 
   config = mkIf (cfg != { }) (
     lib.mkMerge [
-      # Mirror variables to 'home.sessionVariables'.
+      # Set the session variables.
       { home.sessionVariables = cfg; }
 
-      # Create 'uwsm/env' when wayland is enabled.
+      # Create the "uwsm/env" file when wayland is enabled.
       (mkIf wayland.enable {
         xdg.configFile."uwsm/env".text = lib.concatStrings (
           lib.mapAttrsToList (name: value: ''

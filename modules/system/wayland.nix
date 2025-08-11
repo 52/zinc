@@ -12,8 +12,13 @@ in
   options.wayland = {
     enable = mkOption {
       type = types.bool;
-      description = "Whether to enable the 'wayland' module";
       default = false;
+      description = ''
+        Whether to enable the "wayland" module.
+
+        This enables the Wayland display protocol with the Sway
+        compositor managed by "UWSM" (Universal Wayland Session Manager).
+      '';
     };
   };
 
@@ -28,16 +33,16 @@ in
         ;
     };
 
-    # Enable sway, see: https://swaywm.org/
-    programs.sway = {
-      enable = true;
-    };
+    # Enable "Sway".
+    # See: https://swaywm.org
+    programs.sway.enable = true;
 
-    # Enable uwsm, see: https://github.com/vladimir-csp/uwsm/
+    # Enable "UWSM" (Universal Wayland Session Manager).
+    # See: https://github.com/vladimir-csp/uwsm
     programs.uwsm = {
       enable = true;
 
-      # Define the primary compositor (sway).
+      # Set the primary wayland compositor.
       waylandCompositors.sway = {
         prettyName = "Sway";
         comment = "Sway compositor managed by UWSM";
@@ -45,7 +50,7 @@ in
       };
     };
 
-    # Automatically start uwsm on login.
+    # Automatically start "UWSM" on login.
     programs.bash.loginShellInit = ''
       if [ "$(tty)" = "/dev/tty1" ]; then
         if uwsm check may-start; then
@@ -54,12 +59,15 @@ in
       fi
     '';
 
-    # Enable polkit, see: https://nixos.wiki/wiki/Sway/
+    # Enable "Polkit".
+    # See: https://wiki.archlinux.org/title/Polkit
     security.polkit.enable = true;
 
-    # Manage the 'video' group.
+    # Manage the "video" group.
     users.groups.video = {
-      members = builtins.attrNames (lib.filterAttrs (_: u: u.isNormalUser or false) config.users.users);
+      members = builtins.attrNames (
+        lib.filterAttrs (_: user: user.isNormalUser or false) config.users.users
+      );
     };
   };
 }

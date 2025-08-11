@@ -1,4 +1,5 @@
 {
+  lib,
   inputs,
   ...
 }:
@@ -10,7 +11,7 @@ rec {
   ## ```
   ##
   #@ String -> Path
-  relativePath = path: "${inputs.self}/${path}";
+  relativePath = lib.path.append ../.;
 
   ## Read the contents of a file from a path relative to the flake root.
   ##
@@ -30,7 +31,7 @@ rec {
   #@ String -> [String] -> [String]
   filterExt = ext: files: builtins.filter (name: builtins.match ".*\\.${ext}" name != null) files;
 
-  ## Import all '.nix' files from a directory.
+  ## Import all ".nix" files from a directory.
   ##
   ## ```nix
   ## importAll "system"
@@ -43,7 +44,7 @@ rec {
       filterExt "nix" (builtins.attrNames (builtins.readDir (relativePath dir)))
     );
 
-  ## Create a system user with a home-manager configuration.
+  ## Create a user with a home-manager configuration.
   ##
   ## ```nix
   ## mkUser {
@@ -70,9 +71,9 @@ rec {
       ## List of groups the user belongs to.
       ##
       #@ [String]
-      groups ? [ ],
+      extraGroups ? [ ],
 
-      ## Whether this is a 'real' user account.
+      ## Whether this is a user account.
       ##
       #@ Bool
       isNormalUser ? true,
@@ -82,26 +83,60 @@ rec {
       #@ [Package]
       packages ? [ ],
 
+      ## Set of secrets to provision for the user.
+      ##
+      #@ AttrSet
+      secrets ? { },
+
       ## Home-manager modules configuration.
       ##
       #@ AttrSet
       home ? { },
 
-      ## Home-manager state version, see: https://github.com/nix-community/home-manager/issues/5794
+      ## Home-manager state version.
+      ## See: https://github.com/nix-community/home-manager/issues/5794
       ##
       #@ String
       stateVersion,
     }:
     {
       users.users.${name} = {
-        inherit description isNormalUser;
-        extraGroups = groups;
+        inherit description isNormalUser extraGroups;
       };
 
-      home-manager.users.${name} = {
-        home = {
-          inherit packages stateVersion;
-        };
-      } // home;
+      home-manager.users.${name} = lib.mkMerge [
+        # Import "agenix" and configure secrets when available.
+        # See: https://github.com/ryantm/agenix
+        (lib.mkIf (secrets != { }) {
+          imports = builtins.attrValues {
+            inherit (inputs.agenix.homeManagerModules)
+              default
+              ;
+          };
+
+          age = {
+            identityPaths = [ "/home/${name}/.age-key" ];
+            secrets = lib.mapAttrs (path: cfg: {
+              file = "${inputs.nix-secrets}/${path}.age";
+              path = "/home/${name}/${cfg.target}";
+              inherit (cfg) mode;
+            }) secrets;
+          };
+        })
+
+        # Install user packages when provided.
+        (lib.mkIf (packages != [ ]) {
+          home.packages = packages;
+        })
+
+        # Set the home-manager state version.
+        # This should match the NixOS release version.
+        {
+          home.stateVersion = stateVersion;
+        }
+
+        # Merge the home-manager configuration.
+        home
+      ];
     };
 }

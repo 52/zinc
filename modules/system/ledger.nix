@@ -12,8 +12,13 @@ in
   options.ledger = {
     enable = mkOption {
       type = types.bool;
-      description = "Whether to enable the 'ledger' module";
       default = false;
+      description = ''
+        Whether to enable the "ledger" module.
+
+        This enables hardware support for Ledger wallets
+        and installs the "Ledger Live" application.
+      '';
     };
   };
 
@@ -25,7 +30,8 @@ in
         ;
     };
 
-    # Enable ledger, see: https://www.ledger.com/
+    # Enable "Ledger".
+    # See: https://www.ledger.com
     hardware.ledger.enable = true;
   };
 }

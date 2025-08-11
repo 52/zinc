@@ -7,8 +7,8 @@ lib.mkUser {
   name = "max";
   description = "Max Karou";
 
-  # Enable 'sudo' access.
-  groups = [ "wheel" ];
+  # Enable "sudo" access.
+  extraGroups = [ "wheel" ];
 
   # Install user dependencies.
   packages = builtins.attrValues {
@@ -17,37 +17,39 @@ lib.mkUser {
       ;
   };
 
-  # Configure home-manager modules.
-  home = {
-    # home/git.nix
-    git = {
-      userName = "Max Karou";
-      userEmail = "maxkarou@protonmail.com";
+  # Install user secrets.
+  # See: "github:52/nix-secrets"
+  secrets = {
+    "ssh/id_max" = {
+      mode = "0400";
+      target = ".ssh/id_ed25519";
     };
 
-    # home/ssh.nix
-    ssh = {
-      enable = true;
-      enableGitIntegration = true;
-    };
-
-    # home/sops.nix
-    sops-nix = {
-      enable = true;
-      secrets = {
-        "ssh/id_max" = {
-          path = ".ssh/id_max";
-          mode = "0400";
-        };
-
-        "ssh/id_max.pub" = {
-          path = ".ssh/id_max.pub";
-          mode = "0444";
-        };
-      };
+    "ssh/id_max.pub" = {
+      mode = "0444";
+      target = ".ssh/id_ed25519.pub";
     };
   };
 
-  # WARNING - SEE: https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
+  home = {
+    # Configure the "git" module.
+    # See: "home/git.nix"
+    git = {
+      enable = true;
+      name = "Max Karou";
+      email = "maxkarou@protonmail.com";
+    };
+
+    # Configure the "ssh" module.
+    # See: "home/ssh.nix"
+    ssh = {
+      enableGitIntegration = true;
+      enableGitSigning = true;
+    };
+  };
+
+  # Tracks the original version for compatibility.
+  # This should almost never be changed after the first installation.
+  # See: https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   stateVersion = "24.11";
 }

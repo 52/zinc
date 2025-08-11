@@ -7,10 +7,10 @@
 }:
 let
   inherit (lib) mkIf;
-  inherit (config) theme env;
   inherit (osConfig) wayland keyboard;
+  inherit (config) theme env;
 
-  # List of startup commands and programs.
+  # List of autostart commands and programs.
   autostart = lib.concatStringsSep " && sleep 1 && " [
     "swayrun -w 1 ${env.BROWSER or "firefox"}"
     "swayrun -w 1 ${env.TERMINAL or "foot"}"
@@ -19,7 +19,7 @@ let
   ];
 in
 mkIf wayland.enable {
-  # Install additional dependencies.
+  # Install local dependencies.
   home.packages = builtins.attrValues {
     inherit (pkgs)
       spotify
@@ -27,7 +27,8 @@ mkIf wayland.enable {
       ;
   };
 
-  # Enable sway, see: https://swaywm.org/
+  # Enable "Sway".
+  # See: https://swaywm.org
   wayland.windowManager.sway = {
     enable = true;
 
@@ -38,43 +39,34 @@ mkIf wayland.enable {
       modifier = "Mod4";
 
       startup = [
-        # Ensure 'waybar' is running on startup.
+        # Run "waybar" on startup.
         { command = "exec uwsm app -- waybar"; }
         # Autostart applications in specific workspaces.
-        { command = "exec sh -c '${autostart}'"; }
+        { command = "exec sh -c \"${autostart}\""; }
       ];
 
-      # Disable annoying 'swaybar'.
+      # Disable "swaybar".
       bars = [ ];
 
       input."type:keyboard" = {
-        #
-        # ---- XKB ----
-        #
         # Set the keyboard variant.
         xkb_variant = keyboard.variant;
         # Set the keyboard layout.
         xkb_layout = keyboard.layout;
 
-        #
-        # ---- Keypress ----
-        #
         # Set the repetition delay.
         repeat_delay = "200";
         # Set the repetition rate.
         repeat_rate = "80";
       };
 
-      # Hide the cursor after 3 seconds.
+      # Automatically hide the cursor after 3 seconds.
       seat."*".hide_cursor = "3000";
 
-      # Enable wrapping focus changes.
+      # Automatically wrap focus when reaching EOM.
       focus.wrapping = "yes";
 
       keybindings = {
-        #
-        # ---- Window ----
-        #
         # <MOD> + Q to kill window.
         "${modifier}+q" = "kill";
         # <MOD> + N to toggle floating.
@@ -82,19 +74,13 @@ mkIf wayland.enable {
         # <MOD> + M to toggle fullscreen.
         "${modifier}+m" = "fullscreen toggle";
 
-        #
-        # ---- Application ----
-        #
         # <MOD> + T to open $TERMINAL.
         "${modifier}+t" = "exec uwsm app -- ${env.TERMINAL or "foot"}";
         # <MOD> + F to open $BROWSER.
         "${modifier}+f" = "exec uwsm app -- ${env.BROWSER or "firefox"}";
-        # <MOD< + <SPACE> to open rofi.
+        # <MOD< + <SPACE> to open "rofi".
         "${modifier}+Space" = "exec rofi -show drun -show-icons";
 
-        #
-        # ---- Workspace ----
-        #
         # <MOD> + 1 to switch workspace (1).
         "${modifier}+1" = "workspace 1";
         # <MOD> + 2 to switch workspace (2).
@@ -143,9 +129,6 @@ mkIf wayland.enable {
         # <MOD> + <TAB> to cycle focus (PREV).
         "${modifier}+Shift+Tab" = "focus prev";
 
-        #
-        # ---- Volume Control ----
-        #
         # <XF86AudioRaiseVolume> to increase volume.
         "XF86AudioRaiseVolume" = "exec wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+";
         # <XF86AudioLowerVolume> to decrease volume.
@@ -153,16 +136,13 @@ mkIf wayland.enable {
         # <XF86AudioMute> to mute volume.
         "XF86AudioMute" = "exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
 
-        #
-        # ---- Miscellaneous ----
-        #
         # <MOD> + <SHIFT> + Q to exit sway.
         "${modifier}+Shift+q" = "exit";
       };
     };
 
     # Manage the configuration file directly.
-    # See: https://man.archlinux.org/man/sway.5/
+    # See: https://man.archlinux.org/man/sway.5
     extraConfig = ''
       # Set the border width.
       default_border pixel 1

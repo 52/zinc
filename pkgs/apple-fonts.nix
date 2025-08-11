@@ -47,23 +47,23 @@ stdenvNoCC.mkDerivation {
     done
 
     cd SFProFonts
-    7z x 'SF Pro Fonts.pkg'
-    7z x 'Payload~'
+    7z x "SF Pro Fonts.pkg"
+    7z x "Payload~"
     cd ..
 
     cd SFCompactFonts
-    7z x 'SF Compact Fonts.pkg'
-    7z x 'Payload~'
+    7z x "SF Compact Fonts.pkg"
+    7z x "Payload~"
     cd ..
 
     cd SFMonoFonts
-    7z x 'SF Mono Fonts.pkg'
-    7z x 'Payload~'
+    7z x "SF Mono Fonts.pkg"
+    7z x "Payload~"
     cd ..
 
     cd NYFonts
-    7z x 'NY Fonts.pkg'
-    7z x 'Payload~'
+    7z x "NY Fonts.pkg"
+    7z x "Payload~"
     cd ..
   '';
 
