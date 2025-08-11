@@ -17,7 +17,6 @@
         noto-fonts-color-emoji
 
         apple-fonts
-        berkeley-mono
         ;
     };
 

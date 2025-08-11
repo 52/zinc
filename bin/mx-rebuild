@@ -59,7 +59,7 @@ fi
 HOSTNAME="$(hostname)"
 
 # Build the 'nixos-rebuild' command.
-COMMAND="sudo nixos-rebuild switch --flake ${FLAKE}?submodules=1#${HOSTNAME}"
+COMMAND="sudo nixos-rebuild switch --flake ${FLAKE}#${HOSTNAME}"
 
 if [[ "$DEBUG" -eq 1 ]]; then
   debug "Rebuilding '$HOSTNAME' from path '$FLAKE'"

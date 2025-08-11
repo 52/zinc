@@ -109,6 +109,13 @@
             "modules/host/m001-x86"
           ];
         };
+
+        m002-x86 = lib.nixosSystem {
+          inherit specialArgs;
+          modules = map lib.relativePath [
+            "modules/host/m002-x86"
+          ];
+        };
       };
     };
 }
