@@ -4,7 +4,7 @@
   ...
 }:
 let
-  inherit (lib) mkOption types;
+  inherit (lib) mkOption mkIf types;
   inherit (config) env;
   cfg = config.git;
 in
@@ -41,7 +41,7 @@ in
     };
   };
 
-  config = {
+  config = mkIf cfg.enable {
     # Enable "git".
     # See: https://git-scm.com
     programs.git = {

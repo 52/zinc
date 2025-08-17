@@ -15,7 +15,7 @@ let
     "swayrun -w 1 ${env.BROWSER or "firefox"}"
     "swayrun -w 1 ${env.TERMINAL or "foot"}"
     "swayrun -w 2 vesktop"
-    "swayrun -w 2 spotify"
+    "swayrun -w 3 spotify"
   ];
 in
 mkIf wayland.enable {
@@ -153,8 +153,11 @@ mkIf wayland.enable {
       client.focused   #${theme.colors.focus}  #FFFFFF #FFFFFF #FFFFFF #${theme.colors.focus}
 
       # Set the window gaps.
-      gaps inner 12
-      gaps outer 9
+      gaps inner 8
+      gaps outer 2
+
+      # Hide borders when only one window is visible.
+      smart_borders on
 
       # Set the background image.
       output * bg ${theme.wallpaper} fill
