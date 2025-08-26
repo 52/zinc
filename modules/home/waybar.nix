@@ -26,13 +26,9 @@ mkIf wayland.enable {
 
       modules-right = [
         "pulseaudio"
-        "custom/separator"
         "bluetooth"
-        "custom/separator"
         "network"
-        "custom/separator"
         "battery"
-        "custom/separator"
         "clock"
       ];
 
@@ -87,11 +83,6 @@ mkIf wayland.enable {
         format = "❆";
         tooltip = false;
       };
-
-      "custom/separator" = {
-        format = "|";
-        tooltip = false;
-      };
     };
 
     style = ''
@@ -102,8 +93,8 @@ mkIf wayland.enable {
 
       * {
         font-family: monospace;
-        font-size: 16px;
-        font-weight: 300;
+        font-size: 14px;
+        font-weight: 400;
         border: none;
         border-radius: 0;
         min-height: 0;
@@ -115,13 +106,19 @@ mkIf wayland.enable {
         border-bottom: 1px solid @bar-border;
       }
 
-      #workspaces button,
+      .modules-left,
+      .modules-center,
+      .modules-right {
+        margin: 0;
+      }
+
       #pulseaudio,
       #bluetooth,
       #network,
       #battery,
       #clock {
         padding: 0.75rem 1rem;
+        margin: 0 0.75rem;
         color: @bar-fg;
         background: transparent;
         transition: background 0.2s ease;
@@ -135,20 +132,16 @@ mkIf wayland.enable {
         background: @bar-border;
       }
 
-      .modules-left,
-      .modules-center,
-      .modules-right {
-        margin: 0;
-      }
-
       #custom-logo {
-        font-size: 1.5rem;
+        font-size: 1.75rem;
         color: @bar-fg;
       }
 
-      #custom-separator {
-        color: @bar-border;
-        padding: 0 0.5px;
+      #waybar > box:nth-child(2) > box:nth-child(3) > *:not(:first-child) {
+        background: linear-gradient(to bottom, transparent 30%, @bar-border 30%, @bar-border 70%, transparent 70%);
+        background-repeat: no-repeat;
+        background-size: 1px 100%;
+        background-position: 0 0;
       }
     '';
   };
