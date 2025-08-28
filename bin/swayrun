@@ -22,14 +22,14 @@ DEPENDENCIES=(swaymsg jq)
 # Assert that we have the dependencies installed.
 for dep in "${DEPENDENCIES[@]}"; do
   if ! command -v "$dep" >/dev/null 2>&1; then
-    error "'$dep' not found, exiting process"
+    error "'$dep' not found, exiting process..."
     exit 1
   fi
 done
 
 # Assert that sway is running.
 if ! swaymsg -t get_version >/dev/null 2>&1; then
-  error "Unable to connect to sway, exiting process"
+  error "Unable to connect to sway, exiting process..."
   exit 1
 fi
 
