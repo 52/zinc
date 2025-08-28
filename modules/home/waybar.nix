@@ -40,7 +40,7 @@ mkIf wayland.enable {
 
       pulseaudio = {
         format = "{volume}%";
-        format-muted = "MUTED";
+        format-muted = "Muted";
         format-bluetooth = "{volume}%";
         tooltip = false;
         on-click = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
@@ -86,59 +86,47 @@ mkIf wayland.enable {
     };
 
     style = ''
-      @define-color bar-bg #${theme.colors.background};
-      @define-color bar-fg #${theme.colors.foreground};
-      @define-color bar-border #${theme.colors.border};
-      @define-color bar-focus #${theme.colors.focus};
+      @define-color col-bg     #${theme.colors.background};
+      @define-color col-fg     #${theme.colors.foreground};
+      @define-color col-border #${theme.colors.border};
+      @define-color col-focus  #${theme.colors.focus};
+      @define-color col-dark   #${theme.colors.dark};
+      @define-color col-hint   #${theme.colors.hint};
 
       * {
         font-family: monospace;
+        font-weight: 300;
         font-size: 14px;
-        font-weight: 400;
+
         border: none;
         border-radius: 0;
-        min-height: 0;
       }
 
       window#waybar {
-        color: @bar-fg;
-        background-color: @bar-bg;
-        border-bottom: 1px solid @bar-border;
+        color: @col-fg;
+        background: @col-bg;
+        border-bottom: 2px solid @col-border;
       }
 
-      .modules-left,
-      .modules-center,
-      .modules-right {
-        margin: 0;
+      #workspaces button.focused {
+        background: @col-dark;
       }
 
-      #pulseaudio,
-      #bluetooth,
-      #network,
-      #battery,
-      #clock {
+      #pulseaudio, #bluetooth, #network, #battery, #clock {
+        margin: 0 0.5rem;
         padding: 0.75rem 1rem;
-        margin: 0 0.75rem;
-        color: @bar-fg;
-        background: transparent;
-        transition: background 0.2s ease;
       }
 
-      #pulseaudio:hover,
-      #bluetooth:hover,
-      #network:hover,
-      #battery:hover,
-      #clock:hover {
-        background: @bar-border;
+      #pulseaudio:hover, #bluetooth:hover, #network:hover, #battery:hover, #clock:hover {
+        background: @col-dark;
       }
 
       #custom-logo {
         font-size: 1.75rem;
-        color: @bar-fg;
       }
 
       #waybar > box:nth-child(2) > box:nth-child(3) > *:not(:first-child) {
-        background: linear-gradient(to bottom, transparent 30%, @bar-border 30%, @bar-border 70%, transparent 70%);
+        background: linear-gradient(to bottom, transparent 30%, @col-dark 30%, @col-dark 70%, transparent 70%);
         background-repeat: no-repeat;
         background-size: 1px 100%;
         background-position: 0 0;
