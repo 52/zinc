@@ -28,7 +28,7 @@ mkIf wayland.enable {
     font-size-adjustment=2px
 
     # Set the window padding.
-    pad=8x8
+    pad=12x12
 
     # Set the clipboard target.
     selection-target=both
