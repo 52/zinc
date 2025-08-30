@@ -39,5 +39,11 @@ mkIf wayland.enable {
 
     # Set the foreground color.
     foreground=${theme.colors.foreground}
+
+    [key-bindings]
+    # Unbind specified keys by assigning them to noop.
+    # This prevents the terminal from interpreting the key
+    # and sending problematic codes to applications (e.g. vim).
+    noop=Print
   '';
 }
