@@ -10,7 +10,7 @@ let
   inherit (osConfig) wayland;
 in
 mkIf wayland.enable {
-  # Enable "waybar".
+  # Enable "Waybar".
   # See: https://github.com/Alexays/Waybar
   programs.waybar = {
     enable = true;
@@ -25,6 +25,7 @@ mkIf wayland.enable {
       ];
 
       modules-right = [
+        "tray"
         "pulseaudio"
         "bluetooth"
         "network"
@@ -36,6 +37,12 @@ mkIf wayland.enable {
         all-outputs = false;
         disable-scroll = true;
         format = "{index}";
+      };
+
+      tray = {
+        spacing = 6;
+        icon-size = 21;
+        show-passive-items = true;
       };
 
       pulseaudio = {
@@ -112,12 +119,17 @@ mkIf wayland.enable {
         background: @col-dark;
       }
 
-      #pulseaudio, #bluetooth, #network, #battery, #clock {
-        margin: 0 0.5rem;
-        padding: 0.75rem 1rem;
+      #tray, #pulseaudio, #bluetooth, #network, #battery, #clock {
+        margin: 0.5rem 0.75rem;
+        padding: 0.5rem 0.75rem;
+        border-radius: 4px;
       }
 
       #pulseaudio:hover, #bluetooth:hover, #network:hover, #battery:hover, #clock:hover {
+        background: @col-dark;
+      }
+
+      #tray {
         background: @col-dark;
       }
 
