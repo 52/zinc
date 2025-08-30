@@ -16,8 +16,8 @@ in
       description = ''
         Whether to enable the "wayland" module.
 
-        This enables the Wayland display protocol with the Sway
-        compositor managed by "UWSM" (Universal Wayland Session Manager).
+        This enables the Wayland Display Protocol with a compositor
+        managed by the "UWSM" (Universal Wayland Session Manager).
       '';
     };
   };
@@ -27,9 +27,8 @@ in
     environment.systemPackages = builtins.attrValues {
       inherit (pkgs)
         wl-clipboard
-        ripgrep
-        btop
-        jq
+        slurp
+        grim
         ;
     };
 
@@ -42,7 +41,7 @@ in
     programs.uwsm = {
       enable = true;
 
-      # Set the primary wayland compositor.
+      # Define the wayland compositors.
       waylandCompositors.sway = {
         prettyName = "Sway";
         comment = "Sway compositor managed by UWSM";
@@ -58,6 +57,20 @@ in
         fi
       fi
     '';
+
+    # Configure "XDG Desktop Portal".
+    # See: https://github.com/flatpak/xdg-desktop-portal
+    xdg.portal = {
+      enable = true;
+
+      # Install the backends for "WLR" and "GTK".
+      extraPortals = builtins.attrValues {
+        inherit (pkgs)
+          xdg-desktop-portal-wlr
+          xdg-desktop-portal-gtk
+          ;
+      };
+    };
 
     # Enable "Polkit".
     # See: https://wiki.archlinux.org/title/Polkit

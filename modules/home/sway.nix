@@ -69,6 +69,9 @@ mkIf wayland.enable {
       keybindings = {
         # <MOD> + Q to kill window.
         "${modifier}+q" = "kill";
+        # <MOD> + <Shift> + Q to exit sway.
+        "${modifier}+Shift+q" = "exit";
+
         # <MOD> + N to toggle floating.
         "${modifier}+n" = "floating toggle";
         # <MOD> + M to toggle fullscreen.
@@ -78,7 +81,7 @@ mkIf wayland.enable {
         "${modifier}+t" = "exec uwsm app -- ${env.TERMINAL or "foot"}";
         # <MOD> + F to open $BROWSER.
         "${modifier}+f" = "exec uwsm app -- ${env.BROWSER or "firefox"}";
-        # <MOD< + <SPACE> to open "rofi".
+        # <MOD< + <Space> to open "rofi".
         "${modifier}+Space" = "exec rofi -show drun -show-icons";
 
         # <MOD> + 1 to switch workspace (1).
@@ -100,33 +103,33 @@ mkIf wayland.enable {
         # <MOD> + 9 to switch workspace (9).
         "${modifier}+9" = "workspace 9";
 
-        # <MOD> + <SHIFT> + 1 to move focused window to workspace (1).
+        # <MOD> + <Shift> + 1 to move focused window to workspace (1).
         "${modifier}+Shift+1" = "move container to workspace 1";
-        # <MOD> + <SHIFT> + 2 to move focused window to workspace (2).
+        # <MOD> + <Shift> + 2 to move focused window to workspace (2).
         "${modifier}+Shift+2" = "move container to workspace 2";
-        # <MOD> + <SHIFT> + 3 to move focused window to workspace (3).
+        # <MOD> + <Shift> + 3 to move focused window to workspace (3).
         "${modifier}+Shift+3" = "move container to workspace 3";
-        # <MOD> + <SHIFT> + 4 to move focused window to workspace (4).
+        # <MOD> + <Shift> + 4 to move focused window to workspace (4).
         "${modifier}+Shift+4" = "move container to workspace 4";
-        # <MOD> + <SHIFT> + 5 to move focused window to workspace (5).
+        # <MOD> + <Shift> + 5 to move focused window to workspace (5).
         "${modifier}+Shift+5" = "move container to workspace 5";
-        # <MOD> + <SHIFT> + 6 to move focused window to workspace (6).
+        # <MOD> + <Shift> + 6 to move focused window to workspace (6).
         "${modifier}+Shift+6" = "move container to workspace 6";
-        # <MOD> + <SHIFT> + 7 to move focused window to workspace (7).
+        # <MOD> + <Shift> + 7 to move focused window to workspace (7).
         "${modifier}+Shift+7" = "move container to workspace 7";
-        # <MOD> + <SHIFT> + 8 to move focused window to workspace (8).
+        # <MOD> + <Shift> + 8 to move focused window to workspace (8).
         "${modifier}+Shift+8" = "move container to workspace 8";
-        # <MOD> + <SHIFT> + 9 to move focused window to workspace (9).
+        # <MOD> + <Shift> + 9 to move focused window to workspace (9).
         "${modifier}+Shift+9" = "move container to workspace 9";
 
-        # <MOD> + <SHIFT> + L to move focused window (R).
+        # <MOD> + <Shift> + L to move focused window (R).
         "${modifier}+Shift+l" = "move right";
-        # <MOD> + <SHIFT> + H to move focused window (L).
+        # <MOD> + <Shift> + H to move focused window (L).
         "${modifier}+Shift+h" = "move left";
 
-        # <MOD> + <TAB> to cycle focus (NEXT).
+        # <MOD> + <Tab> to cycle focus (NEXT).
         "${modifier}+Tab" = "focus next";
-        # <MOD> + <TAB> to cycle focus (PREV).
+        # <MOD> + <Tab> to cycle focus (PREV).
         "${modifier}+Shift+Tab" = "focus prev";
 
         # <XF86AudioRaiseVolume> to increase volume.
@@ -136,8 +139,10 @@ mkIf wayland.enable {
         # <XF86AudioMute> to mute volume.
         "XF86AudioMute" = "exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
 
-        # <MOD> + <SHIFT> + Q to exit sway.
-        "${modifier}+Shift+q" = "exit";
+        # <Print> to capture the entire screen.
+        "Print" = "exec grim | wl-copy";
+        # <MOD> + <Print> to capture a selected area.
+        "${modifier}+Print" = "exec grim -g \"$(slurp)\" | wl-copy";
       };
     };
 
