@@ -41,7 +41,7 @@ mkIf wayland.enable {
 
       tray = {
         spacing = 6;
-        icon-size = 21;
+        icon-size = 18;
         show-passive-items = true;
       };
 
@@ -102,7 +102,7 @@ mkIf wayland.enable {
 
       * {
         font-family: monospace;
-        font-weight: 300;
+        font-weight: 500;
         font-size: 14px;
 
         border: none;

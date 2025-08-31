@@ -35,7 +35,7 @@
 
       # Set the default sans-serif font.
       sansSerif = [
-        "SF Pro Display"
+        "SF Pro Text"
         "Noto Sans"
         "Noto Sans CJK SC"
         "Noto Sans CJK JP"

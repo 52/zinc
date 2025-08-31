@@ -24,13 +24,13 @@ mkIf wayland.enable {
     padding=10
 
     # Set the border size.
-    border-size=1
+    border-size=2
 
     # Set the border radius.
-    border-radius=5
+    border-radius=3
 
     # Set the maximum visible notifications.
-    max-visible=10
+    max-visible=3
 
     # Set the default timeout.
     default-timeout=5000

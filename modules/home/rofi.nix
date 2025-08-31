@@ -18,7 +18,7 @@ mkIf wayland.enable {
   # See: https://man.archlinux.org/man/rofi.1.en
   xdg.configFile."rofi/config.rasi".text = ''
     configuration {
-      font: "monospace Light 16";
+      font: "monospace 14";
       terminal: "${env.TERMINAL}";
     }
 
