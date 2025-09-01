@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # USAGE:
-#   mx-flake [-?|--debug] [-h|--help] NAME
+#   zn-flake [-?|--debug] [-h|--help] NAME
 #
 # OPTIONS:
 #   -?, --debug   -- Enables debug (verbose) mode.

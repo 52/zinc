@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # USAGE:
-#   mx [-?|--debug] [-h|--help] COMMAND [ARGS...]
+#   zn [-?|--debug] [-h|--help] COMMAND [ARGS...]
 #
 # OPTIONS:
 #   -?, --debug   -- Enables debug (verbose) mode.
@@ -49,7 +49,7 @@ COMMAND="$1"
 shift
 
 # Build the corresponding sub-script path.
-SCRIPT="${DIRECTORY}/mx-${COMMAND}"
+SCRIPT="${DIRECTORY}/zn-${COMMAND}"
 
 # Assert that the script exists.
 if [[ ! -x "$SCRIPT" ]]; then

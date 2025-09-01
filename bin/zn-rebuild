@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # USAGE:
-#   mx-rebuild [-?|--debug] [-h|--help] [PATH]
+#   zn-rebuild [-?|--debug] [-h|--help] [PATH]
 #
 # OPTIONS:
 #   -?, --debug   -- Enables debug (verbose) mode.
