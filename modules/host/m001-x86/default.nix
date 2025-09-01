@@ -53,12 +53,6 @@
     members = [ "max" ];
   };
 
-  # Set keyboard overrides/profiles.
-  # See: "system/keyboard.nix"
-  keyboard.overrides = {
-    "macos" = [ "3434:0281" ];
-  };
-
   # Tracks the original version for compatibility.
   # This should almost never be changed after the first installation.
   # See: https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion

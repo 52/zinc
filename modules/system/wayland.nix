@@ -29,6 +29,7 @@ in
         wl-clipboard
         slurp
         grim
+        wev
         ;
     };
 

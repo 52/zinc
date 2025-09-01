@@ -12,7 +12,7 @@ in
   options.theme = {
     wallpaper = mkOption {
       type = types.path;
-      default = lib.relativePath "local/assets/137242.png";
+      default = lib.relativePath "local/137242.png";
       description = ''
         Path to the wallpaper file.
 
