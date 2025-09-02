@@ -16,7 +16,7 @@ rec {
   ## Read the contents of a file from a path relative to the flake root.
   ##
   ## ```nix
-  ## readFileRelative "bin/zn"
+  ## readFileRelative "bin/zi"
   ## ```
   ##
   #@ String -> String

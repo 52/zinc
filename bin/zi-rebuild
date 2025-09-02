@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # USAGE:
-#   zn-rebuild [-?|--debug] [-h|--help] [PATH]
+#   zi-rebuild [-?|--debug] [-h|--help] [PATH]
 #
 # OPTIONS:
 #   -?, --debug   -- Enables debug (verbose) mode.
