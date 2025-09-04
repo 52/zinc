@@ -4,19 +4,10 @@
 }:
 {
   imports = lib.flatten [
-    #
-    # ---- Hardware ----
-    #
     ./hardware.nix
 
-    #
-    # ---- System ----
-    #
     (lib.importAll "modules/system")
 
-    #
-    # ---- Users ----
-    #
     (lib.relativePath "modules/user/max@m002-x86.nix")
   ];
 

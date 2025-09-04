@@ -5,23 +5,14 @@
 }:
 {
   imports = lib.flatten [
-    #
-    # ---- Hardware ----
-    #
     ./hardware.nix
 
     inputs.hardware.nixosModules.common-cpu-amd
     inputs.hardware.nixosModules.common-gpu-amd
     inputs.hardware.nixosModules.common-pc-ssd
 
-    #
-    # ---- System ----
-    #
     (lib.importAll "modules/system")
 
-    #
-    # ---- Users ----
-    #
     (lib.relativePath "modules/user/max@m001-x86.nix")
   ];
 
@@ -42,13 +33,6 @@
   # Enable the "docker" module.
   # See: "system/docker.nix"
   docker = {
-    enable = true;
-    members = [ "max" ];
-  };
-
-  # Enable the "steam" module.
-  # See: "system/steam.nix"
-  steam = {
     enable = true;
     members = [ "max" ];
   };
