@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # USAGE:
-#   zi [-?|--debug] [-h|--help] COMMAND [ARGS...]
+#   zinc [-?|--debug] [-h|--help] COMMAND [ARGS...]
 #
 # OPTIONS:
 #   -?, --debug   -- Enables debug (verbose) mode.
@@ -49,7 +49,7 @@ COMMAND="$1"
 shift
 
 # Build the corresponding sub-script path.
-SCRIPT="${DIRECTORY}/zi-${COMMAND}"
+SCRIPT="${DIRECTORY}/zinc-${COMMAND}"
 
 # Assert that the script exists.
 if [[ ! -x "$SCRIPT" ]]; then

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # USAGE:
-#   zi-flake [-?|--debug] [-h|--help] NAME
+#   zinc-flake [-?|--debug] [-h|--help] NAME
 #
 # OPTIONS:
 #   -?, --debug   -- Enables debug (verbose) mode.
