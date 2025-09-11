@@ -23,16 +23,7 @@
         ;
     };
 
-    fontconfig.defaultFonts = {
-      # Set the default serif font.
-      serif = [
-        "New York"
-        "Noto Serif"
-        "Noto Serif CJK SC"
-        "Noto Serif CJK JP"
-        "Noto Color Emoji"
-      ];
-
+    fontconfig.defaultFonts = rec {
       # Set the default sans-serif font.
       sansSerif = [
         "SF Pro Text"
@@ -50,6 +41,10 @@
         "Noto Sans Mono CJK JP"
         "Noto Color Emoji"
       ];
+
+      # Serif fonts are a glorious mistake.
+      # This defaults to `sansSerif` instead.
+      serif = sansSerif;
 
       # Set the default emoji font.
       emoji = [ "Noto Color Emoji" ];
