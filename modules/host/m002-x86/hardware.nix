@@ -22,6 +22,9 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
+  boot.extraModprobeConfig = ''
+    options mt7921_common disable_clc=1
+  '';
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/b8698693-fb77-46a9-8582-8640a2d3b6fc";
