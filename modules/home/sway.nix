@@ -14,8 +14,6 @@ let
   autostart = lib.concatStringsSep " && sleep 1 && " [
     "swayrun -w 1 ${env.BROWSER or "firefox"}"
     "swayrun -w 1 ${env.TERMINAL or "foot"}"
-    "swayrun -w 2 vesktop"
-    "swayrun -w 3 spotify"
   ];
 in
 mkIf wayland.enable {
@@ -57,7 +55,7 @@ mkIf wayland.enable {
         # Set the repetition delay.
         repeat_delay = "200";
         # Set the repetition rate.
-        repeat_rate = "80";
+        repeat_rate = "90";
       };
 
       # Automatically hide the cursor after 3 seconds.

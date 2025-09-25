@@ -32,6 +32,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    forge = {
+      url = "github:52/forge";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     vix = {
       url = "github:52/vix";
       inputs.nixpkgs.follows = "nixpkgs";

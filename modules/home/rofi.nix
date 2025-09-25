@@ -20,6 +20,8 @@ mkIf wayland.enable {
     configuration {
       font: "monospace 14";
       terminal: "${env.TERMINAL}";
+      display-drun: "";
+      display-run: "";
     }
 
     * {

@@ -34,7 +34,7 @@ in
   # Manage the configuration file directly.
   # See: https://github.com/openai/codex/blob/main/docs/config.md
   xdg.configFile."codex/config.toml".text = ''
-    model = "gpt-5"
+    model = "gpt-5-codex"
     model_provider = "openai"
     model_reasoning_effort = "high"
   '';
